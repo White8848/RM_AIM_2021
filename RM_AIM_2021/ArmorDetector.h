@@ -53,7 +53,7 @@ public:
 	ArmorDetector(Mat src0);
 	void getResult(Mat src0);
 	void getSrcImage(Mat src0);
-	void getBinaryImage();
+	void getBinaryImage(int color);
 	void getContours();
 	void getTarget();
 };

@@ -30,6 +30,8 @@ ArmorDetector::ArmorDetector(Mat src0)
 	roiimg = src(Rect(roi.lefttop.x, roi.lefttop.y, roi.rwidth, roi.rheight));
 }
 
+
+/////////////////////////////////////PUBLIC//////////////////////////////////////////
 void ArmorDetector::getResult(Mat src0)
 {
 	getSrcImage(src0);
@@ -37,7 +39,7 @@ void ArmorDetector::getResult(Mat src0)
 	//    imshow("roi",roiimg);
 	//if (!roinimg.empty())
 	//    imshow("number",roinimg);
-	getBinaryImage();
+	getBinaryImage(0);
 	//imshow("bin",binary);
 	getContours();
 	getTarget();
@@ -52,7 +54,7 @@ void ArmorDetector::getSrcImage(Mat src0)
 }
 
 //二值化
-void ArmorDetector::getBinaryImage()
+void ArmorDetector::getBinaryImage(int color)
 {
 	Mat gry;
 	src.copyTo(gry);
@@ -68,7 +70,8 @@ void ArmorDetector::getBinaryImage()
 			}
 		}
 	}
-	pointProcess(binary, 0, 80);
+	if (color == 0)pointProcess(binary, color, 80);//RED
+	else pointProcess(binary, color, 80);//BLUE
 	imgProcess(binary);
 }
 
@@ -100,7 +103,7 @@ void ArmorDetector::getContours()
 		rectangle(outline, Point(boundRect[i].x, boundRect[i].y), Point(boundRect[i].x + boundRect[i].width, boundRect[i].y + boundRect[i].height), Scalar(0, 255, 0), 2, 8);
 		for (int j = 0; j < 4; j++)
 		{
-			line(outline, rect[j], rect[(j + 1) % 4], Scalar(0, 0, 255), 2, 8);  //绘制最小外接矩形每条边
+			line(outline, rect[j], rect[(j + 1) % 4], Scalar(0, 0, 255), 2, 8);  //绘制最小外接矩形每条边（非必要）
 		}
 	}/*
 	for (int i=0;i<num;i++)
@@ -146,10 +149,6 @@ void ArmorDetector::getContours()
 			anglej = box[j].angle;
 			if (abs(anglei - anglej) <= 10 || abs(anglei - anglej) >= 80) matchrank[i][j] += 100;
 			else matchrank[i][j] -= 10000;
-			//外八内八
-			/*if (abs(anglei + anglej) <= 100 && abs(anglei + anglej) >= 80) matchrank[i][j] += 100;
-			if (abs(anglei + anglej) <= 110 && abs(anglei + anglej) >= 70) matchrank[i][j] += 60;
-			if (abs(anglei + anglej) <= 130 && abs(anglei + anglej) >= 50) matchrank[i][j] += 20;*/
 			//面积比
 			double areai = box[i].size.area();
 			double areaj = box[j].size.area();
@@ -194,9 +193,12 @@ void ArmorDetector::getTarget()
 	islost = false;
 	RotatedRect boxi;
 	RotatedRect boxj;
+	//获取最优匹配
 	boxi = minAreaRect(Mat(contours[besti]));
 	boxj = minAreaRect(Mat(contours[bestj]));
+	//获取中心点
 	target.center = Point2f((boxi.center.x + boxj.center.x) / 2, (boxi.center.y + boxj.center.y) / 2);
+
 	//cout<<"i "<<besti<<" :x="<<boxi.center.x<<" y="<<boxi.center.y<<endl;
 	//cout<<"j "<<bestj<<" :x="<<boxj.center.x<<" y="<<boxj.center.y<<endl;
 	//cout<<"target : x="<<target.center.x<<" y="<<target.center.y<<endl;
@@ -245,6 +247,8 @@ void ArmorDetector::getTarget()
 			rect3[3].y += rect2[i].y;
 		}
 	}
+	//绘制周围四个点的坐标
+	/*
 	Scalar color4[4] = { Scalar(255,0,255),Scalar(255,0,0),Scalar(0,255,0),Scalar(0,255,255) };
 	//左上紫色 左下蓝色 右上绿色 右下黄色
 	for (int i = 0; i < 4; i++)
@@ -257,6 +261,7 @@ void ArmorDetector::getTarget()
 	char tam4[100];
 	sprintf(tam4, "x=%0.2f   y=%0.2f", target.center.x, target.center.y);
 	putText(src, tam4, Point(15, 60), FONT_HERSHEY_SIMPLEX, 0.4, Scalar(0, 0, 255), 1);
+	*/
 
 	//roi get
 	float x, y, xn, yn;
@@ -278,6 +283,7 @@ void ArmorDetector::getTarget()
 	//roinimg=src(Rect(xn,yn,wn,hn));
 }
 
+/////////////////////////////////////PRIVATE//////////////////////////////////////////
 //指针处理图像
 Mat ArmorDetector::pointProcess(Mat srcImg, int enemyColor, int color_threshold) {
 

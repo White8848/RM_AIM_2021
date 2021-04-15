@@ -34,7 +34,7 @@ int main() {
     //serp.set_opt(115200, 8, 'N', 1);
 
     /////////////////////////////////变量初始化////////////////////////////////////
-    float e1, e2, time;
+    int64 e1, e2, time;
 
     ///////////////////////////工业相机参数初始化//////////////////////////////////
     int                     iCameraCounts = 1;
@@ -87,8 +87,8 @@ int main() {
                         g_pRgbBuffer
                         );
 
+            //获取装甲板识别结果
             detector.getResult(dstImage);
-            //Sdetector.getResult(dstImage);
 
             float xy[2];
             if (detector.islost == false) {
@@ -108,7 +108,6 @@ int main() {
 
             //imshow("0",m);
             //if(waitKey(1)==27)exit(0);
-
 
             CameraReleaseImageBuffer(hCamera,pbyBuffer);
 
