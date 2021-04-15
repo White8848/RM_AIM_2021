@@ -24,60 +24,44 @@ using namespace std;
 #pragma comment(lib, "MVCAMSDK.lib")
 #endif
 
-unsigned char           * g_pRgbBuffer;     //���������ݻ�����
+unsigned char           * g_pRgbBuffer;
 
-ArmorDetector detector;//װ��ʶ���ࡣ
+ArmorDetector detector;//装甲识别类初始化
 
 int main() {
+    ///////////////////////////////串口通信初始化//////////////////////////////////
     //Serialport serp("/dev/ttyTHS2");
     //serp.set_opt(115200, 8, 'N', 1);
+
+    /////////////////////////////////变量初始化////////////////////////////////////
+    float e1, e2, time;
+
+    ///////////////////////////工业相机参数初始化//////////////////////////////////
     int                     iCameraCounts = 1;
     int                     iStatus=-1;
     tSdkCameraDevInfo       tCameraEnumList;
     int                     hCamera=1;
-    tSdkCameraCapbility     tCapability;      //�豸������Ϣ
+    tSdkCameraCapbility     tCapability;      
     tSdkFrameHead           sFrameInfo;
     BYTE*			        pbyBuffer;
     int                     iDisplayFrames = 10000;
     //IplImage *iplImage = NULL;
     int                     channel=3;
-    float e1,e2,time;
-    //Mat m = Mat(1,1,CV_8UC3);
-
+    
     CameraSdkInit(1);
-
-    //ö���豸���������豸�б�
     iStatus = CameraEnumerateDevice(&tCameraEnumList,&iCameraCounts);
     printf("state = %d\n", iStatus);
-
     printf("count = %d\n", iCameraCounts);
-    //û�������豸
     if(iCameraCounts==0){
         return -1;
     }
-
-    //������ʼ������ʼ���ɹ��㬲��ܵ����κ������������صĲ����ӿ�
     iStatus = CameraInit(&tCameraEnumList,1,-1,&hCamera);
-
-    //��ʼ��ʧ��
     printf("state = %d\n", iStatus);
     if(iStatus!=CAMERA_STATUS_SUCCESS){
         return -1;
     }
-
-    //�������������������ṹ�塣�ýṹ���а��������������õĸ��ֲ����ķ�Χ��Ϣ�����������غ����Ĳ���
-    CameraGetCapability(hCamera,&tCapability);
-
-    //string filename = "/Camera/Configs/MV-UB31-Group0.config";
-    //CameraReadParameterFromFile(hCamera,"/Camera/Configs/MV-UB31-Group0.config");
-
-    //
+    CameraGetCapability(hCamera,&tCapability);  
     g_pRgbBuffer = (unsigned char*)malloc(tCapability.sResolutionRange.iHeightMax*tCapability.sResolutionRange.iWidthMax*3);
-    //g_readBuf = (unsigned char*)malloc(tCapability.sResolutionRange.iHeightMax*tCapability.sResolutionRange.iWidthMax*3);
-
-    /*��SDK���빤��ģʽ����ʼ���������������͵�ͼ��
-    ���ݡ�������ǰ�����Ǵ���ģʽ������Ҫ���յ�
-    ����֡�Ժ��Ż�����ͼ����    */
     CameraPlay(hCamera);
 
     if(tCapability.sIspCapacity.bMonoSensor){
@@ -86,11 +70,13 @@ int main() {
     }else{
         channel=3;
         CameraSetIspOutFormat(hCamera,CAMERA_MEDIA_TYPE_BGR8);
-    }
+    }    
 
+    //////////////////////////////////主循环///////////////////////////////////////
     while (true) {
         e1=getTickCount();
 
+        //相机开始采集
         if(CameraGetImageBuffer(hCamera,&sFrameInfo,&pbyBuffer,1000) == CAMERA_STATUS_SUCCESS)
         {
             CameraImageProcess(hCamera, pbyBuffer, g_pRgbBuffer,&sFrameInfo);
@@ -132,7 +118,7 @@ int main() {
         cout<<"fps:"<<int(1/time)<<endl;
     }
     CameraUnInit(hCamera);
-    //ע�⣬�ַ���ʼ������free
+    //释放相机
     free(g_pRgbBuffer);
 
 }
