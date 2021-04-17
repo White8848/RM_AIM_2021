@@ -44,7 +44,7 @@ void ArmorDetector::getResult(Mat src0)
 	getContours();
 	getTarget();
 	//imshow("out",outline);
-	//imshow("last",src);
+	imshow("last",src);
 }
 
 //ԭͼ
