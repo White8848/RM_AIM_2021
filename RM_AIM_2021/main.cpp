@@ -33,19 +33,18 @@ int main() {
 	//serp.set_opt(115200, 8, 'N', 1);
 
 	///////////////////////////////////变量初始化/////////////////////////////////////
-	float e1, e2, time;
+	double e1, e2, time;
 
 	//////////////////////////////工业相机参数初始化//////////////////////////////////
-
 	int                     iCameraCounts = 1;
 	int                     iStatus = -1;
 	tSdkCameraDevInfo       tCameraEnumList;
 	int                     hCamera;
 	tSdkCameraCapbility     tCapability;
 	tSdkFrameHead           sFrameInfo = { 0 };
-	BYTE*                   m_pbyBuffer;
+	BYTE* m_pbyBuffer;
 	int                     iDisplayFrames = 10000;
-	//IplImage *iplImage = NULL;
+	IplImage *iplImage = NULL;
 	int                     channel = 3;
 
 	CameraSdkInit(1);
@@ -60,52 +59,34 @@ int main() {
 	if (iStatus != CAMERA_STATUS_SUCCESS) {
 		return -1;
 	}
-	iStatus = CameraReadParameterFromFile(hCamera,"./camera.Config");
+	iStatus = CameraReadParameterFromFile(hCamera, "./camera.Config");
 	printf("state = %d\n", iStatus);
 	if (iStatus != CAMERA_STATUS_SUCCESS) {
 		return -1;
 	}
 	CameraGetCapability(hCamera, &tCapability);
 	g_pRgbBuffer = (unsigned char*)malloc(tCapability.sResolutionRange.iHeightMax * tCapability.sResolutionRange.iWidthMax * 3);
-	//m_pbyBuffer = (unsigned char*)malloc(tCapability.sResolutionRange.iHeightMax * tCapability.sResolutionRange.iWidthMax * 3);
 	CameraPlay(hCamera);
-	
-	if (tCapability.sIspCapacity.bMonoSensor) {
-		channel = 1;
-		CameraSetIspOutFormat(hCamera, CAMERA_MEDIA_TYPE_MONO8);
-	}
-	else {
-		channel = 3;
-		CameraSetIspOutFormat(hCamera, CAMERA_MEDIA_TYPE_BGR8);
-	}
-	
-	//////////////////////////////////主循环///////////////////////////////////////
-	
-	while (true) {
-		e1 = getTickCount();
+	CameraSetIspOutFormat(hCamera, CAMERA_MEDIA_TYPE_BGR8);
 
+	//////////////////////////////////主循环///////////////////////////////////////
+	while (true) {
 		//相机开始采集
 		//if (CameraGetImageBuffer(hCamera, &sFrameInfo, &m_pbyBuffer, 1000) == CAMERA_STATUS_SUCCESS)
-		if (CameraGetImageBufferPriority(hCamera, &sFrameInfo, &m_pbyBuffer, 1000, CAMERA_GET_IMAGE_PRIORITY_NEWEST) == CAMERA_STATUS_SUCCESS)
-		{
+		if (CameraGetImageBufferPriority(hCamera, &sFrameInfo, &m_pbyBuffer, 1000, CAMERA_GET_IMAGE_PRIORITY_NEWEST) == CAMERA_STATUS_SUCCESS) {
 			iStatus = CameraImageProcess(hCamera, m_pbyBuffer, g_pRgbBuffer, &sFrameInfo);
 
-			if (iStatus == CAMERA_STATUS_SUCCESS)
-			{
-				Mat dstImage(
-					Size(sFrameInfo.iWidth, sFrameInfo.iHeight),
-					sFrameInfo.uiMediaType == CAMERA_MEDIA_TYPE_MONO8 ? CV_8UC1 : CV_8UC3,
-					g_pRgbBuffer
-				);
-				imshow("x", dstImage);
+			e1 = getTickCount();
+
+			if (iStatus == CAMERA_STATUS_SUCCESS) {
+				Mat dstImage(cvSize(sFrameInfo.iWidth, sFrameInfo.iHeight), sFrameInfo.uiMediaType == CAMERA_MEDIA_TYPE_MONO8 ? CV_8UC1 : CV_8UC3, g_pRgbBuffer);
+				flip(dstImage, dstImage, 0);//若图像颠倒，请注释本行
+				//imshow("x", dstImage);
+				detector.getResult(dstImage);
 			}
 			else {
 				return -1;
 			}
-			//获取装甲板识别结果
-			//detector.getResult(dstImage);
-			//if (!dstImage.empty()) {
-			//}
 
 			float xy[2];
 			if (detector.islost == false) {
@@ -118,26 +99,20 @@ int main() {
 				//cout << "lost the armor!" << endl;
 				xy[0] = 640;
 				xy[1] = 512;
-
-
 			}
 			//serp.sendXY(xy);
 
-			//imshow("0",m);
 			if (waitKey(1) == 27)exit(0);
 
-			CameraReleaseImageBuffer(hCamera, m_pbyBuffer);
+			e2 = getTickCount();
+			time = (e2 - e1) / getTickFrequency();
+			cout << "fps:" << int(1 / time) << endl;
 
+			CameraReleaseImageBuffer(hCamera, m_pbyBuffer);
 		}
-		e2 = getTickCount();
-		time = (e2 - e1) / getTickFrequency();
-		cout << "fps:" << int(1 / time) << endl;
 	}
 	CameraUnInit(hCamera);
 	//释放相机
 	free(g_pRgbBuffer);
 	free(m_pbyBuffer);
-
-
 }
-

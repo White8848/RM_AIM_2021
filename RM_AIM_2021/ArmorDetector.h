@@ -1,7 +1,7 @@
 #ifndef _ARMORDETECTOR_H_
 #define _ARMORDETECTOR_H_
 #include<opencv2/opencv.hpp>
-#include<opencv2/imgproc/types_c.h>
+#include<opencv2/imgproc.hpp>
 #include<vector>
 //#include"config.h"
 #include<queue>
@@ -46,8 +46,11 @@ public:
 	Armor target;
 
 private:
-	Mat pointProcess(Mat srcImg, int enemyColor, int color_threshold);
+	Mat pointProcess(Mat srcImg, int enemyColor, int color_threshold, int gry_threshold);
 	Mat imgProcess(Mat tempBinary);
+	/////////////////////////////装甲板//////////////////////////////////	
+	int a(RotatedRect box, int high, int low);
+
 public:
 	ArmorDetector();
 	ArmorDetector(Mat src0);

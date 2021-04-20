@@ -7,6 +7,9 @@
 #include<math.h>
 #include<time.h>
 #define PI 3.14159265
+#define RED 0
+#define BLUE 1
+
 using namespace cv;
 
 ArmorDetector::ArmorDetector()
@@ -39,11 +42,11 @@ void ArmorDetector::getResult(Mat src0)
 	//    imshow("roi",roiimg);
 	//if (!roinimg.empty())
 	//    imshow("number",roinimg);
-	getBinaryImage(0);
-	//imshow("bin",binary);
+	getBinaryImage(RED);
+	imshow("bin",binary);
 	getContours();
 	getTarget();
-	//imshow("out",outline);
+	imshow("out",outline);
 	imshow("last",src);
 }
 
@@ -59,6 +62,7 @@ void ArmorDetector::getBinaryImage(int color)
 	Mat gry;
 	src.copyTo(gry);
 	//roi
+	
 	for (int row = 0; row < src.rows; row++)
 	{
 		for (int col = 0; col < src.cols; col++)
@@ -70,9 +74,10 @@ void ArmorDetector::getBinaryImage(int color)
 			}
 		}
 	}
-	if (color == 0)pointProcess(binary, color, 80);//RED
-	else pointProcess(binary, color, 80);//BLUE
-	imgProcess(binary);
+	imshow("gry", gry);
+	if (color == 0)binary = pointProcess(gry, color, 10,10);//RED
+	else binary = pointProcess(gry, color, 80,10);//BLUE
+	//imgProcess(binary);
 }
 
 void ArmorDetector::getContours()
@@ -80,7 +85,7 @@ void ArmorDetector::getContours()
 	vector<Vec4i> hierarcy;
 	Point2f rect[4];
 	src.copyTo(outline);
-	findContours(binary, contours, hierarcy, CV_RETR_EXTERNAL, CV_CHAIN_APPROX_SIMPLE); //CV_CHAIN_APPROX_NONE
+	findContours(binary, contours, hierarcy, CV_RETR_EXTERNAL, CV_CHAIN_APPROX_NONE); //CV_CHAIN_APPROX_NONE
 
 	vector<vector<Point> >::iterator itc = contours.begin();
 	while (itc != contours.end()) {
@@ -285,9 +290,10 @@ void ArmorDetector::getTarget()
 
 /////////////////////////////////////PRIVATE//////////////////////////////////////////
 //Ö¸Õë´¦ÀíÍ¼Ïñ
-Mat ArmorDetector::pointProcess(Mat srcImg, int enemyColor, int color_threshold) {
+Mat ArmorDetector::pointProcess(Mat srcImg, int enemyColor, int color_threshold, int gry_threshold) {
 
 	Mat tempBinary;
+	Mat gryBinary;
 
 	tempBinary = Mat::zeros(srcImg.size(), CV_8UC1);
 
@@ -315,8 +321,10 @@ Mat ArmorDetector::pointProcess(Mat srcImg, int enemyColor, int color_threshold)
 			qdata++;
 		}
 	}
+	imgProcess(tempBinary);
+	threshold(tempBinary, gryBinary, gry_threshold, 255, THRESH_BINARY);
 
-	return tempBinary;
+	return tempBinary&gryBinary;
 }
 
 //ÅòÕÍ¸¯Ê´²Ù×÷
@@ -329,4 +337,8 @@ Mat ArmorDetector::imgProcess(Mat tempBinary) {
 	erode(tempBinary, tempBinary, kernel);
 
 	return tempBinary;
+}
+
+int ArmorDetector::a(RotatedRect box,int high,int low) {
+	if ((box.size.width > box.size.height && box.angle > low) || (box.size.width < box.size.height && box.angle < high)) return -100000;
 }
