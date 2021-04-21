@@ -6,6 +6,7 @@
 #include<stdio.h>
 #include<math.h>
 #include<time.h>
+#include"omp.h"
 #define PI 3.14159265
 #define RED 0
 #define BLUE 1
@@ -62,9 +63,10 @@ void ArmorDetector::getBinaryImage(int color)
 	Mat gry;
 	src.copyTo(gry);
 	//roi
-	
+#pragma omp parallel for
 	for (int row = 0; row < src.rows; row++)
 	{
+#pragma omp parallel for
 		for (int col = 0; col < src.cols; col++)
 		{
 			if (row <= roi.lefttop.y || row >= roi.lefttop.y + roi.rheight || col <= roi.lefttop.x || col >= roi.lefttop.x + roi.rwidth)
@@ -99,6 +101,7 @@ void ArmorDetector::getContours()
 	vector<Rect> boundRect(contours.size());
 	vector<RotatedRect> box(contours.size());//最小外接矩形集合
 	num = contours.size();//轮廓的数量
+#pragma omp parallel for
 	for (int i = 0; i < num; i++)
 	{
 		box[i] = minAreaRect(Mat(contours[i]));//计算每个轮廓的最小外接矩形
@@ -117,8 +120,10 @@ void ArmorDetector::getContours()
 			<<box[i].size.width<<endl;
 	}*/
 	memset(matchrank, 0, sizeof(matchrank));
+#pragma omp parallel for
 	for (int i = 0; i < num; i++)
 	{
+#pragma omp parallel for
 		for (int j = i + 1; j < num; j++)
 		{
 			//去掉太斜的矩形
@@ -174,7 +179,9 @@ void ArmorDetector::getTarget()
 	int maxpoint = -10000;
 	int besti = -1;
 	int bestj = -1;
+#pragma omp parallel for
 	for (int i = 0; i < num; i++)
+#pragma omp parallel for
 		for (int j = i + 1; j < num; j++)
 		{
 			//cout<<"mathrank "<<i<<" "<<j<<" :"<<matchrank[i][j]<<endl;
@@ -226,6 +233,7 @@ void ArmorDetector::getTarget()
 	Point2f rect3[4] = { Point2f(0,0) };
 	boxi.points(rect1);
 	boxj.points(rect2);
+#pragma omp parallel for
 	for (int i = 0; i < 4; i++)
 	{
 		if (rect1[i].y < boxi.center.y)
@@ -239,6 +247,7 @@ void ArmorDetector::getTarget()
 			rect3[1].y += rect1[i].y;
 		}
 	}
+#pragma omp parallel for
 	for (int i = 0; i < 4; i++)
 	{
 		if (rect2[i].y < boxj.center.y)
@@ -302,7 +311,7 @@ Mat ArmorDetector::pointProcess(Mat srcImg, int enemyColor, int color_threshold,
 	int srcData = srcImg.rows * srcImg.cols;
 
 	if (enemyColor == 0) {//RED
-
+#pragma omp parallel for
 		for (int i = 0; i < srcData; i++)
 		{
 			if ((*(pdata + 2) - *pdata - *(pdata + 1)) > color_threshold) //减去绿色和蓝色
@@ -312,7 +321,7 @@ Mat ArmorDetector::pointProcess(Mat srcImg, int enemyColor, int color_threshold,
 		}
 	}
 	else if (enemyColor == 1) { //BLUE
-
+#pragma omp parallel for
 		for (int i = 0; i < srcData; i++)
 		{
 			if (*pdata - *(pdata + 2) > color_threshold)
