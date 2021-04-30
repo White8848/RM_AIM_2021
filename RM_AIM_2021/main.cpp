@@ -120,6 +120,11 @@ int main() {
 				imshow("last_left", detector.src);
 				imshow("last_right", detector2.src);
 				
+				if (!detector.roiimg.empty())
+					imshow("roi", detector.roiimg);
+				if (!detector2.roiimg.empty())
+					imshow("roi2", detector2.roiimg);
+
 			}
 			else {
 				return -1;

@@ -33,7 +33,7 @@ class ArmorDetector
 private:
 	Mat outline;//outline image
 	Roi roi;
-	Mat roiimg;
+	//Mat roiimg;
 	Mat roinimg;
 	int num;
 	vector< vector<Point> > contours;
@@ -44,6 +44,7 @@ public:
 	Mat src;//source image
 	bool islost;//1代表丢失
 	Armor target;
+	Mat roiimg;
 
 private:
 	Mat pointProcess(Mat srcImg, int enemyColor, int color_threshold, int gry_threshold);
