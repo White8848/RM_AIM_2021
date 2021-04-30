@@ -59,7 +59,9 @@ int main() {
 	if (iStatus != CAMERA_STATUS_SUCCESS) {
 		return -1;
 	}
-	iStatus = CameraReadParameterFromFile(hCamera, "./camera.Config");
+
+	//iStatus = CameraReadParameterFromFile(hCamera, "./camera.Config");
+	
 	printf("state = %d\n", iStatus);
 	if (iStatus != CAMERA_STATUS_SUCCESS) {
 		return -1;

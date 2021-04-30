@@ -38,8 +38,8 @@ ArmorDetector::ArmorDetector(Mat src0)
 void ArmorDetector::getResult(Mat src0)
 {
 	getSrcImage(src0);
-	//if (!roiimg.empty())
-	//    imshow("roi",roiimg);
+	if (!roiimg.empty())
+	    imshow("roi",roiimg);
 	//if (!roinimg.empty())
 	//    imshow("number",roinimg);
 	getBinaryImage(RED);
@@ -62,7 +62,7 @@ void ArmorDetector::getBinaryImage(int color)
 	Mat gry;
 	src.copyTo(gry);
 	//roi
-	
+	/*
 	for (int row = 0; row < src.rows; row++)
 	{
 		for (int col = 0; col < src.cols; col++)
@@ -70,14 +70,13 @@ void ArmorDetector::getBinaryImage(int color)
 			if (row <= roi.lefttop.y || row >= roi.lefttop.y + roi.rheight || col <= roi.lefttop.x || col >= roi.lefttop.x + roi.rwidth)
 			{
 				gry.at<uchar>(row, col) = 0;
-				continue;
 			}
 		}
-	}
+	}*/
 	imshow("gry", gry);
-	if (color == 0)binary = pointProcess(gry, color, 10,10);//RED
-	else binary = pointProcess(gry, color, 80,10);//BLUE
-	//imgProcess(binary);
+	if (color == 0)binary = pointProcess(gry, color, 20,15);//RED
+	else binary = pointProcess(gry, color, 20,90);//BLUE
+	imgProcess(binary);
 }
 
 void ArmorDetector::getContours()
@@ -253,20 +252,20 @@ void ArmorDetector::getTarget()
 		}
 	}
 	//绘制周围四个点的坐标
-	/*
-	Scalar color4[4] = { Scalar(255,0,255),Scalar(255,0,0),Scalar(0,255,0),Scalar(0,255,255) };
+	
+	//Scalar color4[4] = { Scalar(255,0,255),Scalar(255,0,0),Scalar(0,255,0),Scalar(0,255,255) };
 	//左上紫色 左下蓝色 右上绿色 右下黄色
 	for (int i = 0; i < 4; i++)
 	{
 		target.rect[i] = Point2f(rect3[i].x / 2, rect3[i].y / 2);
-		circle(src, Point(target.rect[i].x, target.rect[i].y), 5, color4[i], -1, 8);
-		sprintf(tam, "(%0.0f,%0.0f)", target.rect[i].x, target.rect[i].y);
-		putText(src, tam, Point(target.rect[i].x, target.rect[i].y), FONT_HERSHEY_SIMPLEX, 0.4, Scalar(255, 0, 255), 1);
+		//circle(src, Point(target.rect[i].x, target.rect[i].y), 5, color4[i], -1, 8);
+		//sprintf(tam, "(%0.0f,%0.0f)", target.rect[i].x, target.rect[i].y);
+		//putText(src, tam, Point(target.rect[i].x, target.rect[i].y), FONT_HERSHEY_SIMPLEX, 0.4, Scalar(255, 0, 255), 1);
 	}
 	char tam4[100];
 	sprintf(tam4, "x=%0.2f   y=%0.2f", target.center.x, target.center.y);
 	putText(src, tam4, Point(15, 60), FONT_HERSHEY_SIMPLEX, 0.4, Scalar(0, 0, 255), 1);
-	*/
+	
 
 	//roi get
 	float x, y, xn, yn;
