@@ -43,11 +43,11 @@ void ArmorDetector::getResult(Mat src0)
 	//if (!roinimg.empty())
 	//    imshow("number",roinimg);
 	getBinaryImage(RED);
-	imshow("bin",binary);
+	//imshow("bin",binary);
 	getContours();
 	getTarget();
-	imshow("out",outline);
-	imshow("last",src);
+	//imshow("out",outline);
+	//imshow("last",src);
 }
 
 //原图
@@ -74,9 +74,9 @@ void ArmorDetector::getBinaryImage(int color)
 			}
 		}
 	}
-	imshow("gry", gry);
-	if (color == 0)binary = pointProcess(gry, color, 10,10);//RED
-	else binary = pointProcess(gry, color, 80,10);//BLUE
+	//imshow("gry", gry);
+	if (color == 0)binary = pointProcess(gry, color, 20,15);//RED
+	else binary = pointProcess(gry, color, 20,90);//BLUE
 	//imgProcess(binary);
 }
 
@@ -341,4 +341,12 @@ Mat ArmorDetector::imgProcess(Mat tempBinary) {
 
 int ArmorDetector::a(RotatedRect box,int high,int low) {
 	if ((box.size.width > box.size.height && box.angle > low) || (box.size.width < box.size.height && box.angle < high)) return -100000;
+}
+
+//测量距离
+float ArmorDetector::measureDistance(float x1, float x2) {
+	//float f = 1.15980813836787/0.025;//焦距
+	float f = 1.15980813836787;
+	float B = 0.148632308243984;//基线
+	return 1000*(f * B)/abs(x1 - x2);
 }
