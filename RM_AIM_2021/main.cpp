@@ -72,6 +72,20 @@ int main() {
 	CameraSetIspOutFormat(hCamera, CAMERA_MEDIA_TYPE_BGR8);
 
 	//////////////////////////////////主循环///////////////////////////////////////
+	
+	VideoCapture c;
+	c.open("./red5.mp4");
+
+#ifdef DEBUG
+	namedWindow("DEBUG");
+	createTrackbar("color_thresh", "DEBUG", &detector.color_thresh, 255, 0);
+	createTrackbar("gray_thresh", "DEBUG", &detector.gray_thresh, 255, 0);
+#endif // DEBUG
+
+
+	
+	
+
 	while (true) {
 		//相机开始采集
 		//if (CameraGetImageBuffer(hCamera, &sFrameInfo, &m_pbyBuffer, 1000) == CAMERA_STATUS_SUCCESS)
