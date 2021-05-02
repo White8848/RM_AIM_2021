@@ -36,8 +36,6 @@ private:
 	Mat binary;//binary image
 	Mat outline;//outline image
 	Roi roi;
-	Mat roiimg;
-	Mat roinimg;
 	int num;
 	vector< vector<Point> > contours;
 	float matchrank[1500][1500];
@@ -47,6 +45,7 @@ public:
 	bool islost;//1代表丢失
 	Armor target;
 	Mat roiimg;
+	Mat roinimg;
 	int color_thresh = 20;//通道相减二值化阈值
 	int gray_thresh = 15;//灰度图二值化阈值
 
@@ -55,6 +54,7 @@ private:
 	Mat imgProcess(Mat tempBinary);
 	/////////////////////////////装甲板//////////////////////////////////	
 	int a(RotatedRect box, int high, int low);
+	int isArmorPattern(Mat& front);
 
 public:
 	ArmorDetector();

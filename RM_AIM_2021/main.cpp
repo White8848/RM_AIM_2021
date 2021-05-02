@@ -83,9 +83,6 @@ int main() {
 #endif // DEBUG
 
 
-	
-	
-
 	while (true) {
 		//相机开始采集
 		//if (CameraGetImageBuffer(hCamera, &sFrameInfo, &m_pbyBuffer, 1000) == CAMERA_STATUS_SUCCESS)
