@@ -5,10 +5,8 @@
 #include <sstream>
 #include <stdio.h>
 #include <stdlib.h>
-#include <opencv2/opencv.hpp>
 #include <opencv2/core.hpp>
 #include <opencv2/highgui.hpp>
-#include<opencv2/imgproc.hpp>
 #include <iostream>
 #include"ArmorDetector.h"
 #include <time.h>
@@ -27,9 +25,7 @@ using namespace cv;
 using namespace std;
 
 ArmorDetector detector;//装甲识别类初始化
-ArmorDetector detector2;//装甲识别类初始化
 unsigned char* g_pRgbBuffer;
-unsigned char* g_pRgbBuffer2;
 
 int main() {
 	//////////////////////////////////串口通信初始化//////////////////////////////////
@@ -40,7 +36,7 @@ int main() {
 	double e1, e2, time;
 
 	//////////////////////////////工业相机参数初始化//////////////////////////////////
-	int                     iCameraCounts = 1;
+	int                     iCameraCounts = 1;//接入设备数目上限
 	int                     iStatus = -1;
 	tSdkCameraDevInfo       tCameraEnumList;
 	int                     hCamera;
@@ -64,7 +60,7 @@ int main() {
 		return -1;
 	}
 
-	iStatus = CameraReadParameterFromFile(hCamera, "./camera.Config");
+	iStatus = CameraReadParameterFromFile(hCamera, "./camera.Config");//读取相机配置文件，请选择相机相应的配置文件
 	
 	printf("state = %d\n", iStatus);
 	if (iStatus != CAMERA_STATUS_SUCCESS) {
