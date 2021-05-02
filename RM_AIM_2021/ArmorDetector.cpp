@@ -79,8 +79,23 @@ void ArmorDetector::getBinaryImage(int color)
 		}
 	}*/
 	imshow("gry", gry);
-	if (color == 0)binary = pointProcess(gry, color, 20,15);//RED
-	else binary = pointProcess(gry, color, 20,90);//BLUE 20 90
+	if (color == 0) {
+
+#ifndef DEBUG
+		color_thresh = 20;
+		gray_thresh = 15;
+#endif // !DEBUG
+		binary = pointProcess(gry, color, color_thresh, gray_thresh);//RED 20 15
+	}
+		
+	else {
+#ifndef DEBUG
+		color_thresh = 20;
+		gray_thresh = 90;
+#endif // !DEBUG
+		binary = pointProcess(gry, color, color_thresh, gray_thresh);//BLUE 20 90
+	}
+		
 	
 }
 
@@ -299,12 +314,13 @@ void ArmorDetector::getTarget()
 //ÅÐ¶ÏÊý×Ö
 int ArmorDetector::isArmorPattern(Mat &front)
 {
-	cvtColor(front, front, CV_BGR2GRAY);
-	resize(front, front, Size(20, 20));
-	threshold(front, front, 40, 255, CV_THRESH_BINARY);
+	Mat gray;
+	cvtColor(front, gray, CV_BGR2GRAY);
+	resize(gray, gray, Size(20, 20));
+	threshold(gray, gray, 40, 255, CV_THRESH_BINARY);
 	// copy the data to make the matrix continuous
 	Mat temp;
-	front.copyTo(temp);
+	gray.copyTo(temp);
 	Mat data = temp.reshape(1, 1);
 
 	data.convertTo(data, CV_32FC1);
