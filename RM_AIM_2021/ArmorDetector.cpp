@@ -42,7 +42,7 @@ void ArmorDetector::getResult(Mat src0)
 	    imshow("roi",roiimg);
 	//if (!roinimg.empty())
 	//    imshow("number",roinimg);
-	getBinaryImage(RED);
+	getBinaryImage(RED);//Ñ¡ÔñÑÕÉ«
 	imshow("bin",binary);
 	getContours();
 	getTarget();
