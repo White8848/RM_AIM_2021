@@ -6,6 +6,8 @@
 //#include"config.h"
 #include<queue>
 
+#define DEBUG
+
 using namespace cv;
 using namespace std;
 
@@ -45,6 +47,8 @@ public:
 	bool islost;//1代表丢失
 	Armor target;
 	Mat roiimg;
+	int color_thresh = 20;//通道相减二值化阈值
+	int gray_thresh = 15;//灰度图二值化阈值
 
 private:
 	int ArmorDetector::isArmorPattern(Mat &front);
