@@ -47,6 +47,7 @@ public:
 	Mat roiimg;
 
 private:
+	int ArmorDetector::isArmorPattern(Mat &front);
 	Mat pointProcess(Mat srcImg, int enemyColor, int color_threshold, int gry_threshold);
 	Mat imgProcess(Mat tempBinary);
 	/////////////////////////////装甲板//////////////////////////////////	

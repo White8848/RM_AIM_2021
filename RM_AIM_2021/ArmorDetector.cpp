@@ -38,16 +38,21 @@ ArmorDetector::ArmorDetector(Mat src0)
 void ArmorDetector::getResult(Mat src0)
 {
 	getSrcImage(src0);
-	if (!roiimg.empty())
-	    imshow("roi",roiimg);
-	//if (!roinimg.empty())
-	//    imshow("number",roinimg);
+	//if (!roiimg.empty())
+	//1    imshow("roi",roiimg);
+	int result = -1;
+	if (!roinimg.empty()) {
+		imshow("number", roinimg);
+		result = isArmorPattern(roinimg);
+	}
 	getBinaryImage(RED);
-	imshow("bin",binary);
+	//imshow("bin",binary);
 	getContours();
 	getTarget();
 	imshow("out",outline);
-	imshow("last",src);
+	//imshow("last",src);
+
+	cout << "预测结果：" << result << endl;
 }
 
 //原图
@@ -75,8 +80,8 @@ void ArmorDetector::getBinaryImage(int color)
 	}*/
 	imshow("gry", gry);
 	if (color == 0)binary = pointProcess(gry, color, 20,15);//RED
-	else binary = pointProcess(gry, color, 20,90);//BLUE
-	imgProcess(binary);
+	else binary = pointProcess(gry, color, 20,90);//BLUE 20 90
+	
 }
 
 void ArmorDetector::getContours()
@@ -271,23 +276,48 @@ void ArmorDetector::getTarget()
 	float x, y, xn, yn;
 	if (target.rect[0].x - 80 < 0) x = 0; else x = target.rect[0].x - 80;
 	if (target.rect[0].y - 80 < 0) y = 0; else y = target.rect[0].y - 80;
-	//xn=target.rect[0].x;
-	//if (target.rect[0].y-10<0) yn=0; else yn=target.rect[0].y-10;
+	xn=target.rect[0].x;
+	if (target.rect[0].y-10<0) yn=0; else yn=target.rect[0].y-10;
 	roi.lefttop = Point2f(x, y);
 	int h, w, hn, wn;
 	w = target.rect[2].x - target.rect[0].x + 160;
 	h = target.rect[3].y - target.rect[0].y + 160;
-	//wn=target.rect[2].x-target.rect[0].x;
-	//hn=target.rect[3].y-target.rect[0].y+20;
+	wn=target.rect[2].x-target.rect[0].x;
+	hn=target.rect[3].y-target.rect[0].y+20;
+	if (hn < 0)hn = 0;
 	if (roi.lefttop.x + w > src.cols) roi.rwidth = src.cols - roi.lefttop.x; else roi.rwidth = w;
 	if (roi.lefttop.y + h > src.rows) roi.rheight = src.rows - roi.lefttop.y; else roi.rheight = h;
-	//if (xn+wn>src.cols) wn=src.cols-xn; else wn = wn;
-	//if (yn+hn>src.rows) hn=src.rows-yn; else hn = hn;
+	if (xn+wn>src.cols) wn=src.cols-xn; else wn = wn;
+	if (yn+hn>src.rows) hn=src.rows-yn; else hn = hn;
 	roiimg = src(Rect(roi.lefttop.x, roi.lefttop.y, roi.rwidth, roi.rheight));
-	//roinimg=src(Rect(xn,yn,wn,hn));
+	roinimg=src(Rect(xn,yn,wn,hn));
 }
 
+
+
 /////////////////////////////////////PRIVATE//////////////////////////////////////////
+//判断数字
+int ArmorDetector::isArmorPattern(Mat &front)
+{
+	cvtColor(front, front, CV_BGR2GRAY);
+	resize(front, front, Size(20, 20));
+	threshold(front, front, 40, 255, CV_THRESH_BINARY);
+	// copy the data to make the matrix continuous
+	Mat temp;
+	front.copyTo(temp);
+	Mat data = temp.reshape(1, 1);
+
+	data.convertTo(data, CV_32FC1);
+
+	Ptr<ml::SVM> svm = ml::SVM::load("cxy_svm_5_1.xml");
+
+	int result = (int)svm->predict(data);
+	//cout << "预测结果:" << result << endl;
+
+	return result;
+}
+
+
 //指针处理图像
 Mat ArmorDetector::pointProcess(Mat srcImg, int enemyColor, int color_threshold, int gry_threshold) {
 
@@ -295,6 +325,7 @@ Mat ArmorDetector::pointProcess(Mat srcImg, int enemyColor, int color_threshold,
 	Mat gryBinary;
 
 	tempBinary = Mat::zeros(srcImg.size(), CV_8UC1);
+	cvtColor(srcImg, gryBinary, CV_BGR2GRAY);
 
 	uchar* pdata = (uchar*)srcImg.data;
 	uchar* qdata = (uchar*)tempBinary.data;
@@ -321,7 +352,7 @@ Mat ArmorDetector::pointProcess(Mat srcImg, int enemyColor, int color_threshold,
 		}
 	}
 	imgProcess(tempBinary);
-	threshold(tempBinary, gryBinary, gry_threshold, 255, THRESH_BINARY);
+	threshold(gryBinary, gryBinary, gry_threshold, 255, THRESH_BINARY);
 
 	return tempBinary&gryBinary;
 }
@@ -340,4 +371,13 @@ Mat ArmorDetector::imgProcess(Mat tempBinary) {
 
 int ArmorDetector::a(RotatedRect box,int high,int low) {
 	if ((box.size.width > box.size.height && box.angle > low) || (box.size.width < box.size.height && box.angle < high)) return -100000;
+}
+
+
+//测量距离
+float ArmorDetector::measureDistance(float x1, float x2) {
+	//float f = 1.15980813836787/0.025;//焦距
+	float f = 1.15980813836787;
+	float B = 0.148632308243984;//基线
+	return 1000 * (f * B) / abs(x1 - x2);
 }

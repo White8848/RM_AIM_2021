@@ -5,8 +5,10 @@
 #include <sstream>
 #include <stdio.h>
 #include <stdlib.h>
+#include <opencv2/opencv.hpp>
 #include <opencv2/core.hpp>
 #include <opencv2/highgui.hpp>
+#include<opencv2/imgproc.hpp>
 #include <iostream>
 #include"ArmorDetector.h"
 #include <time.h>
@@ -28,6 +30,28 @@ ArmorDetector detector;//装甲识别类初始化
 ArmorDetector detector2;//装甲识别类初始化
 unsigned char* g_pRgbBuffer;
 unsigned char* g_pRgbBuffer2;
+
+
+int isArmorPattern(Mat &front)
+{
+	cvtColor(front, front, CV_BGR2GRAY);
+	resize(front, front, Size(20, 20));
+	threshold(front, front, 40, 255, CV_THRESH_BINARY);
+	// copy the data to make the matrix continuous
+	Mat temp;
+	front.copyTo(temp);
+	Mat data = temp.reshape(1, 1);
+
+	data.convertTo(data, CV_32FC1);
+
+	Ptr<ml::SVM> svm = ml::SVM::load("cxy_svm_5_1.xml");
+
+	int result = (int)svm->predict(data);
+	//cout << "预测结果:" << result << endl;
+
+	return result;
+}
+
 
 int main() {
 	//////////////////////////////////串口通信初始化//////////////////////////////////
@@ -95,6 +119,10 @@ int main() {
 	CameraSetIspOutFormat(rCamera, CAMERA_MEDIA_TYPE_BGR8);
 
 	//////////////////////////////////主循环///////////////////////////////////////
+	
+	VideoCapture c;
+	c.open("./red5.mp4");
+
 	while (true) {
 		//相机开始采集
 		//if (CameraGetImageBuffer(hCamera, &sFrameInfo, &m_pbyBuffer, 1000) == CAMERA_STATUS_SUCCESS)
@@ -106,11 +134,14 @@ int main() {
 
 			if (iStatus == CAMERA_STATUS_SUCCESS && iStatus2 == CAMERA_STATUS_SUCCESS) {
 				Mat dstImage(cvSize(sFrameInfo.iWidth, sFrameInfo.iHeight), sFrameInfo.uiMediaType == CAMERA_MEDIA_TYPE_MONO8 ? CV_8UC1 : CV_8UC3, g_pRgbBuffer);
+				//Mat dstImage2, dstImage;
+				//c >> dstImage;
+				//c >> dstImage2;
 				Mat dstImage2(cvSize(sFrameInfo2.iWidth, sFrameInfo2.iHeight), sFrameInfo2.uiMediaType == CAMERA_MEDIA_TYPE_MONO8 ? CV_8UC1 : CV_8UC3, g_pRgbBuffer2);
 				flip(dstImage, dstImage, 0);//若图像颠倒，请注释本行
 				flip(dstImage2, dstImage2, 0);//若图像颠倒，请注释本行
-				imshow("left", dstImage);
-				imshow("right", dstImage2);
+				//imshow("left", dstImage);
+				//imshow("right", dstImage2);
 				detector.getResult(dstImage);
 				detector2.getResult(dstImage2);
 
@@ -120,11 +151,11 @@ int main() {
 				imshow("last_left", detector.src);
 				imshow("last_right", detector2.src);
 				
-				if (!detector.roiimg.empty())
+			/*	if (!detector.roiimg.empty())
 					imshow("roi", detector.roiimg);
 				if (!detector2.roiimg.empty())
-					imshow("roi2", detector2.roiimg);
-
+					imshow("roi2", detector2.roiimg);*/
+				//waitKey(0);
 			}
 			else {
 				return -1;
