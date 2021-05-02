@@ -31,21 +31,23 @@ typedef struct ANGLE
 class ArmorDetector
 {
 private:
-	Mat binary;//binary image
 	Mat outline;//outline image
 	Roi roi;
-	Mat roiimg;
+	//Mat roiimg;
 	Mat roinimg;
 	int num;
 	vector< vector<Point> > contours;
 	float matchrank[1500][1500];
 
 public:
+	Mat binary;//binary image
 	Mat src;//source image
 	bool islost;//1代表丢失
 	Armor target;
+	Mat roiimg;
 
 private:
+	int ArmorDetector::isArmorPattern(Mat &front);
 	Mat pointProcess(Mat srcImg, int enemyColor, int color_threshold, int gry_threshold);
 	Mat imgProcess(Mat tempBinary);
 	/////////////////////////////装甲板//////////////////////////////////	
@@ -59,5 +61,6 @@ public:
 	void getBinaryImage(int color);
 	void getContours();
 	void getTarget();
+	float measureDistance(float x1, float x2);
 };
 #endif
