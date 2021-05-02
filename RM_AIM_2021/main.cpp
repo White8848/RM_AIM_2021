@@ -31,28 +31,6 @@ ArmorDetector detector2;//装甲识别类初始化
 unsigned char* g_pRgbBuffer;
 unsigned char* g_pRgbBuffer2;
 
-
-int isArmorPattern(Mat &front)
-{
-	cvtColor(front, front, CV_BGR2GRAY);
-	resize(front, front, Size(20, 20));
-	threshold(front, front, 40, 255, CV_THRESH_BINARY);
-	// copy the data to make the matrix continuous
-	Mat temp;
-	front.copyTo(temp);
-	Mat data = temp.reshape(1, 1);
-
-	data.convertTo(data, CV_32FC1);
-
-	Ptr<ml::SVM> svm = ml::SVM::load("cxy_svm_5_1.xml");
-
-	int result = (int)svm->predict(data);
-	//cout << "预测结果:" << result << endl;
-
-	return result;
-}
-
-
 int main() {
 	//////////////////////////////////串口通信初始化//////////////////////////////////
 	//Serialport serp("/dev/ttyTHS2");
@@ -86,7 +64,7 @@ int main() {
 		return -1;
 	}
 
-	//iStatus = CameraReadParameterFromFile(hCamera, "./camera.Config");
+	iStatus = CameraReadParameterFromFile(hCamera, "./camera.Config");
 	
 	printf("state = %d\n", iStatus);
 	if (iStatus != CAMERA_STATUS_SUCCESS) {
