@@ -6,7 +6,7 @@
 //#include"config.h"
 #include<queue>
 
-#define DEBUG
+//#define DEBUG
 
 using namespace cv;
 using namespace std;
@@ -47,7 +47,7 @@ public:
 	Mat roiimg;
 	Mat roinimg;
 	int color_thresh = 20;//通道相减二值化阈值
-	int gray_thresh = 15;//灰度图二值化阈值
+	int gray_thresh = 20;//灰度图二值化阈值
 
 private:
 	Mat pointProcess(Mat srcImg, int enemyColor, int color_threshold, int gry_threshold);

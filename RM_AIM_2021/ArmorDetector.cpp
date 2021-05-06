@@ -36,23 +36,22 @@ ArmorDetector::ArmorDetector(Mat src0)
 
 /////////////////////////////////////PUBLIC//////////////////////////////////////////
 void ArmorDetector::getResult(Mat src0)
-{
+{	
 	getSrcImage(src0);
-	if (!roiimg.empty())
-	    imshow("roi",roiimg);
+	//if (!roiimg.empty())
+	//    imshow("roi",roiimg);
 	int result = -1;
 	if (!roinimg.empty()) {
-		imshow("number", roinimg);
+		//imshow("number", roinimg);
 		result = isArmorPattern(roinimg);
 	}
+	cout << "预测结果：" << result << endl;
 	getBinaryImage(RED);
 	imshow("bin",binary);
 	getContours();
 	getTarget();
-	imshow("out",outline);
+	//imshow("out",outline);
 	imshow("last",src);
-
-	cout << "预测结果：" << result << endl;
 }
 
 //原图
@@ -70,28 +69,28 @@ void ArmorDetector::getBinaryImage(int color)
 	/*
 	for (int row = 0; row < src.rows; row++)
 	{
-		for (int col = 0; col < src.cols; col++)
+		for (int col = 0; col < src.cols*3; col++)
 		{
-			if (row <= roi.lefttop.y || row >= roi.lefttop.y + roi.rheight || col <= roi.lefttop.x || col >= roi.lefttop.x + roi.rwidth)
+			if (row <= roi.lefttop.y || row >= roi.lefttop.y + roi.rheight || col <= roi.lefttop.x*3 || col >= roi.lefttop.x*3 + roi.rwidth*3)
 			{
 				gry.at<uchar>(row, col) = 0;
 			}
 		}
 	}*/
-	imshow("gry", gry);
+	//imshow("gry", gry);
 	if (color == 0) {
 
 #ifndef DEBUG
 		color_thresh = 20;
-		gray_thresh = 15;
+		gray_thresh = 20;
 #endif // !DEBUG
 		binary = pointProcess(gry, color, color_thresh, gray_thresh);//RED 20 15
 	}
 		
 	else {
 #ifndef DEBUG
-		color_thresh = 20;
-		gray_thresh = 90;
+		color_thresh = 40;
+		gray_thresh = 4;
 #endif // !DEBUG
 		binary = pointProcess(gry, color, color_thresh, gray_thresh);//BLUE 20 90
 	}
@@ -288,14 +287,14 @@ void ArmorDetector::getTarget()
 
 	//roi get
 	float x, y, xn, yn;
-	if (target.rect[0].x - 80 < 0) x = 0; else x = target.rect[0].x - 80;
-	if (target.rect[0].y - 80 < 0) y = 0; else y = target.rect[0].y - 80;
+	if (target.rect[0].x - 100 < 0) x = 0; else x = target.rect[0].x - 100;
+	if (target.rect[0].y - 100 < 0) y = 0; else y = target.rect[0].y - 100;
 	xn=target.rect[0].x;
 	if (target.rect[0].y - (target.rect[3].y - target.rect[0].y)/2<0) yn=0; else yn = target.rect[0].y - (target.rect[3].y - target.rect[0].y) / 2;
 	roi.lefttop = Point2f(x, y);
 	int h, w, hn, wn;
-	w = target.rect[2].x - target.rect[0].x + 160;
-	h = target.rect[3].y - target.rect[0].y + 160;
+	w = target.rect[2].x - target.rect[0].x + 200;
+	h = target.rect[3].y - target.rect[0].y + 200;
 	wn=target.rect[2].x-target.rect[0].x;
 	hn=2*abs(target.rect[3].y-target.rect[0].y);
 	if (hn < 0)hn = 0;
@@ -317,9 +316,9 @@ int ArmorDetector::isArmorPattern(Mat &front)
 	cvtColor(front, gray, CV_BGR2GRAY);
 	resize(gray, gray, Size(20, 20));
 	GaussianBlur(gray, gray, Size(3, 3),0,0);
-	adaptiveThreshold(gray, gray, 255, ADAPTIVE_THRESH_MEAN_C, THRESH_BINARY,3,-2);
+	adaptiveThreshold(gray, gray, 255, ADAPTIVE_THRESH_MEAN_C, THRESH_BINARY,3,-1);
 	//threshold(gray, gray, 80, 255, CV_THRESH_BINARY);
-	imshow("xxx", gray);
+	//imshow("xxx", gray);
 	// copy the data to make the matrix continuous
 	Mat temp;
 	gray.copyTo(temp);
@@ -371,7 +370,7 @@ Mat ArmorDetector::pointProcess(Mat srcImg, int enemyColor, int color_threshold,
 	}
 	imgProcess(tempBinary);
 	GaussianBlur(gryBinary, gryBinary, Size(3, 3), 0, 0);
-	adaptiveThreshold(gryBinary, gryBinary, 255, ADAPTIVE_THRESH_MEAN_C, THRESH_BINARY, 3, 20);
+	adaptiveThreshold(gryBinary, gryBinary, 255, ADAPTIVE_THRESH_MEAN_C, THRESH_BINARY, 3, gry_threshold);//自适应阈值化
 	//threshold(gryBinary, gryBinary, gry_threshold, 255, THRESH_BINARY);
 
 	return tempBinary&gryBinary;
