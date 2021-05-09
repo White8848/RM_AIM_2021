@@ -6,6 +6,8 @@
 //#include"config.h"
 #include<queue>
 
+//#define DEBUG
+
 using namespace cv;
 using namespace std;
 
@@ -34,8 +36,6 @@ private:
 	Mat binary;//binary image
 	Mat outline;//outline image
 	Roi roi;
-	Mat roiimg;
-	Mat roinimg;
 	int num;
 	vector< vector<Point> > contours;
 	float matchrank[1500][1500];
@@ -44,12 +44,17 @@ public:
 	Mat src;//source image
 	bool islost;//1代表丢失
 	Armor target;
+	Mat roiimg;
+	Mat roinimg;
+	int color_thresh = 20;//通道相减二值化阈值
+	int gray_thresh = 20;//灰度图二值化阈值
 
 private:
 	Mat pointProcess(Mat srcImg, int enemyColor, int color_threshold, int gry_threshold);
 	Mat imgProcess(Mat tempBinary);
 	/////////////////////////////装甲板//////////////////////////////////	
 	int a(RotatedRect box, int high, int low);
+	int isArmorPattern(Mat& front);
 
 public:
 	ArmorDetector();

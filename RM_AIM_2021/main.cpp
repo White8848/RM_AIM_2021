@@ -72,6 +72,13 @@ int main() {
 	CameraSetIspOutFormat(hCamera, CAMERA_MEDIA_TYPE_BGR8);
 
 	//////////////////////////////////主循环///////////////////////////////////////
+#ifdef DEBUG
+	namedWindow("DEBUG");
+	createTrackbar("color_thresh", "DEBUG", &detector.color_thresh, 255, 0);
+	createTrackbar("gray_thresh", "DEBUG", &detector.gray_thresh, 255, 0);
+#endif // DEBUG
+
+
 	while (true) {
 		//相机开始采集
 		//if (CameraGetImageBuffer(hCamera, &sFrameInfo, &m_pbyBuffer, 1000) == CAMERA_STATUS_SUCCESS)
@@ -83,7 +90,7 @@ int main() {
 			if (iStatus == CAMERA_STATUS_SUCCESS) {
 				Mat dstImage(cvSize(sFrameInfo.iWidth, sFrameInfo.iHeight), sFrameInfo.uiMediaType == CAMERA_MEDIA_TYPE_MONO8 ? CV_8UC1 : CV_8UC3, g_pRgbBuffer);
 				flip(dstImage, dstImage, 0);//若图像颠倒，请注释本行
-				//imshow("x", dstImage);
+				//imshow("Image", dstImage);
 				detector.getResult(dstImage);
 			}
 			else {

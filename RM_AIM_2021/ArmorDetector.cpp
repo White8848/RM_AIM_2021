@@ -36,17 +36,21 @@ ArmorDetector::ArmorDetector(Mat src0)
 
 /////////////////////////////////////PUBLIC//////////////////////////////////////////
 void ArmorDetector::getResult(Mat src0)
-{
+{	
 	getSrcImage(src0);
-	if (!roiimg.empty())
-	    imshow("roi",roiimg);
-	//if (!roinimg.empty())
-	//    imshow("number",roinimg);
-	getBinaryImage(RED);//选择颜色
+	//if (!roiimg.empty())
+	//    imshow("roi",roiimg);
+	int result = -1;
+	if (!roinimg.empty()) {
+		//imshow("number", roinimg);
+		result = isArmorPattern(roinimg);
+	}
+	cout << "预测结果：" << result << endl;
+	getBinaryImage(RED);
 	imshow("bin",binary);
 	getContours();
 	getTarget();
-	imshow("out",outline);
+	//imshow("out",outline);
 	imshow("last",src);
 }
 
@@ -65,18 +69,31 @@ void ArmorDetector::getBinaryImage(int color)
 	/*
 	for (int row = 0; row < src.rows; row++)
 	{
-		for (int col = 0; col < src.cols; col++)
+		for (int col = 0; col < src.cols*3; col++)
 		{
-			if (row <= roi.lefttop.y || row >= roi.lefttop.y + roi.rheight || col <= roi.lefttop.x || col >= roi.lefttop.x + roi.rwidth)
+			if (row <= roi.lefttop.y || row >= roi.lefttop.y + roi.rheight || col <= roi.lefttop.x*3 || col >= roi.lefttop.x*3 + roi.rwidth*3)
 			{
 				gry.at<uchar>(row, col) = 0;
 			}
 		}
 	}*/
-	imshow("gry", gry);
-	if (color == 0)binary = pointProcess(gry, color, 20,15);//RED
-	else binary = pointProcess(gry, color, 20,90);//BLUE
-	imgProcess(binary);
+	//imshow("gry", gry);
+	if (color == 0) {
+
+#ifndef DEBUG
+		color_thresh = 20;
+		gray_thresh = 20;
+#endif // !DEBUG
+		binary = pointProcess(gry, color, color_thresh, gray_thresh);//RED 20 15
+	}
+		
+	else {
+#ifndef DEBUG
+		color_thresh = 40;
+		gray_thresh = 4;
+#endif // !DEBUG
+		binary = pointProcess(gry, color, color_thresh, gray_thresh);//BLUE 20 90
+	}
 }
 
 void ArmorDetector::getContours()
@@ -142,11 +159,12 @@ void ArmorDetector::getContours()
 				shortj = temp;
 			}
 
-			if ((longi / shorti) >= 0.7 && (longi / shorti) <= 1.5 && (longj / shortj) >= 0.7 && (longj / shortj) <= 1.5) matchrank[i][j] -= 10000;
-			if ((longi / shorti) >= 1.5 && (longi / shorti) <= 2.5 && (longj / shortj) >= 1.5 && (longj / shortj) <= 2.5) //两个轮廓的长宽比
+			if ((longi / shorti) >= 0.7 && (longi / shorti) <= 1.8 && (longj / shortj) >= 0.7 && (longj / shortj) <= 1.8) matchrank[i][j] -= 10000;
+			if ((longi / shorti) >= 1.8 && (longi / shorti) <= 2.8 && (longj / shortj) >= 1.8 && (longj / shortj) <= 2.8) //两个轮廓的长宽比
 				matchrank[i][j] += 100;
 			//相对位置筛选
 			if ((box[i].center.y - box[j].center.y) > 0.5 * longi || (box[i].center.y - box[j].center.y) > 0.5 * longj) matchrank[i][j] -= 10000;
+			if (abs(box[i].center.x - box[j].center.x) < 0.8 * longi || abs(box[i].center.x - box[j].center.x) < 0.8 * longj) matchrank[i][j] -= 10000;
 			//根据角度筛选
 			double anglei, anglej;
 			anglei = box[i].angle;
@@ -203,8 +221,8 @@ void ArmorDetector::getTarget()
 	//获取中心点
 	target.center = Point2f((boxi.center.x + boxj.center.x) / 2, (boxi.center.y + boxj.center.y) / 2);
 
-	//cout<<"i "<<besti<<" :x="<<boxi.center.x<<" y="<<boxi.center.y<<endl;
-	//cout<<"j "<<bestj<<" :x="<<boxj.center.x<<" y="<<boxj.center.y<<endl;
+	cout<<"i "<<besti<<" :x="<<boxi.center.x<<" y="<<boxi.center.y<<endl;
+	cout<<"j "<<bestj<<" :x="<<boxj.center.x<<" y="<<boxj.center.y<<endl;
 	//cout<<"target : x="<<target.center.x<<" y="<<target.center.y<<endl;
 	circle(src, Point(target.center.x, target.center.y), 5, Scalar(255, 0, 0), -1, 8);
 	//circle(outline,Point(target.center.x,target.center.y),5,Scalar(255,0,0),-1,8);
@@ -253,14 +271,14 @@ void ArmorDetector::getTarget()
 	}
 	//绘制周围四个点的坐标
 	
-	//Scalar color4[4] = { Scalar(255,0,255),Scalar(255,0,0),Scalar(0,255,0),Scalar(0,255,255) };
+	Scalar color4[4] = { Scalar(255,0,255),Scalar(255,0,0),Scalar(0,255,0),Scalar(0,255,255) };
 	//左上紫色 左下蓝色 右上绿色 右下黄色
 	for (int i = 0; i < 4; i++)
 	{
 		target.rect[i] = Point2f(rect3[i].x / 2, rect3[i].y / 2);
-		//circle(src, Point(target.rect[i].x, target.rect[i].y), 5, color4[i], -1, 8);
-		//sprintf(tam, "(%0.0f,%0.0f)", target.rect[i].x, target.rect[i].y);
-		//putText(src, tam, Point(target.rect[i].x, target.rect[i].y), FONT_HERSHEY_SIMPLEX, 0.4, Scalar(255, 0, 255), 1);
+		circle(src, Point(target.rect[i].x, target.rect[i].y), 5, color4[i], -1, 8);
+		sprintf(tam, "(%0.0f,%0.0f)", target.rect[i].x, target.rect[i].y);
+		putText(src, tam, Point(target.rect[i].x, target.rect[i].y), FONT_HERSHEY_SIMPLEX, 0.4, Scalar(255, 0, 255), 1);
 	}
 	char tam4[100];
 	sprintf(tam4, "x=%0.2f   y=%0.2f", target.center.x, target.center.y);
@@ -269,25 +287,54 @@ void ArmorDetector::getTarget()
 
 	//roi get
 	float x, y, xn, yn;
-	if (target.rect[0].x - 80 < 0) x = 0; else x = target.rect[0].x - 80;
-	if (target.rect[0].y - 80 < 0) y = 0; else y = target.rect[0].y - 80;
-	//xn=target.rect[0].x;
-	//if (target.rect[0].y-10<0) yn=0; else yn=target.rect[0].y-10;
+	if (target.rect[0].x - 100 < 0) x = 0; else x = target.rect[0].x - 100;
+	if (target.rect[0].y - 100 < 0) y = 0; else y = target.rect[0].y - 100;
+	xn=target.rect[0].x;
+	if (target.rect[0].y - (target.rect[3].y - target.rect[0].y)/2<0) yn=0; else yn = target.rect[0].y - (target.rect[3].y - target.rect[0].y) / 2;
 	roi.lefttop = Point2f(x, y);
 	int h, w, hn, wn;
-	w = target.rect[2].x - target.rect[0].x + 160;
-	h = target.rect[3].y - target.rect[0].y + 160;
-	//wn=target.rect[2].x-target.rect[0].x;
-	//hn=target.rect[3].y-target.rect[0].y+20;
+	w = target.rect[2].x - target.rect[0].x + 200;
+	h = target.rect[3].y - target.rect[0].y + 200;
+	wn=target.rect[2].x-target.rect[0].x;
+	hn=2*abs(target.rect[3].y-target.rect[0].y);
+	if (hn < 0)hn = 0;
 	if (roi.lefttop.x + w > src.cols) roi.rwidth = src.cols - roi.lefttop.x; else roi.rwidth = w;
 	if (roi.lefttop.y + h > src.rows) roi.rheight = src.rows - roi.lefttop.y; else roi.rheight = h;
-	//if (xn+wn>src.cols) wn=src.cols-xn; else wn = wn;
-	//if (yn+hn>src.rows) hn=src.rows-yn; else hn = hn;
+	if (xn+wn>src.cols) wn=src.cols-xn; else wn = wn;
+	if (yn+hn>src.rows) hn=src.rows-yn; else hn = hn;
 	roiimg = src(Rect(roi.lefttop.x, roi.lefttop.y, roi.rwidth, roi.rheight));
-	//roinimg=src(Rect(xn,yn,wn,hn));
+	roinimg=src(Rect(xn,yn,wn,hn));
 }
 
+
+
 /////////////////////////////////////PRIVATE//////////////////////////////////////////
+//判断数字
+int ArmorDetector::isArmorPattern(Mat &front)
+{
+	Mat gray;
+	cvtColor(front, gray, CV_BGR2GRAY);
+	resize(gray, gray, Size(20, 20));
+	GaussianBlur(gray, gray, Size(3, 3),0,0);
+	adaptiveThreshold(gray, gray, 255, ADAPTIVE_THRESH_MEAN_C, THRESH_BINARY,3,-1);
+	//threshold(gray, gray, 80, 255, CV_THRESH_BINARY);
+	//imshow("xxx", gray);
+	// copy the data to make the matrix continuous
+	Mat temp;
+	gray.copyTo(temp);
+	Mat data = temp.reshape(1, 1);
+
+	data.convertTo(data, CV_32FC1);
+
+	Ptr<ml::SVM> svm = ml::SVM::load("cxy_svm_5_1.xml");
+
+	int result = (int)svm->predict(data);
+	//cout << "预测结果:" << result << endl;
+
+	return result;
+}
+
+
 //指针处理图像
 Mat ArmorDetector::pointProcess(Mat srcImg, int enemyColor, int color_threshold, int gry_threshold) {
 
@@ -295,6 +342,7 @@ Mat ArmorDetector::pointProcess(Mat srcImg, int enemyColor, int color_threshold,
 	Mat gryBinary;
 
 	tempBinary = Mat::zeros(srcImg.size(), CV_8UC1);
+	cvtColor(srcImg, gryBinary, CV_BGR2GRAY);
 
 	uchar* pdata = (uchar*)srcImg.data;
 	uchar* qdata = (uchar*)tempBinary.data;
@@ -321,7 +369,9 @@ Mat ArmorDetector::pointProcess(Mat srcImg, int enemyColor, int color_threshold,
 		}
 	}
 	imgProcess(tempBinary);
-	threshold(tempBinary, gryBinary, gry_threshold, 255, THRESH_BINARY);
+	GaussianBlur(gryBinary, gryBinary, Size(3, 3), 0, 0);
+	adaptiveThreshold(gryBinary, gryBinary, 255, ADAPTIVE_THRESH_MEAN_C, THRESH_BINARY, 3, gry_threshold);//自适应阈值化
+	//threshold(gryBinary, gryBinary, gry_threshold, 255, THRESH_BINARY);
 
 	return tempBinary&gryBinary;
 }
@@ -341,3 +391,13 @@ Mat ArmorDetector::imgProcess(Mat tempBinary) {
 int ArmorDetector::a(RotatedRect box,int high,int low) {
 	if ((box.size.width > box.size.height && box.angle > low) || (box.size.width < box.size.height && box.angle < high)) return -100000;
 }
+
+
+//测量距离
+/*
+float ArmorDetector::measureDistance(float x1, float x2) {
+	//float f = 1.15980813836787/0.025;//焦距
+	float f = 1.15980813836787;
+	float B = 0.148632308243984;//基线
+	return 1000 * (f * B) / abs(x1 - x2);
+}*/
