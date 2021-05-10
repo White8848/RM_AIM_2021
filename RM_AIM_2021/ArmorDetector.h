@@ -52,14 +52,14 @@ public:
 private:
 	Mat pointProcess(Mat srcImg, int enemyColor, int color_threshold, int gry_threshold);
 	Mat imgProcess(Mat tempBinary);
-	/////////////////////////////装甲板//////////////////////////////////	
+	/////////////////////////////装甲板//////////////////////////////////
 	int a(RotatedRect box, int high, int low);
 	int isArmorPattern(Mat& front);
 
 public:
 	ArmorDetector();
 	ArmorDetector(Mat src0);
-	void getResult(Mat src0);
+	void getResult();
 	void getSrcImage(Mat src0);
 	void getBinaryImage(int color);
 	void getContours();

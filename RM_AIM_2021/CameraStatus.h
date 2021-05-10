@@ -6,7 +6,6 @@
 /// \~english SDK error code
 typedef int CameraSdkStatus;
 
-
 /*常用的宏*/
 #define SDK_SUCCESS(_FUC_)              (_FUC_ == CAMERA_STATUS_SUCCESS)
 
@@ -22,8 +21,7 @@ typedef int CameraSdkStatus;
                                             break;\
                                         }
 
-
-/// @ingroup MV_MACRO_TYPE 
+/// @ingroup MV_MACRO_TYPE
 /// @{
 /* 常用错误  */
 
@@ -86,8 +84,6 @@ typedef int CameraSdkStatus;
 #define CAMERA_STATUS_PCIE_COMM_ERROR			-56  ///< \~chinese PCIE设备通讯失败 \~english PCIE device communication failed
 #define CAMERA_STATUS_PCIE_DDR_ERROR			-57  ///< \~chinese PCIE DDR错误 \~english PCIE DDR error
 
-
-
 //和AIA制定的标准相同
 /*#define CAMERA_AIA_SUCCESS                        0x0000 */
 #define CAMERA_AIA_PACKET_RESEND                          0x0100 ///< \~chinese 该帧需要重传 \~english The frame needs to be retransmitted
@@ -112,7 +108,5 @@ typedef int CameraSdkStatus;
 #define CAMERA_AIA_ERROR                                  0x8FFF ///< \~chinese 错误 \~english error
 
 /// @} end of MV_MACRO_TYPE
-
-                                        
 
 #endif

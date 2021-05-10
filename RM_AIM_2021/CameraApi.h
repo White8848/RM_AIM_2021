@@ -1,7 +1,6 @@
 #ifndef _MVCAMAPI_H_
 #define _MVCAMAPI_H_
 
-
 #ifdef DLL_EXPORT
 #define MVSDK_API extern "C" __declspec(dllexport)
 #else
@@ -21,7 +20,7 @@
 /// \param [in] iLanguageSel The language used to select the prompt information and interface of the SDK. 0: English, 1: Chinese.
 /// \return Returns CAMERA_STATUS_SUCCESS(0) successfully. Otherwise, it returns a non-zero error code. Please refer to the definition of the error code in CameraStatus.h.
 MVSDK_API CameraSdkStatus __stdcall CameraSdkInit(
-    int     iLanguageSel
+	int     iLanguageSel
 );
 
 /// @ingroup API_BASIC
@@ -38,7 +37,7 @@ MVSDK_API CameraSdkStatus __stdcall CameraSdkInit(
 MVSDK_API CameraSdkStatus __stdcall CameraSetSysOption(
 	char const* optionName,
 	char const* value
-	);
+);
 
 /// @ingroup API_ENUM
 /// \~chinese
@@ -56,8 +55,8 @@ MVSDK_API CameraSdkStatus __stdcall CameraSetSysOption(
 /// \warning piNums The value pointed to must be initialized and does not exceed the number of pCameraList array elements, otherwise it may cause memory overflow
 /// \note The list of returned camera information will be sorted according to acFriendlyName. For example, after changing the two cameras to the names of "Camera1" and "Camera2," the camera named "Camera1" will be in front, and the camera named "Camera2" will be behind the row.
 MVSDK_API CameraSdkStatus __stdcall CameraEnumerateDevice(
-    tSdkCameraDevInfo* pCameraList, 
-    INT*               piNums
+	tSdkCameraDevInfo* pCameraList,
+	INT* piNums
 );
 
 /// @ingroup API_ENUM
@@ -82,8 +81,8 @@ MVSDK_API INT __stdcall CameraEnumerateDeviceEx(
 /// \param [out] pOpened The device's status pointer returns whether the device is turned on. TRUE is on and FALSE is idle.
 /// \return Returns CAMERA_STATUS_SUCCESS(0) successfully. Otherwise, it returns a non-zero error code. Please refer to the definition of the error code in CameraStatus.h.
 MVSDK_API CameraSdkStatus __stdcall CameraIsOpened(
-  tSdkCameraDevInfo*  pCameraInfo, 
-  BOOL*               pOpened
+	tSdkCameraDevInfo* pCameraInfo,
+	BOOL* pOpened
 );
 
 /// @ingroup API_OPEN
@@ -102,10 +101,10 @@ MVSDK_API CameraSdkStatus __stdcall CameraIsOpened(
 /// \param [out] pCameraHandle The handle pointer of the camera, after successful initialization, returns the camera's effective handle.
 /// \return Returns CAMERA_STATUS_SUCCESS(0) successfully. Otherwise, it returns a non-zero error code. Please refer to the definition of the error code in CameraStatus.h.
 MVSDK_API CameraSdkStatus __stdcall CameraInit(
-    tSdkCameraDevInfo*  pCameraInfo,
-    int                 emParamLoadMode,
-    int                 emTeam,
-    CameraHandle*       pCameraHandle
+	tSdkCameraDevInfo* pCameraInfo,
+	int                 emParamLoadMode,
+	int                 emTeam,
+	CameraHandle* pCameraHandle
 );
 
 /// @ingroup API_OPEN
@@ -124,10 +123,10 @@ MVSDK_API CameraSdkStatus __stdcall CameraInit(
 /// \param [out] pCameraHandle The handle pointer of the camera, after successful initialization, returns the camera's effective handle.
 /// \return Returns CAMERA_STATUS_SUCCESS(0) successfully. Otherwise, it returns a non-zero error code. Please refer to the definition of the error code in CameraStatus.h.
 MVSDK_API CameraSdkStatus __stdcall CameraInitEx(
-    int             iDeviceIndex,
-    int             emParamLoadMode,
-    int             emTeam,
-    CameraHandle*   pCameraHandle
+	int             iDeviceIndex,
+	int             emParamLoadMode,
+	int             emTeam,
+	CameraHandle* pCameraHandle
 );
 
 /// @ingroup API_OPEN
@@ -143,7 +142,7 @@ MVSDK_API CameraSdkStatus __stdcall CameraInitEx(
 /// \return Returns CAMERA_STATUS_SUCCESS(0) successfully. Otherwise, it returns a non-zero error code. Please refer to the definition of the error code in CameraStatus.h.
 MVSDK_API CameraSdkStatus __stdcall CameraInitEx2(
 	char* CameraName,
-	CameraHandle   *pCameraHandle
+	CameraHandle* pCameraHandle
 );
 
 /// @ingroup API_GRAB_CB
@@ -162,10 +161,10 @@ MVSDK_API CameraSdkStatus __stdcall CameraInitEx2(
 /// \param [out] pCallbackOld Returns the previously set callback function. Can be NULL.
 /// \return Returns CAMERA_STATUS_SUCCESS(0) successfully. Otherwise, it returns a non-zero error code. Please refer to the definition of the error code in CameraStatus.h.
 MVSDK_API CameraSdkStatus __stdcall CameraSetCallbackFunction(
-    CameraHandle        hCamera,
-    CAMERA_SNAP_PROC    pCallBack,
-    PVOID               pContext,
-    CAMERA_SNAP_PROC*   pCallbackOld
+	CameraHandle        hCamera,
+	CAMERA_SNAP_PROC    pCallBack,
+	PVOID               pContext,
+	CAMERA_SNAP_PROC* pCallbackOld
 );
 
 /// @ingroup API_CLOSE
@@ -178,7 +177,7 @@ MVSDK_API CameraSdkStatus __stdcall CameraSetCallbackFunction(
 /// \param [in] hCamera Camera handle.
 /// \return Returns CAMERA_STATUS_SUCCESS(0) successfully. Otherwise, it returns a non-zero error code. Please refer to the definition of the error code in CameraStatus.h.
 MVSDK_API CameraSdkStatus __stdcall CameraUnInit(
-    CameraHandle hCamera
+	CameraHandle hCamera
 );
 
 /// @ingroup API_BASIC
@@ -193,15 +192,15 @@ MVSDK_API CameraSdkStatus __stdcall CameraUnInit(
 /// \param [out] pbuffer Pointer to the camera description information pointer.
 /// \return Returns CAMERA_STATUS_SUCCESS(0) successfully. Otherwise, it returns a non-zero error code. Please refer to the definition of the error code in CameraStatus.h.
 MVSDK_API CameraSdkStatus __stdcall CameraGetInformation(
-    CameraHandle    hCamera, 
-    char**          pbuffer
+	CameraHandle    hCamera,
+	char** pbuffer
 );
 
 /// @ingroup API_ISP
 /// \~chinese
 /// \brief 将获得的相机原始输出图像数据进行处理，叠加饱和度、颜色增益和校正、降噪等处理效果，最后得到RGB888格式的图像数据。
 /// \param [in] hCamera 相机的句柄。
-/// \param [in] pbyIn 输入图像数据的缓冲区地址，不能为NULL。 
+/// \param [in] pbyIn 输入图像数据的缓冲区地址，不能为NULL。
 /// \param [out] pbyOut 处理后图像输出的缓冲区地址，不能为NULL。
 /// \param [inout] pFrInfo 输入图像的帧头信息，处理完成后，帧头信息中的图像格式uiMediaType会随之改变。
 /// \return 成功返回 CAMERA_STATUS_SUCCESS(0)。否则返回非0值的错误码, 请参考 CameraStatus.h 中错误码的定义。
@@ -213,17 +212,17 @@ MVSDK_API CameraSdkStatus __stdcall CameraGetInformation(
 /// \param [inout] pFrInfo After inputting the frame header information of the image, the image format uiMediaType in the frame header information will be changed after the processing is completed.
 /// \return Returns CAMERA_STATUS_SUCCESS(0) successfully. Otherwise, it returns a non-zero error code. Please refer to the definition of the error code in CameraStatus.h.
 MVSDK_API CameraSdkStatus __stdcall CameraImageProcess(
-    CameraHandle        hCamera, 
-    BYTE*               pbyIn, 
-    BYTE*               pbyOut,
-    tSdkFrameHead*      pFrInfo
+	CameraHandle        hCamera,
+	BYTE* pbyIn,
+	BYTE* pbyOut,
+	tSdkFrameHead* pFrInfo
 );
 
 /// @ingroup API_ISP
 /// \~chinese
 /// \brief 将获得的相机原始输出图像数据进行处理，叠加饱和度、颜色增益和校正、降噪等处理效果，最后得到RGB888格式的图像数据。
 /// \param [in] hCamera 相机的句柄。
-/// \param [in] pbyIn 输入图像数据的缓冲区地址，不能为NULL。 
+/// \param [in] pbyIn 输入图像数据的缓冲区地址，不能为NULL。
 /// \param [out] pbyOut 处理后图像输出的缓冲区地址，不能为NULL。
 /// \param [inout] pFrInfo 输入图像的帧头信息，处理完成后，帧头信息中的图像格式uiMediaType会随之改变。
 /// \param [in] uOutFormat 处理完后图像的输出格式。可以是CAMERA_MEDIA_TYPE_MONO8、CAMERA_MEDIA_TYPE_RGB、CAMERA_MEDIA_TYPE_RGBA8的其中一种。
@@ -239,17 +238,17 @@ MVSDK_API CameraSdkStatus __stdcall CameraImageProcess(
 /// \param [in] uReserved Reservation parameters must be set to 0.
 /// \return Returns CAMERA_STATUS_SUCCESS(0) successfully. Otherwise, it returns a non-zero error code. Please refer to the definition of the error code in CameraStatus.h.
 MVSDK_API CameraSdkStatus __stdcall CameraImageProcessEx(
-    CameraHandle        hCamera, 
-    BYTE*               pbyIn, 
-    BYTE*               pbyOut,
-    tSdkFrameHead*      pFrInfo,
-    UINT                uOutFormat,
-    UINT                uReserved
+	CameraHandle        hCamera,
+	BYTE* pbyIn,
+	BYTE* pbyOut,
+	tSdkFrameHead* pFrInfo,
+	UINT                uOutFormat,
+	UINT                uReserved
 );
 
 /// @ingroup API_DISPLAY
 /// \~chinese
-/// \brief 初始化SDK内部的显示模块。在调用@link #CameraDisplayRGB24 @endlink前必须先调用该函数初始化。如果您在二次开发中，使用自己的方式进行图像显示(不调用CameraDisplayRGB24)则不需要调用本函数。 
+/// \brief 初始化SDK内部的显示模块。在调用@link #CameraDisplayRGB24 @endlink前必须先调用该函数初始化。如果您在二次开发中，使用自己的方式进行图像显示(不调用CameraDisplayRGB24)则不需要调用本函数。
 /// \param [in] hCamera 相机的句柄。
 /// \param [in] hWndDisplay 显示窗口的句柄，一般为窗口的m_hWnd成员。
 /// \return 成功返回 CAMERA_STATUS_SUCCESS(0)。否则返回非0值的错误码, 请参考 CameraStatus.h 中错误码的定义。
@@ -259,8 +258,8 @@ MVSDK_API CameraSdkStatus __stdcall CameraImageProcessEx(
 /// \param [in] hWndDisplay The handle of the display window, typically the m_hWnd member of the window.
 /// \return Returns CAMERA_STATUS_SUCCESS(0) successfully. Otherwise, it returns a non-zero error code. Please refer to the definition of the error code in CameraStatus.h.
 MVSDK_API CameraSdkStatus __stdcall CameraDisplayInit(
-    CameraHandle    hCamera,
-    HWND            hWndDisplay
+	CameraHandle    hCamera,
+	HWND            hWndDisplay
 );
 
 /// @ingroup API_DISPLAY
@@ -277,9 +276,9 @@ MVSDK_API CameraSdkStatus __stdcall CameraDisplayInit(
 /// \param [in] pFrInfo The frame header information of the image
 /// \return Returns CAMERA_STATUS_SUCCESS(0) successfully. Otherwise, it returns a non-zero error code. Please refer to the definition of the error code in CameraStatus.h.
 MVSDK_API CameraSdkStatus __stdcall CameraDisplayRGB24(
-    CameraHandle        hCamera,
-    BYTE*               pFrameBuffer, 
-    tSdkFrameHead*      pFrInfo
+	CameraHandle        hCamera,
+	BYTE* pFrameBuffer,
+	tSdkFrameHead* pFrInfo
 );
 
 /// @ingroup API_DISPLAY
@@ -294,8 +293,8 @@ MVSDK_API CameraSdkStatus __stdcall CameraDisplayRGB24(
 /// \param [in] iMode Display mode, see @link #emSdkDisplayMode @endlink definition.
 /// \return Returns CAMERA_STATUS_SUCCESS(0) successfully. Otherwise, it returns a non-zero error code. Please refer to the definition of the error code in CameraStatus.h.
 MVSDK_API CameraSdkStatus __stdcall CameraSetDisplayMode(
-    CameraHandle    hCamera,
-    INT             iMode
+	CameraHandle    hCamera,
+	INT             iMode
 );
 
 /// @ingroup API_DISPLAY
@@ -312,9 +311,9 @@ MVSDK_API CameraSdkStatus __stdcall CameraSetDisplayMode(
 /// \param [in] iOffsetY  The offset's Y coordinate.
 /// \return Returns CAMERA_STATUS_SUCCESS(0) successfully. Otherwise, it returns a non-zero error code. Please refer to the definition of the error code in CameraStatus.h.
 MVSDK_API CameraSdkStatus __stdcall CameraSetDisplayOffset(
-    CameraHandle    hCamera,
-    int             iOffsetX, 
-    int             iOffsetY
+	CameraHandle    hCamera,
+	int             iOffsetX,
+	int             iOffsetY
 );
 
 /// @ingroup API_DISPLAY
@@ -331,9 +330,9 @@ MVSDK_API CameraSdkStatus __stdcall CameraSetDisplayOffset(
 /// \param [in] iHeight height
 /// \return Returns CAMERA_STATUS_SUCCESS(0) successfully. Otherwise, it returns a non-zero error code. Please refer to the definition of the error code in CameraStatus.h.
 MVSDK_API CameraSdkStatus __stdcall CameraSetDisplaySize(
-    CameraHandle    hCamera, 
-    INT             iWidth, 
-    INT             iHeight
+	CameraHandle    hCamera,
+	INT             iWidth,
+	INT             iHeight
 );
 
 /// @ingroup API_GRAB
@@ -344,7 +343,7 @@ MVSDK_API CameraSdkStatus __stdcall CameraSetDisplaySize(
 /// \param [out] pbyBuffer 返回图像数据的缓冲区指针。
 /// \param [in] wTimes 抓取图像的超时时间，单位毫秒。在wTimes时间内还未获得图像，则该函数会返回超时错误。
 /// \return 成功返回 CAMERA_STATUS_SUCCESS(0)。否则返回非0值的错误码, 请参考 CameraStatus.h 中错误码的定义。
-/// \note 该函数成功调用后，必须调用@link CameraReleaseImageBuffer @endlink释放缓冲区,以便让内核继续使用该缓冲区。  
+/// \note 该函数成功调用后，必须调用@link CameraReleaseImageBuffer @endlink释放缓冲区,以便让内核继续使用该缓冲区。
 /// \~english
 /// \brief Get a frame of image data. To improve efficiency, the SDK uses a zero-copy mechanism for image capture. This function actually obtains a buffer address in the kernel.
 /// \param [in] hCamera Camera handle.
@@ -354,10 +353,10 @@ MVSDK_API CameraSdkStatus __stdcall CameraSetDisplaySize(
 /// \return Returns CAMERA_STATUS_SUCCESS(0) successfully. Otherwise, it returns a non-zero error code. Please refer to the definition of the error code in CameraStatus.h.
 /// \note After the function is successfully called, @link CameraReleaseImageBuffer @endlink must be called to release the buffer so that the kernel can continue to use the buffer.
 MVSDK_API CameraSdkStatus __stdcall CameraGetImageBuffer(
-    CameraHandle        hCamera, 
-    tSdkFrameHead*      pFrameInfo, 
-    BYTE**              pbyBuffer,
-    UINT                wTimes
+	CameraHandle        hCamera,
+	tSdkFrameHead* pFrameInfo,
+	BYTE** pbyBuffer,
+	UINT                wTimes
 );
 
 /// @ingroup API_GRAB
@@ -378,10 +377,10 @@ MVSDK_API CameraSdkStatus __stdcall CameraGetImageBuffer(
 /// \return On success, returns the first address of the frame data buffer, otherwise it returns 0.
 /// \note This function does not need to call @link CameraReleaseImageBuffer @endlink to release the buffer.
 MVSDK_API unsigned char* __stdcall CameraGetImageBufferEx(
-    CameraHandle        hCamera, 
-    INT*                piWidth,
-    INT*                piHeight,
-    UINT                wTimes
+	CameraHandle        hCamera,
+	INT* piWidth,
+	INT* piHeight,
+	UINT                wTimes
 );
 
 /// @ingroup API_GRAB
@@ -392,7 +391,7 @@ MVSDK_API unsigned char* __stdcall CameraGetImageBufferEx(
 /// \param [out] pbyBuffer 返回图像数据的缓冲区指针。
 /// \param [in] wTimes 抓取图像的超时时间，单位毫秒。在wTimes时间内还未获得图像，则该函数会返回超时错误。
 /// \return 成功返回 CAMERA_STATUS_SUCCESS(0)。否则返回非0值的错误码, 请参考 CameraStatus.h 中错误码的定义。
-/// \note 该函数成功调用后，必须调用@link CameraReleaseImageBuffer @endlink释放缓冲区,以便让内核继续使用该缓冲区。  
+/// \note 该函数成功调用后，必须调用@link CameraReleaseImageBuffer @endlink释放缓冲区,以便让内核继续使用该缓冲区。
 /// \warning 本函数可能会进行分辨率切换，因此效率会比@link #CameraGetImageBuffer @endlink低。如果没有切换分辨率抓拍的需求，请使用@link #CameraGetImageBuffer @endlink。
 /// \~english
 /// \brief Take an image into the buffer. The camera will enter snap mode and automatically switch to snap mode resolution for image capture.
@@ -404,10 +403,10 @@ MVSDK_API unsigned char* __stdcall CameraGetImageBufferEx(
 /// \note After the function is successfully called, @link CameraReleaseImageBuffer @endlink must be called to release the buffer so that the kernel can continue to use the buffer.
 /// \warning This function may switch the resolution, so the efficiency will be lower than @link #CameraGetImageBuffer @endlink. If you do not need to switch resolution capture, use @link #CameraGetImageBuffer @endlink.
 MVSDK_API CameraSdkStatus __stdcall CameraSnapToBuffer(
-    CameraHandle        hCamera,
-    tSdkFrameHead*      pFrameInfo,
-    BYTE**              pbyBuffer,
-    UINT                wTimes
+	CameraHandle        hCamera,
+	tSdkFrameHead* pFrameInfo,
+	BYTE** pbyBuffer,
+	UINT                wTimes
 );
 
 /// @ingroup API_GRAB
@@ -427,10 +426,10 @@ MVSDK_API CameraSdkStatus __stdcall CameraSnapToBuffer(
 /// \return Returns CAMERA_STATUS_SUCCESS(0) successfully. Otherwise, it returns a non-zero error code. Please refer to the definition of the error code in CameraStatus.h.
 MVSDK_API CameraSdkStatus __stdcall CameraSnapJpegToFile(
 	CameraHandle    hCamera,
-	char const*     lpszFileName,
+	char const* lpszFileName,
 	BYTE            byQuality,
 	UINT            wTimes
-	);
+);
 
 /// @ingroup API_GRAB
 /// \~chinese
@@ -444,8 +443,8 @@ MVSDK_API CameraSdkStatus __stdcall CameraSnapJpegToFile(
 /// \param [in] pbyBuffer Frame buffer address.
 /// \return Returns CAMERA_STATUS_SUCCESS(0) successfully. Otherwise, it returns a non-zero error code. Please refer to the definition of the error code in CameraStatus.h.
 MVSDK_API CameraSdkStatus __stdcall CameraReleaseImageBuffer(
-    CameraHandle    hCamera, 
-    BYTE*           pbyBuffer
+	CameraHandle    hCamera,
+	BYTE* pbyBuffer
 );
 
 /// @ingroup API_PLAY_CTRL
@@ -458,7 +457,7 @@ MVSDK_API CameraSdkStatus __stdcall CameraReleaseImageBuffer(
 /// \param [in] hCamera Camera handle.
 /// \return Returns CAMERA_STATUS_SUCCESS(0) successfully. Otherwise, it returns a non-zero error code. Please refer to the definition of the error code in CameraStatus.h.
 MVSDK_API CameraSdkStatus __stdcall CameraPlay(
-    CameraHandle hCamera
+	CameraHandle hCamera
 );
 
 /// @ingroup API_PLAY_CTRL
@@ -471,7 +470,7 @@ MVSDK_API CameraSdkStatus __stdcall CameraPlay(
 /// \param [in] hCamera Camera handle.
 /// \return Returns CAMERA_STATUS_SUCCESS(0) successfully. Otherwise, it returns a non-zero error code. Please refer to the definition of the error code in CameraStatus.h.
 MVSDK_API CameraSdkStatus __stdcall CameraPause(
-    CameraHandle hCamera
+	CameraHandle hCamera
 );
 
 /// @ingroup API_PLAY_CTRL
@@ -484,7 +483,7 @@ MVSDK_API CameraSdkStatus __stdcall CameraPause(
 /// \param [in] hCamera Camera handle.
 /// \return Returns CAMERA_STATUS_SUCCESS(0) successfully. Otherwise, it returns a non-zero error code. Please refer to the definition of the error code in CameraStatus.h.
 MVSDK_API CameraSdkStatus __stdcall CameraStop(
-    CameraHandle hCamera
+	CameraHandle hCamera
 );
 
 /// @ingroup API_RECORD
@@ -507,12 +506,12 @@ MVSDK_API CameraSdkStatus __stdcall CameraStop(
 /// \param [in] iFrameRate The frame rate of the video. It is recommended to set a larger frame rate than the actual acquisition so that no frames are missed.
 /// \return Returns CAMERA_STATUS_SUCCESS(0) successfully. Otherwise, it returns a non-zero error code. Please refer to the definition of the error code in CameraStatus.h.
 MVSDK_API CameraSdkStatus __stdcall CameraInitRecord(
-    CameraHandle    hCamera,
-    int             iFormat,
-    char*           pcSavePath,
-    BOOL            b2GLimit,
-    DWORD           dwQuality,
-    int             iFrameRate
+	CameraHandle    hCamera,
+	int             iFormat,
+	char* pcSavePath,
+	BOOL            b2GLimit,
+	DWORD           dwQuality,
+	int             iFrameRate
 );
 
 /// @ingroup API_RECORD
@@ -525,7 +524,7 @@ MVSDK_API CameraSdkStatus __stdcall CameraInitRecord(
 /// \param [in] hCamera Camera handle.
 /// \return Returns CAMERA_STATUS_SUCCESS(0) successfully. Otherwise, it returns a non-zero error code. Please refer to the definition of the error code in CameraStatus.h.
 MVSDK_API CameraSdkStatus __stdcall CameraStopRecord(
-    CameraHandle    hCamera
+	CameraHandle    hCamera
 );
 
 /// @ingroup API_RECORD
@@ -542,9 +541,9 @@ MVSDK_API CameraSdkStatus __stdcall CameraStopRecord(
 /// \param [in] pFrInfo The frame header information of the image.
 /// \return Returns CAMERA_STATUS_SUCCESS(0) successfully. Otherwise, it returns a non-zero error code. Please refer to the definition of the error code in CameraStatus.h.
 MVSDK_API CameraSdkStatus __stdcall CameraPushFrame(
-    CameraHandle    hCamera,
-    BYTE*           pbyImageBuffer,
-    tSdkFrameHead*  pFrInfo
+	CameraHandle    hCamera,
+	BYTE* pbyImageBuffer,
+	tSdkFrameHead* pFrInfo
 );
 
 /// @ingroup API_SAVE_IMAGE
@@ -557,7 +556,7 @@ MVSDK_API CameraSdkStatus __stdcall CameraPushFrame(
 /// \param [in] byFileType 图像保存的格式。取值范围参见@link #emSdkFileType @endlink的定义。
 /// \param [in] byQuality 图像保存的质量因子，仅当保存为JPG格式时该参数有效，范围1到100。其余格式可以写成0。
 /// \return 成功返回 CAMERA_STATUS_SUCCESS(0)。否则返回非0值的错误码, 请参考 CameraStatus.h 中错误码的定义。
-/// \note 目前支持 BMP、JPG、PNG、RAW四种格式。其中RAW表示相机输出的原始数据，保存RAW格式文件要求pbyImageBuffer和pFrInfo是由@link #CameraGetImageBuffer @endlink获得的数据，而且未经@link #CameraImageProcess @endlink转换成BMP格式；反之，如果要保存成BMP、JPG或者PNG格式，则pbyImageBuffer和pFrInfo是由@link #CameraImageProcess @endlink处理后的RGB格式数据。具体用法可以参考Advanced的例程。   
+/// \note 目前支持 BMP、JPG、PNG、RAW四种格式。其中RAW表示相机输出的原始数据，保存RAW格式文件要求pbyImageBuffer和pFrInfo是由@link #CameraGetImageBuffer @endlink获得的数据，而且未经@link #CameraImageProcess @endlink转换成BMP格式；反之，如果要保存成BMP、JPG或者PNG格式，则pbyImageBuffer和pFrInfo是由@link #CameraImageProcess @endlink处理后的RGB格式数据。具体用法可以参考Advanced的例程。
 /// \~english
 /// \brief Save the image buffer data as a picture file.
 /// \param [in] hCamera Camera handle.
@@ -569,12 +568,12 @@ MVSDK_API CameraSdkStatus __stdcall CameraPushFrame(
 /// \return Returns CAMERA_STATUS_SUCCESS(0) successfully. Otherwise, it returns a non-zero error code. Please refer to the definition of the error code in CameraStatus.h.
 /// \note Currently supports BMP, JPG, PNG, RAW four formats. Among them, RAW represents the raw data output by the camera. Saving RAW format files requires pbyImageBuffer and pFrInfo to be obtained by @link #CameraGetImageBuffer @endlink, and without @link #CameraImageProcess @endlink converting to BMP format; otherwise, if you want to save to BMP JPG or PNG format, pbyImageBuffer and pFrInfo are RGB format data processed by @link #CameraImageProcess @endlink. Specific usage can refer to Advanced's routines.
 MVSDK_API CameraSdkStatus __stdcall CameraSaveImage(
-    CameraHandle    hCamera,
-    char*           lpszFileName,
-    BYTE*           pbyImageBuffer,
-    tSdkFrameHead*  pFrInfo,
-    UINT            byFileType,
-    BYTE            byQuality
+	CameraHandle    hCamera,
+	char* lpszFileName,
+	BYTE* pbyImageBuffer,
+	tSdkFrameHead* pFrInfo,
+	UINT            byFileType,
+	BYTE            byQuality
 );
 
 /// @ingroup API_SAVE_IMAGE
@@ -604,14 +603,14 @@ MVSDK_API CameraSdkStatus __stdcall CameraSaveImage(
 /// \note Same as @link #CameraSaveImage @endlink
 MVSDK_API CameraSdkStatus __stdcall CameraSaveImageEx(
 	CameraHandle    hCamera,
-	char*           lpszFileName,
-	BYTE*           pbyImageBuffer,
+	char* lpszFileName,
+	BYTE* pbyImageBuffer,
 	UINT			uImageFormat,
 	int				iWidth,
 	int				iHeight,
 	UINT            byFileType,
 	BYTE            byQuality
-	);
+);
 
 /// @ingroup API_ROI
 /// \~chinese
@@ -625,8 +624,8 @@ MVSDK_API CameraSdkStatus __stdcall CameraSaveImageEx(
 /// \param [out] psCurVideoSize Returns the current resolution.
 /// \return Returns CAMERA_STATUS_SUCCESS(0) successfully. Otherwise, it returns a non-zero error code. Please refer to the definition of the error code in CameraStatus.h.
 MVSDK_API CameraSdkStatus __stdcall CameraGetImageResolution(
-    CameraHandle            hCamera, 
-    tSdkImageResolution*    psCurVideoSize
+	CameraHandle            hCamera,
+	tSdkImageResolution* psCurVideoSize
 );
 
 /// @ingroup API_ROI
@@ -641,7 +640,7 @@ MVSDK_API CameraSdkStatus __stdcall CameraGetImageResolution(
 /// \param [out] y			   垂直偏移
 /// \param [out] width		   宽
 /// \param [out] height		   高
-/// \param [out] ZoomWidth     最终输出时缩放宽度，0表示不缩放 
+/// \param [out] ZoomWidth     最终输出时缩放宽度，0表示不缩放
 /// \param [out] ZoomHeight    最终输出时缩放高度，0表示不缩放
 /// \return 成功返回 CAMERA_STATUS_SUCCESS(0)。否则返回非0值的错误码, 请参考 CameraStatus.h 中错误码的定义。
 /// \~english
@@ -659,18 +658,18 @@ MVSDK_API CameraSdkStatus __stdcall CameraGetImageResolution(
 /// \param [out] ZoomHeight Scales the height of the final output, 0 means no scaling
 /// \return Returns CAMERA_STATUS_SUCCESS(0) successfully. Otherwise, it returns a non-zero error code. Please refer to the definition of the error code in CameraStatus.h.
 MVSDK_API CameraSdkStatus __stdcall CameraGetImageResolutionEx(
-	CameraHandle            hCamera, 
-	int*					iIndex,
+	CameraHandle            hCamera,
+	int* iIndex,
 	char					acDescription[32],
-	int*					Mode,
-	UINT*					ModeSize,
-	int*					x,
-	int*					y,
-	int*					width,
-	int*					height,
-	int*					ZoomWidth,
-	int*					ZoomHeight
-	);
+	int* Mode,
+	UINT* ModeSize,
+	int* x,
+	int* y,
+	int* width,
+	int* height,
+	int* ZoomWidth,
+	int* ZoomHeight
+);
 
 /// @ingroup API_ROI
 /// \~chinese
@@ -684,8 +683,8 @@ MVSDK_API CameraSdkStatus __stdcall CameraGetImageResolutionEx(
 /// \param [in] pImageResolution New resolution.
 /// \return Returns CAMERA_STATUS_SUCCESS(0) successfully. Otherwise, it returns a non-zero error code. Please refer to the definition of the error code in CameraStatus.h.
 MVSDK_API CameraSdkStatus __stdcall CameraSetImageResolution(
-    CameraHandle            hCamera, 
-    tSdkImageResolution*    pImageResolution
+	CameraHandle            hCamera,
+	tSdkImageResolution* pImageResolution
 );
 
 /// @ingroup API_ROI
@@ -699,7 +698,7 @@ MVSDK_API CameraSdkStatus __stdcall CameraSetImageResolution(
 /// \param [in] y			   垂直偏移
 /// \param [in] width		   宽
 /// \param [in] height		   高
-/// \param [in] ZoomWidth     最终输出时缩放宽度，0表示不缩放 
+/// \param [in] ZoomWidth     最终输出时缩放宽度，0表示不缩放
 /// \param [in] ZoomHeight    最终输出时缩放高度，0表示不缩放
 /// \return 成功返回 CAMERA_STATUS_SUCCESS(0)。否则返回非0值的错误码, 请参考 CameraStatus.h 中错误码的定义。
 /// \~english
@@ -716,7 +715,7 @@ MVSDK_API CameraSdkStatus __stdcall CameraSetImageResolution(
 /// \param [in] ZoomHeight Scales the height of the final output, 0 means no scaling
 /// \return Returns CAMERA_STATUS_SUCCESS(0) successfully. Otherwise, it returns a non-zero error code. Please refer to the definition of the error code in CameraStatus.h.
 MVSDK_API CameraSdkStatus __stdcall CameraSetImageResolutionEx(
-	CameraHandle            hCamera, 
+	CameraHandle            hCamera,
 	int						iIndex,
 	int						Mode,
 	UINT					ModeSize,
@@ -726,7 +725,7 @@ MVSDK_API CameraSdkStatus __stdcall CameraSetImageResolutionEx(
 	int						height,
 	int						ZoomWidth,
 	int						ZoomHeight
-	);
+);
 
 /// @ingroup API_ADVANCE
 /// \~chinese
@@ -742,8 +741,8 @@ MVSDK_API CameraSdkStatus __stdcall CameraSetImageResolutionEx(
 /// \return Returns CAMERA_STATUS_SUCCESS(0) successfully. Otherwise, it returns a non-zero error code. Please refer to the definition of the error code in CameraStatus.h.
 /// \note In the @link #tSdkCameraCapbility.pMediaTypeDesc @endlink member, the format supported by the camera is saved as an array. The index number pointed to by piMediaType is the index number of the array.
 MVSDK_API CameraSdkStatus __stdcall CameraGetMediaType(
-    CameraHandle    hCamera, 
-    INT*            piMediaType
+	CameraHandle    hCamera,
+	INT* piMediaType
 );
 
 /// @ingroup API_ADVANCE
@@ -760,8 +759,8 @@ MVSDK_API CameraSdkStatus __stdcall CameraGetMediaType(
 /// \return Returns CAMERA_STATUS_SUCCESS(0) successfully. Otherwise, it returns a non-zero error code. Please refer to the definition of the error code in CameraStatus.h.
 /// \note Same as @link #CameraGetMediaType @endlink.
 MVSDK_API CameraSdkStatus __stdcall CameraSetMediaType(
-    CameraHandle    hCamera, 
-    INT             iMediaType
+	CameraHandle    hCamera,
+	INT             iMediaType
 );
 
 /// @ingroup API_ADVANCE
@@ -777,8 +776,8 @@ MVSDK_API CameraSdkStatus __stdcall CameraSetMediaType(
 /// \return Returns CAMERA_STATUS_SUCCESS(0) successfully. Otherwise, it returns a non-zero error code. Please refer to the definition of the error code in CameraStatus.h.
 MVSDK_API CameraSdkStatus __stdcall CameraGetRawMaxAvailBits(
 	CameraHandle    hCamera,
-	int*           pMaxAvailBits
-	);
+	int* pMaxAvailBits
+);
 
 /// @ingroup API_ADVANCE
 /// \~chinese
@@ -794,7 +793,7 @@ MVSDK_API CameraSdkStatus __stdcall CameraGetRawMaxAvailBits(
 MVSDK_API CameraSdkStatus __stdcall CameraSetRawStartBit(
 	CameraHandle    hCamera,
 	int             startBit
-	);
+);
 
 /// @ingroup API_ADVANCE
 /// \~chinese
@@ -809,8 +808,8 @@ MVSDK_API CameraSdkStatus __stdcall CameraSetRawStartBit(
 /// \return Returns CAMERA_STATUS_SUCCESS(0) successfully. Otherwise, it returns a non-zero error code. Please refer to the definition of the error code in CameraStatus.h.
 MVSDK_API CameraSdkStatus __stdcall CameraGetRawStartBit(
 	CameraHandle    hCamera,
-	int*            startBit
-	);
+	int* startBit
+);
 
 /// @ingroup API_EXPOSURE
 /// \~chinese
@@ -824,8 +823,8 @@ MVSDK_API CameraSdkStatus __stdcall CameraGetRawStartBit(
 /// \param [in] bAeState TRUE: Auto exposure; FALSE: Manual exposure.
 /// \return Returns CAMERA_STATUS_SUCCESS(0) successfully. Otherwise, it returns a non-zero error code. Please refer to the definition of the error code in CameraStatus.h.
 MVSDK_API CameraSdkStatus __stdcall CameraSetAeState(
-    CameraHandle    hCamera, 
-    BOOL            bAeState
+	CameraHandle    hCamera,
+	BOOL            bAeState
 );
 
 /// @ingroup API_EXPOSURE
@@ -840,8 +839,8 @@ MVSDK_API CameraSdkStatus __stdcall CameraSetAeState(
 /// \param [out] pAeState Returns the auto exposure's enable state.
 /// \return Returns CAMERA_STATUS_SUCCESS(0) successfully. Otherwise, it returns a non-zero error code. Please refer to the definition of the error code in CameraStatus.h.
 MVSDK_API CameraSdkStatus __stdcall CameraGetAeState(
-    CameraHandle    hCamera, 
-    BOOL*           pAeState
+	CameraHandle    hCamera,
+	BOOL* pAeState
 );
 
 /// @ingroup API_ENHANCE
@@ -856,8 +855,8 @@ MVSDK_API CameraSdkStatus __stdcall CameraGetAeState(
 /// \param [in] iSharpness Sharpen parameter, generally [0,100], 0 means close sharpening.
 /// \return Returns CAMERA_STATUS_SUCCESS(0) successfully. Otherwise, it returns a non-zero error code. Please refer to the definition of the error code in CameraStatus.h.
 MVSDK_API CameraSdkStatus __stdcall CameraSetSharpness(
-    CameraHandle    hCamera, 
-    int             iSharpness
+	CameraHandle    hCamera,
+	int             iSharpness
 );
 
 /// @ingroup API_ENHANCE
@@ -872,8 +871,8 @@ MVSDK_API CameraSdkStatus __stdcall CameraSetSharpness(
 /// \param [out] piSharpness Returns the currently set sharpened setting.
 /// \return Returns CAMERA_STATUS_SUCCESS(0) successfully. Otherwise, it returns a non-zero error code. Please refer to the definition of the error code in CameraStatus.h.
 MVSDK_API CameraSdkStatus __stdcall CameraGetSharpness(
-    CameraHandle    hCamera, 
-    int*            piSharpness
+	CameraHandle    hCamera,
+	int* piSharpness
 );
 
 /// @ingroup API_ENHANCE
@@ -888,8 +887,8 @@ MVSDK_API CameraSdkStatus __stdcall CameraGetSharpness(
 /// \param [in] emLutMode Defines the reference @link #emSdkLutMode @endlink type.
 /// \return Returns CAMERA_STATUS_SUCCESS(0) successfully. Otherwise, it returns a non-zero error code. Please refer to the definition of the error code in CameraStatus.h.
 MVSDK_API CameraSdkStatus __stdcall CameraSetLutMode(
-    CameraHandle    hCamera,
-    int             emLutMode
+	CameraHandle    hCamera,
+	int             emLutMode
 );
 
 /// @ingroup API_ENHANCE
@@ -904,8 +903,8 @@ MVSDK_API CameraSdkStatus __stdcall CameraSetLutMode(
 /// \param [out] pemLutMode Returns the current LUT mode.
 /// \return Returns CAMERA_STATUS_SUCCESS(0) successfully. Otherwise, it returns a non-zero error code. Please refer to the definition of the error code in CameraStatus.h.
 MVSDK_API CameraSdkStatus __stdcall CameraGetLutMode(
-    CameraHandle    hCamera,
-    int*            pemLutMode
+	CameraHandle    hCamera,
+	int* pemLutMode
 );
 
 /// @ingroup API_ENHANCE
@@ -922,8 +921,8 @@ MVSDK_API CameraSdkStatus __stdcall CameraGetLutMode(
 /// \return Returns CAMERA_STATUS_SUCCESS(0) successfully. Otherwise, it returns a non-zero error code. Please refer to the definition of the error code in CameraStatus.h.
 /// \note Must use @link #CameraSetLutMode @endlink to set LUT mode to preset mode.
 MVSDK_API CameraSdkStatus __stdcall CameraSelectLutPreset(
-    CameraHandle    hCamera,
-    int             iSel
+	CameraHandle    hCamera,
+	int             iSel
 );
 
 /// @ingroup API_ENHANCE
@@ -938,8 +937,8 @@ MVSDK_API CameraSdkStatus __stdcall CameraSelectLutPreset(
 /// \param [out] piSel Returns the index number of the table.
 /// \return Returns CAMERA_STATUS_SUCCESS(0) successfully. Otherwise, it returns a non-zero error code. Please refer to the definition of the error code in CameraStatus.h.
 MVSDK_API CameraSdkStatus __stdcall CameraGetLutPresetSel(
-    CameraHandle    hCamera,
-    int*            piSel
+	CameraHandle    hCamera,
+	int* piSel
 );
 
 /// @ingroup API_ENHANCE
@@ -947,7 +946,7 @@ MVSDK_API CameraSdkStatus __stdcall CameraGetLutPresetSel(
 /// \brief 设置自定义的LUT表。
 /// \param [in] hCamera 相机的句柄。
 /// \param [in] iChannel 指定要设定的LUT颜色通道，当为@link #LUT_CHANNEL_ALL @endlink时，三个通道的LUT将被同时替换。@see emSdkLutChannel
-/// \param [in] pLut     指针，指向LUT表的地址。LUT表为无符号短整形数组，数组大小为4096，分别代码颜色通道从0到4096(12bit颜色精度)对应的映射值。 
+/// \param [in] pLut     指针，指向LUT表的地址。LUT表为无符号短整形数组，数组大小为4096，分别代码颜色通道从0到4096(12bit颜色精度)对应的映射值。
 /// \return 成功返回 CAMERA_STATUS_SUCCESS(0)。否则返回非0值的错误码, 请参考 CameraStatus.h 中错误码的定义。
 /// \note 必须先使用@link #CameraSetLutMode @endlink将LUT模式设置为自定义模式。
 /// \~english
@@ -958,9 +957,9 @@ MVSDK_API CameraSdkStatus __stdcall CameraGetLutPresetSel(
 /// \return Returns CAMERA_STATUS_SUCCESS(0) successfully. Otherwise, it returns a non-zero error code. Please refer to the definition of the error code in CameraStatus.h.
 /// \note You must use @link #CameraSetLutMode @endlink to set the LUT mode to custom mode.
 MVSDK_API CameraSdkStatus __stdcall CameraSetCustomLut(
-    CameraHandle    hCamera,
-    int       iChannel,
-    USHORT*         pLut
+	CameraHandle    hCamera,
+	int       iChannel,
+	USHORT* pLut
 );
 
 /// @ingroup API_ENHANCE
@@ -968,7 +967,7 @@ MVSDK_API CameraSdkStatus __stdcall CameraSetCustomLut(
 /// \brief 获得当前使用的自定义LUT表。
 /// \param [in] hCamera 相机的句柄。
 /// \param [in] iChannel 指定要获取的LUT颜色通道，当为@link #LUT_CHANNEL_ALL @endlink时，返回红色通道的LUT表。@see emSdkLutChannel
-/// \param [out] pLut    指向LUT表的地址。LUT表为无符号短整形数组，数组大小为4096，分别代码颜色通道从0到4096(12bit颜色精度)对应的映射值。 
+/// \param [out] pLut    指向LUT表的地址。LUT表为无符号短整形数组，数组大小为4096，分别代码颜色通道从0到4096(12bit颜色精度)对应的映射值。
 /// \return 成功返回 CAMERA_STATUS_SUCCESS(0)。否则返回非0值的错误码, 请参考 CameraStatus.h 中错误码的定义。
 /// \~english
 /// \brief Get the currently used custom LUT table.
@@ -977,9 +976,9 @@ MVSDK_API CameraSdkStatus __stdcall CameraSetCustomLut(
 /// \param [out] pLut points to the address of the LUT table. The LUT table is an unsigned short integer array, and the array size is 4096, which is the mapping value corresponding to the code color channel from 0 to 4096 (12 bit color accuracy).
 /// \return Returns CAMERA_STATUS_SUCCESS(0) successfully. Otherwise, it returns a non-zero error code. Please refer to the definition of the error code in CameraStatus.h.
 MVSDK_API CameraSdkStatus __stdcall CameraGetCustomLut(
-    CameraHandle    hCamera,
-    int       iChannel,
-    USHORT*         pLut
+	CameraHandle    hCamera,
+	int       iChannel,
+	USHORT* pLut
 );
 
 /// @ingroup API_ENHANCE
@@ -987,7 +986,7 @@ MVSDK_API CameraSdkStatus __stdcall CameraGetCustomLut(
 /// \brief 获得相机当前的LUT表，在任何LUT模式下都可以调用,用来直观的观察LUT曲线的变化。
 /// \param [in] hCamera 相机的句柄。
 /// \param [in] iChannel 指定要获取的LUT颜色通道，当为@link #LUT_CHANNEL_ALL @endlink时，返回红色通道的LUT表。@see emSdkLutChannel
-/// \param [out] pLut    指向LUT表的地址。LUT表为无符号短整形数组，数组大小为4096，分别代码颜色通道从0到4096(12bit颜色精度)对应的映射值。 
+/// \param [out] pLut    指向LUT表的地址。LUT表为无符号短整形数组，数组大小为4096，分别代码颜色通道从0到4096(12bit颜色精度)对应的映射值。
 /// \return 成功返回 CAMERA_STATUS_SUCCESS(0)。否则返回非0值的错误码, 请参考 CameraStatus.h 中错误码的定义。
 /// \~english
 /// \brief Obtain the camera's current LUT table, which can be called in any LUT mode, to intuitively observe changes in the LUT curve.
@@ -996,9 +995,9 @@ MVSDK_API CameraSdkStatus __stdcall CameraGetCustomLut(
 /// \param [out] pLut points to the address of the LUT table. The LUT table is an unsigned short integer array, and the array size is 4096, which is the mapping value corresponding to the code color channel from 0 to 4096 (12 bit color accuracy).
 /// \return Returns CAMERA_STATUS_SUCCESS(0) successfully. Otherwise, it returns a non-zero error code. Please refer to the definition of the error code in CameraStatus.h.
 MVSDK_API CameraSdkStatus __stdcall CameraGetCurrentLut(
-    CameraHandle    hCamera,
-    int       iChannel,
-    USHORT*         pLut
+	CameraHandle    hCamera,
+	int       iChannel,
+	USHORT* pLut
 );
 
 /// @ingroup API_COLOR
@@ -1013,15 +1012,15 @@ MVSDK_API CameraSdkStatus __stdcall CameraGetCurrentLut(
 /// \param [in] bAuto TRUE to enable auto mode. FALSE indicates that using manual mode, a white balance is performed by calling @link #CameraSetOnceWB @endlink.
 /// \return Returns CAMERA_STATUS_SUCCESS(0) successfully. Otherwise, it returns a non-zero error code. Please refer to the definition of the error code in CameraStatus.h.
 MVSDK_API CameraSdkStatus __stdcall CameraSetWbMode(
-    CameraHandle    hCamera,
-    BOOL            bAuto
+	CameraHandle    hCamera,
+	BOOL            bAuto
 );
 
 /// @ingroup API_COLOR
 /// \~chinese
 /// \brief 获得当前的白平衡模式。
 /// \param [in] hCamera 相机的句柄。
-/// \param [out] pbAuto   指针，返回TRUE表示自动模式，FALSE为手动模式。 
+/// \param [out] pbAuto   指针，返回TRUE表示自动模式，FALSE为手动模式。
 /// \return 成功返回 CAMERA_STATUS_SUCCESS(0)。否则返回非0值的错误码, 请参考 CameraStatus.h 中错误码的定义。
 /// \~english
 /// \brief Get the current white balance mode.
@@ -1029,8 +1028,8 @@ MVSDK_API CameraSdkStatus __stdcall CameraSetWbMode(
 /// \param [out] pbAuto pointer, return TRUE for automatic mode, FALSE for manual mode.
 /// \return Returns CAMERA_STATUS_SUCCESS(0) successfully. Otherwise, it returns a non-zero error code. Please refer to the definition of the error code in CameraStatus.h.
 MVSDK_API CameraSdkStatus __stdcall CameraGetWbMode(
-    CameraHandle    hCamera,
-    BOOL*           pbAuto
+	CameraHandle    hCamera,
+	BOOL* pbAuto
 );
 
 /// @ingroup API_COLOR
@@ -1047,8 +1046,8 @@ MVSDK_API CameraSdkStatus __stdcall CameraGetWbMode(
 /// \return Returns CAMERA_STATUS_SUCCESS(0) successfully. Otherwise, it returns a non-zero error code. Please refer to the definition of the error code in CameraStatus.h.
 /// \note Call @link #CameraSetClrTempMode @endlink set to preset mode.
 MVSDK_API CameraSdkStatus __stdcall CameraSetPresetClrTemp(
-    CameraHandle    hCamera,
-    int             iSel
+	CameraHandle    hCamera,
+	int             iSel
 );
 
 /// @ingroup API_COLOR
@@ -1063,8 +1062,8 @@ MVSDK_API CameraSdkStatus __stdcall CameraSetPresetClrTemp(
 /// \param [out] piSel Returns the selected preset color temperature index number
 /// \return Returns CAMERA_STATUS_SUCCESS(0) successfully. Otherwise, it returns a non-zero error code. Please refer to the definition of the error code in CameraStatus.h.
 MVSDK_API CameraSdkStatus __stdcall CameraGetPresetClrTemp(
-    CameraHandle    hCamera,
-    int*            piSel
+	CameraHandle    hCamera,
+	int* piSel
 );
 
 /// @ingroup API_COLOR
@@ -1085,10 +1084,10 @@ MVSDK_API CameraSdkStatus __stdcall CameraGetPresetClrTemp(
 /// \return Returns CAMERA_STATUS_SUCCESS(0) successfully. Otherwise, it returns a non-zero error code. Please refer to the definition of the error code in CameraStatus.h.
 /// \note Call @link #CameraSetClrTempMode @endlink set to custom mode.
 MVSDK_API CameraSdkStatus __stdcall CameraSetUserClrTempGain(
-  CameraHandle  hCamera,
-  int       iRgain,
-  int       iGgain,
-  int       iBgain
+	CameraHandle  hCamera,
+	int       iRgain,
+	int       iGgain,
+	int       iBgain
 );
 
 /// @ingroup API_COLOR
@@ -1107,10 +1106,10 @@ MVSDK_API CameraSdkStatus __stdcall CameraSetUserClrTempGain(
 /// \param [out] piBgain pointer, returns blue gain, range 0 to 400, 0 to 4 times
 /// \return Returns CAMERA_STATUS_SUCCESS(0) successfully. Otherwise, it returns a non-zero error code. Please refer to the definition of the error code in CameraStatus.h.
 MVSDK_API CameraSdkStatus __stdcall CameraGetUserClrTempGain(
-  CameraHandle  hCamera,
-  int*      piRgain,
-  int*      piGgain,
-  int*      piBgain
+	CameraHandle  hCamera,
+	int* piRgain,
+	int* piGgain,
+	int* piBgain
 );
 
 /// @ingroup API_COLOR
@@ -1127,8 +1126,8 @@ MVSDK_API CameraSdkStatus __stdcall CameraGetUserClrTempGain(
 /// \return Returns CAMERA_STATUS_SUCCESS(0) successfully. Otherwise, it returns a non-zero error code. Please refer to the definition of the error code in CameraStatus.h.
 /// \note Call @link #CameraSetClrTempMode @endlink set to custom mode.
 MVSDK_API CameraSdkStatus __stdcall CameraSetUserClrTempMatrix(
-  CameraHandle  hCamera,
-  float*      pMatrix
+	CameraHandle  hCamera,
+	float* pMatrix
 );
 
 /// @ingroup API_COLOR
@@ -1143,8 +1142,8 @@ MVSDK_API CameraSdkStatus __stdcall CameraSetUserClrTempMatrix(
 /// \param [out] pMatrix points to the first address of an array of float[3][3]
 /// \return Returns CAMERA_STATUS_SUCCESS(0) successfully. Otherwise, it returns a non-zero error code. Please refer to the definition of the error code in CameraStatus.h.
 MVSDK_API CameraSdkStatus __stdcall CameraGetUserClrTempMatrix(
-  CameraHandle  hCamera,
-  float*      pMatrix
+	CameraHandle  hCamera,
+	float* pMatrix
 );
 
 /// @ingroup API_COLOR
@@ -1167,8 +1166,8 @@ MVSDK_API CameraSdkStatus __stdcall CameraGetUserClrTempMatrix(
 /// \note In preset mode, user-specified color temperature mode is used
 /// \note custom-defined color temperature digital gain and matrix
 MVSDK_API CameraSdkStatus __stdcall CameraSetClrTempMode(
-  CameraHandle  hCamera,
-  int       iMode
+	CameraHandle  hCamera,
+	int       iMode
 );
 
 /// @ingroup API_COLOR
@@ -1183,8 +1182,8 @@ MVSDK_API CameraSdkStatus __stdcall CameraSetClrTempMode(
 /// \param [out] pimode pointer, return mode selection, reference @link #emSdkClrTmpMode @endlink type definition
 /// \return Returns CAMERA_STATUS_SUCCESS(0) successfully. Otherwise, it returns a non-zero error code. Please refer to the definition of the error code in CameraStatus.h.
 MVSDK_API CameraSdkStatus __stdcall CameraGetClrTempMode(
-  CameraHandle  hCamera,
-  int*      pimode
+	CameraHandle  hCamera,
+	int* pimode
 );
 
 /// @ingroup API_COLOR
@@ -1197,7 +1196,7 @@ MVSDK_API CameraSdkStatus __stdcall CameraGetClrTempMode(
 /// \param [in] hCamera Camera handle.
 /// \return Returns CAMERA_STATUS_SUCCESS(0) successfully. Otherwise, it returns a non-zero error code. Please refer to the definition of the error code in CameraStatus.h.
 MVSDK_API CameraSdkStatus __stdcall CameraSetOnceWB(
-    CameraHandle    hCamera
+	CameraHandle    hCamera
 );
 
 /// @ingroup API_COLOR
@@ -1210,7 +1209,7 @@ MVSDK_API CameraSdkStatus __stdcall CameraSetOnceWB(
 /// \param [in] hCamera Camera handle.
 /// \return Returns CAMERA_STATUS_SUCCESS(0) successfully. Otherwise, it returns a non-zero error code. Please refer to the definition of the error code in CameraStatus.h.
 MVSDK_API CameraSdkStatus __stdcall CameraSetOnceBB(
-    CameraHandle    hCamera
+	CameraHandle    hCamera
 );
 
 /// @ingroup API_EXPOSURE
@@ -1225,8 +1224,8 @@ MVSDK_API CameraSdkStatus __stdcall CameraSetOnceBB(
 /// \param [in] iAeTarget Brightness target value.
 /// \return Returns CAMERA_STATUS_SUCCESS(0) successfully. Otherwise, it returns a non-zero error code. Please refer to the definition of the error code in CameraStatus.h.
 MVSDK_API CameraSdkStatus __stdcall CameraSetAeTarget(
-    CameraHandle    hCamera, 
-    int             iAeTarget
+	CameraHandle    hCamera,
+	int             iAeTarget
 );
 
 /// @ingroup API_EXPOSURE
@@ -1241,8 +1240,8 @@ MVSDK_API CameraSdkStatus __stdcall CameraSetAeTarget(
 /// \param [out] piAeTarget pointer, return target value.
 /// \return Returns CAMERA_STATUS_SUCCESS(0) successfully. Otherwise, it returns a non-zero error code. Please refer to the definition of the error code in CameraStatus.h.
 MVSDK_API CameraSdkStatus __stdcall CameraGetAeTarget(
-    CameraHandle    hCamera, 
-    int*            piAeTarget
+	CameraHandle    hCamera,
+	int* piAeTarget
 );
 
 /// @ingroup API_EXPOSURE
@@ -1259,10 +1258,10 @@ MVSDK_API CameraSdkStatus __stdcall CameraGetAeTarget(
 /// \param [in] fMaxExposureTime Maximum exposure time (microseconds)
 /// \return Returns CAMERA_STATUS_SUCCESS(0) successfully. Otherwise, it returns a non-zero error code. Please refer to the definition of the error code in CameraStatus.h.
 MVSDK_API CameraSdkStatus __stdcall CameraSetAeExposureRange(
-	CameraHandle    hCamera, 
+	CameraHandle    hCamera,
 	double          fMinExposureTime,
 	double			fMaxExposureTime
-	);
+);
 
 /// @ingroup API_EXPOSURE
 /// \~chinese
@@ -1278,10 +1277,10 @@ MVSDK_API CameraSdkStatus __stdcall CameraSetAeExposureRange(
 /// \param [out] fMaxExposureTime Maximum exposure time (microseconds)
 /// \return Returns CAMERA_STATUS_SUCCESS(0) successfully. Otherwise, it returns a non-zero error code. Please refer to the definition of the error code in CameraStatus.h.
 MVSDK_API CameraSdkStatus __stdcall CameraGetAeExposureRange(
-	CameraHandle    hCamera, 
-	double*         fMinExposureTime,
-	double*			fMaxExposureTime
-	);
+	CameraHandle    hCamera,
+	double* fMinExposureTime,
+	double* fMaxExposureTime
+);
 
 /// @ingroup API_EXPOSURE
 /// \~chinese
@@ -1297,10 +1296,10 @@ MVSDK_API CameraSdkStatus __stdcall CameraGetAeExposureRange(
 /// \param [in] iMaxAnalogGain maximum gain
 /// \return Returns CAMERA_STATUS_SUCCESS(0) successfully. Otherwise, it returns a non-zero error code. Please refer to the definition of the error code in CameraStatus.h.
 MVSDK_API CameraSdkStatus __stdcall CameraSetAeAnalogGainRange(
-	CameraHandle    hCamera, 
+	CameraHandle    hCamera,
 	int				iMinAnalogGain,
 	int				iMaxAnalogGain
-	);
+);
 
 /// @ingroup API_EXPOSURE
 /// \~chinese
@@ -1316,10 +1315,10 @@ MVSDK_API CameraSdkStatus __stdcall CameraSetAeAnalogGainRange(
 /// \param [out] iMaxAnalogGain maximum gain
 /// \return Returns CAMERA_STATUS_SUCCESS(0) successfully. Otherwise, it returns a non-zero error code. Please refer to the definition of the error code in CameraStatus.h.
 MVSDK_API CameraSdkStatus __stdcall CameraGetAeAnalogGainRange(
-	CameraHandle    hCamera, 
-	int*			iMinAnalogGain,
-	int*			iMaxAnalogGain
-	);
+	CameraHandle    hCamera,
+	int* iMinAnalogGain,
+	int* iMaxAnalogGain
+);
 
 /// @ingroup API_EXPOSURE
 /// \~chinese
@@ -1333,9 +1332,9 @@ MVSDK_API CameraSdkStatus __stdcall CameraGetAeAnalogGainRange(
 /// \param [in] iThreshold Stops automatic adjustment if abs (target brightness - image brightness) < iThreshold
 /// \return Returns CAMERA_STATUS_SUCCESS(0) successfully. Otherwise, it returns a non-zero error code. Please refer to the definition of the error code in CameraStatus.h.
 MVSDK_API CameraSdkStatus __stdcall CameraSetAeThreshold(
-	CameraHandle    hCamera, 
+	CameraHandle    hCamera,
 	int				iThreshold
-	);
+);
 
 /// @ingroup API_EXPOSURE
 /// \~chinese
@@ -1349,9 +1348,9 @@ MVSDK_API CameraSdkStatus __stdcall CameraSetAeThreshold(
 /// \param [out] iThreshold Read Threshold
 /// \return Returns CAMERA_STATUS_SUCCESS(0) successfully. Otherwise, it returns a non-zero error code. Please refer to the definition of the error code in CameraStatus.h.
 MVSDK_API CameraSdkStatus __stdcall CameraGetAeThreshold(
-	CameraHandle    hCamera, 
-	int*			iThreshold
-	);
+	CameraHandle    hCamera,
+	int* iThreshold
+);
 
 /// @ingroup API_EXPOSURE
 /// \~chinese
@@ -1367,8 +1366,8 @@ MVSDK_API CameraSdkStatus __stdcall CameraGetAeThreshold(
 /// \return Returns CAMERA_STATUS_SUCCESS(0) successfully. Otherwise, it returns a non-zero error code. Please refer to the definition of the error code in CameraStatus.h.
 /// \note For CMOS sensors, the unit of exposure is calculated in rows, so the exposure time cannot be continuously adjusted in microseconds. Instead, the entire line will be chosen. After calling this function to set the exposure time, it is recommended to call @link #CameraGetExposureTime @endlink to get the actual set value.
 MVSDK_API CameraSdkStatus __stdcall CameraSetExposureTime(
-    CameraHandle    hCamera, 
-    double          fExposureTime
+	CameraHandle    hCamera,
+	double          fExposureTime
 );
 
 /// @ingroup API_EXPOSURE
@@ -1385,8 +1384,8 @@ MVSDK_API CameraSdkStatus __stdcall CameraSetExposureTime(
 /// \return Returns CAMERA_STATUS_SUCCESS(0) successfully. Otherwise, it returns a non-zero error code. Please refer to the definition of the error code in CameraStatus.h.
 /// \note For CMOS sensors, the unit of exposure is calculated in rows, so the exposure time cannot be continuously adjusted in microseconds. Instead, the entire line will be chosen. The function of this function is to return the CMOS camera exposure one line corresponding time.
 MVSDK_API CameraSdkStatus __stdcall CameraGetExposureLineTime(
-    CameraHandle    hCamera, 
-    double*         pfLineTime
+	CameraHandle    hCamera,
+	double* pfLineTime
 );
 
 /// @ingroup API_EXPOSURE
@@ -1403,8 +1402,8 @@ MVSDK_API CameraSdkStatus __stdcall CameraGetExposureLineTime(
 /// \return Returns CAMERA_STATUS_SUCCESS(0) successfully. Otherwise, it returns a non-zero error code. Please refer to the definition of the error code in CameraStatus.h.
 /// \see CameraSetExposureTime
 MVSDK_API CameraSdkStatus __stdcall CameraGetExposureTime(
-    CameraHandle    hCamera, 
-    double*         pfExposureTime
+	CameraHandle    hCamera,
+	double* pfExposureTime
 );
 
 /// @ingroup API_EXPOSURE
@@ -1423,11 +1422,11 @@ MVSDK_API CameraSdkStatus __stdcall CameraGetExposureTime(
 /// \param [out] pfStep Returns the exposure time in microseconds.
 /// \return Returns CAMERA_STATUS_SUCCESS(0) successfully. Otherwise, it returns a non-zero error code. Please refer to the definition of the error code in CameraStatus.h.
 MVSDK_API CameraSdkStatus __stdcall CameraGetExposureTimeRange(
-	CameraHandle    hCamera, 
-	double*         pfMin,
-	double*			pfMax,
-	double*			pfStep
-	);
+	CameraHandle    hCamera,
+	double* pfMin,
+	double* pfMax,
+	double* pfStep
+);
 
 /// @ingroup API_EXPOSURE
 /// \~chinese
@@ -1445,10 +1444,10 @@ MVSDK_API CameraSdkStatus __stdcall CameraGetExposureTimeRange(
 /// \return Returns CAMERA_STATUS_SUCCESS(0) successfully. Otherwise, it returns a non-zero error code. Please refer to the definition of the error code in CameraStatus.h.
 /// \note For CMOS sensors, the unit of exposure is calculated in rows, so the exposure time cannot be continuously adjusted in microseconds. Instead, the entire line will be chosen. After calling this function to set the exposure time, it is recommended to call @link #CameraGetMultiExposureTime @endlink to get the actual set value.
 MVSDK_API CameraSdkStatus __stdcall CameraSetMultiExposureTime(
-	CameraHandle    hCamera, 
+	CameraHandle    hCamera,
 	int				index,
 	double          fExposureTime
-	);
+);
 
 /// @ingroup API_EXPOSURE
 /// \~chinese
@@ -1464,10 +1463,10 @@ MVSDK_API CameraSdkStatus __stdcall CameraSetMultiExposureTime(
 /// \param [out] fExposureTime Returns exposure time in microseconds.
 /// \return Returns CAMERA_STATUS_SUCCESS(0) successfully. Otherwise, it returns a non-zero error code. Please refer to the definition of the error code in CameraStatus.h.
 MVSDK_API CameraSdkStatus __stdcall CameraGetMultiExposureTime(
-	CameraHandle    hCamera, 
+	CameraHandle    hCamera,
 	int				index,
-	double*         fExposureTime
-	);
+	double* fExposureTime
+);
 
 /// @ingroup API_EXPOSURE
 /// \~chinese
@@ -1481,9 +1480,9 @@ MVSDK_API CameraSdkStatus __stdcall CameraGetMultiExposureTime(
 /// \param [in] count The number of exposures enabled.
 /// \return Returns CAMERA_STATUS_SUCCESS(0) successfully. Otherwise, it returns a non-zero error code. Please refer to the definition of the error code in CameraStatus.h.
 MVSDK_API CameraSdkStatus __stdcall CameraSetMultiExposureCount(
-	CameraHandle    hCamera, 
+	CameraHandle    hCamera,
 	int				count
-	);
+);
 
 /// @ingroup API_EXPOSURE
 /// \~chinese
@@ -1497,9 +1496,9 @@ MVSDK_API CameraSdkStatus __stdcall CameraSetMultiExposureCount(
 /// \param [out] count The number of exposures enabled.
 /// \return Returns CAMERA_STATUS_SUCCESS(0) successfully. Otherwise, it returns a non-zero error code. Please refer to the definition of the error code in CameraStatus.h.
 MVSDK_API CameraSdkStatus __stdcall CameraGetMultiExposureCount(
-	CameraHandle    hCamera, 
-	int*			count
-	);
+	CameraHandle    hCamera,
+	int* count
+);
 
 /// @ingroup API_EXPOSURE
 /// \~chinese
@@ -1513,9 +1512,9 @@ MVSDK_API CameraSdkStatus __stdcall CameraGetMultiExposureCount(
 /// \param [out] max_count The maximum number of exposures supported.
 /// \return Returns CAMERA_STATUS_SUCCESS(0) successfully. Otherwise, it returns a non-zero error code. Please refer to the definition of the error code in CameraStatus.h.
 MVSDK_API CameraSdkStatus __stdcall CameraGetMultiExposureMaxCount(
-	CameraHandle    hCamera, 
-	int*			max_count
-	);
+	CameraHandle    hCamera,
+	int* max_count
+);
 
 /// @ingroup API_EXPOSURE
 /// \~chinese
@@ -1533,8 +1532,8 @@ MVSDK_API CameraSdkStatus __stdcall CameraGetMultiExposureMaxCount(
 /// \note This value is multiplied by @link #tSdkExpose.fAnalogGainStep @endlink to get the actual image signal magnification.
 /// \note @link CameraSetAnalogGainX @endlink takes the magnification as the unit.
 MVSDK_API CameraSdkStatus __stdcall CameraSetAnalogGain(
-    CameraHandle    hCamera,
-    INT             iAnalogGain
+	CameraHandle    hCamera,
+	INT             iAnalogGain
 );
 
 /// @ingroup API_EXPOSURE
@@ -1553,8 +1552,8 @@ MVSDK_API CameraSdkStatus __stdcall CameraSetAnalogGain(
 /// \note CameraGetAnalogGainX takes the magnification as the unit.
 /// \see CameraSetAnalogGain
 MVSDK_API CameraSdkStatus __stdcall CameraGetAnalogGain(
-    CameraHandle    hCamera, 
-    INT*            piAnalogGain
+	CameraHandle    hCamera,
+	INT* piAnalogGain
 );
 
 /// @ingroup API_EXPOSURE
@@ -1571,7 +1570,7 @@ MVSDK_API CameraSdkStatus __stdcall CameraGetAnalogGain(
 MVSDK_API CameraSdkStatus __stdcall CameraSetAnalogGainX(
 	CameraHandle    hCamera,
 	float    		fGain
-	);
+);
 
 /// @ingroup API_EXPOSURE
 /// \~chinese
@@ -1587,9 +1586,9 @@ MVSDK_API CameraSdkStatus __stdcall CameraSetAnalogGainX(
 /// \return Returns CAMERA_STATUS_SUCCESS(0) successfully. Otherwise, it returns a non-zero error code. Please refer to the definition of the error code in CameraStatus.h.
 /// \see CameraSetAnalogGainX
 MVSDK_API CameraSdkStatus __stdcall CameraGetAnalogGainX(
-	CameraHandle    hCamera, 
-	float*          pfGain
-	);
+	CameraHandle    hCamera,
+	float* pfGain
+);
 
 /// @ingroup API_EXPOSURE
 /// \~chinese
@@ -1607,17 +1606,17 @@ MVSDK_API CameraSdkStatus __stdcall CameraGetAnalogGainX(
 /// \param [out] pfStep		pointer, returns the step value.
 /// \return Returns CAMERA_STATUS_SUCCESS(0) successfully. Otherwise, it returns a non-zero error code. Please refer to the definition of the error code in CameraStatus.h.
 MVSDK_API CameraSdkStatus __stdcall CameraGetAnalogGainXRange(
-	CameraHandle	hCamera, 
-	float*			pfMin,
-	float*			pfMax,
-	float*			pfStep
-	);
+	CameraHandle	hCamera,
+	float* pfMin,
+	float* pfMax,
+	float* pfStep
+);
 
 /// @ingroup API_COLOR
 /// \~chinese
 /// \brief 设置图像的数字增益。
 /// \param [in] hCamera 相机的句柄。
-/// \param [in] iRGain   红色通道的增益值。 
+/// \param [in] iRGain   红色通道的增益值。
 /// \param [in] iGGain   绿色通道的增益值。
 /// \param [in] iBGain   蓝色通道的增益值。
 /// \return 成功返回 CAMERA_STATUS_SUCCESS(0)。否则返回非0值的错误码, 请参考 CameraStatus.h 中错误码的定义。
@@ -1631,10 +1630,10 @@ MVSDK_API CameraSdkStatus __stdcall CameraGetAnalogGainXRange(
 /// \return Returns CAMERA_STATUS_SUCCESS(0) successfully. Otherwise, it returns a non-zero error code. Please refer to the definition of the error code in CameraStatus.h.
 /// \note The set scope is described by the @link #tRgbGainRange @endlink member. The actual magnification is the setting /100.
 MVSDK_API CameraSdkStatus __stdcall CameraSetGain(
-    CameraHandle    hCamera, 
-    int             iRGain, 
-    int             iGGain, 
-    int             iBGain
+	CameraHandle    hCamera,
+	int             iRGain,
+	int             iGGain,
+	int             iBGain
 );
 
 /// @ingroup API_COLOR
@@ -1655,10 +1654,10 @@ MVSDK_API CameraSdkStatus __stdcall CameraSetGain(
 /// \return Returns CAMERA_STATUS_SUCCESS(0) successfully. Otherwise, it returns a non-zero error code. Please refer to the definition of the error code in CameraStatus.h.
 /// \see CameraSetGain
 MVSDK_API CameraSdkStatus __stdcall CameraGetGain(
-    CameraHandle    hCamera, 
-    int*            piRGain, 
-    int*            piGGain, 
-    int*            piBGain
+	CameraHandle    hCamera,
+	int* piRGain,
+	int* piGGain,
+	int* piBGain
 );
 
 /// @ingroup API_ENHANCE
@@ -1675,8 +1674,8 @@ MVSDK_API CameraSdkStatus __stdcall CameraGetGain(
 /// \return Returns CAMERA_STATUS_SUCCESS(0) successfully. Otherwise, it returns a non-zero error code. Please refer to the definition of the error code in CameraStatus.h.
 /// \note The set value will be stored in the SDK immediately, but it will only take effect when the camera is in LUT mode generated by dynamic parameters. Please refer to the function description part of @link #CameraSetLutMode @endlink.
 MVSDK_API CameraSdkStatus __stdcall CameraSetGamma(
-    CameraHandle    hCamera, 
-    int             iGamma
+	CameraHandle    hCamera,
+	int             iGamma
 );
 
 /// @ingroup API_ENHANCE
@@ -1693,8 +1692,8 @@ MVSDK_API CameraSdkStatus __stdcall CameraSetGamma(
 /// \return Returns CAMERA_STATUS_SUCCESS(0) successfully. Otherwise, it returns a non-zero error code. Please refer to the definition of the error code in CameraStatus.h.
 /// \see CameraSetGamma
 MVSDK_API CameraSdkStatus __stdcall CameraGetGamma(
-    CameraHandle    hCamera, 
-    int*            piGamma
+	CameraHandle    hCamera,
+	int* piGamma
 );
 
 /// @ingroup API_ENHANCE
@@ -1711,8 +1710,8 @@ MVSDK_API CameraSdkStatus __stdcall CameraGetGamma(
 /// \return Returns CAMERA_STATUS_SUCCESS(0) successfully. Otherwise, it returns a non-zero error code. Please refer to the definition of the error code in CameraStatus.h.
 /// \note The set value will be stored in the SDK immediately, but it will only take effect when the camera is in LUT mode generated by dynamic parameters. Please refer to the function description part of @link #CameraSetLutMode @endlink.
 MVSDK_API CameraSdkStatus __stdcall CameraSetContrast(
-    CameraHandle    hCamera, 
-    int             iContrast
+	CameraHandle    hCamera,
+	int             iContrast
 );
 
 /// @ingroup API_ENHANCE
@@ -1729,15 +1728,15 @@ MVSDK_API CameraSdkStatus __stdcall CameraSetContrast(
 /// \return Returns CAMERA_STATUS_SUCCESS(0) successfully. Otherwise, it returns a non-zero error code. Please refer to the definition of the error code in CameraStatus.h.
 /// \see CameraSetContrast
 MVSDK_API CameraSdkStatus __stdcall CameraGetContrast(
-    CameraHandle    hCamera, 
-    int*            piContrast
+	CameraHandle    hCamera,
+	int* piContrast
 );
 
 /// @ingroup API_ENHANCE
 /// \~chinese
 /// \brief 设定图像处理的饱和度。
 /// \param [in] hCamera 相机的句柄。
-/// \param [in] iSaturation  设定的饱和度值。 
+/// \param [in] iSaturation  设定的饱和度值。
 /// \return 成功返回 CAMERA_STATUS_SUCCESS(0)。否则返回非0值的错误码, 请参考 CameraStatus.h 中错误码的定义。
 /// \note 对黑白相机无效。设定范围由@link #tSaturationRange @endlink获得。100表示原始色度，不增强。
 /// \~english
@@ -1747,8 +1746,8 @@ MVSDK_API CameraSdkStatus __stdcall CameraGetContrast(
 /// \return Returns CAMERA_STATUS_SUCCESS(0) successfully. Otherwise, it returns a non-zero error code. Please refer to the definition of the error code in CameraStatus.h.
 /// \note is not valid for black and white cameras. The setting range is obtained by @link #tSaturationRange @endlink. 100 represents the original color and is not enhanced.
 MVSDK_API CameraSdkStatus __stdcall CameraSetSaturation(
-    CameraHandle    hCamera, 
-    int             iSaturation
+	CameraHandle    hCamera,
+	int             iSaturation
 );
 
 /// @ingroup API_ENHANCE
@@ -1765,8 +1764,8 @@ MVSDK_API CameraSdkStatus __stdcall CameraSetSaturation(
 /// \return Returns CAMERA_STATUS_SUCCESS(0) successfully. Otherwise, it returns a non-zero error code. Please refer to the definition of the error code in CameraStatus.h.
 /// \see CameraSetSaturation
 MVSDK_API CameraSdkStatus __stdcall CameraGetSaturation(
-    CameraHandle    hCamera, 
-    int*            piSaturation
+	CameraHandle    hCamera,
+	int* piSaturation
 );
 
 /// @ingroup API_ENHANCE
@@ -1781,8 +1780,8 @@ MVSDK_API CameraSdkStatus __stdcall CameraGetSaturation(
 /// \param [in] bEnable TRUE to change the color image to black and white.
 /// \return Returns CAMERA_STATUS_SUCCESS(0) successfully. Otherwise, it returns a non-zero error code. Please refer to the definition of the error code in CameraStatus.h.
 MVSDK_API CameraSdkStatus __stdcall CameraSetMonochrome(
-    CameraHandle    hCamera, 
-    BOOL            bEnable
+	CameraHandle    hCamera,
+	BOOL            bEnable
 );
 
 /// @ingroup API_ENHANCE
@@ -1799,8 +1798,8 @@ MVSDK_API CameraSdkStatus __stdcall CameraSetMonochrome(
 /// \return Returns CAMERA_STATUS_SUCCESS(0) successfully. Otherwise, it returns a non-zero error code. Please refer to the definition of the error code in CameraStatus.h.
 /// \see CameraSetMonochrome
 MVSDK_API CameraSdkStatus __stdcall CameraGetMonochrome(
-    CameraHandle    hCamera, 
-    BOOL*           pbEnable
+	CameraHandle    hCamera,
+	BOOL* pbEnable
 );
 
 /// @ingroup API_ENHANCE
@@ -1815,15 +1814,15 @@ MVSDK_API CameraSdkStatus __stdcall CameraGetMonochrome(
 /// \param [in] bEnable TRUE, means that the image color flip function is enabled, and the effect of similar film negatives can be obtained.
 /// \return Returns CAMERA_STATUS_SUCCESS(0) successfully. Otherwise, it returns a non-zero error code. Please refer to the definition of the error code in CameraStatus.h.
 MVSDK_API CameraSdkStatus __stdcall CameraSetInverse(
-    CameraHandle    hCamera, 
-    BOOL            bEnable
+	CameraHandle    hCamera,
+	BOOL            bEnable
 );
 
 /// @ingroup API_ENHANCE
 /// \~chinese
 /// \brief 获得图像颜色反转功能的使能状态。
 /// \param [in] hCamera 相机的句柄。
-/// \param [out] pbEnable   指针，返回该功能使能状态。 
+/// \param [out] pbEnable   指针，返回该功能使能状态。
 /// \return 成功返回 CAMERA_STATUS_SUCCESS(0)。否则返回非0值的错误码, 请参考 CameraStatus.h 中错误码的定义。
 /// \~english
 /// \brief Get the status of the image color inversion function.
@@ -1831,8 +1830,8 @@ MVSDK_API CameraSdkStatus __stdcall CameraSetInverse(
 /// \param [out] pbEnable Returns this function enable state.
 /// \return Returns CAMERA_STATUS_SUCCESS(0) successfully. Otherwise, it returns a non-zero error code. Please refer to the definition of the error code in CameraStatus.h.
 MVSDK_API CameraSdkStatus __stdcall CameraGetInverse(
-    CameraHandle    hCamera, 
-    BOOL*           pbEnable
+	CameraHandle    hCamera,
+	BOOL* pbEnable
 );
 
 /// @ingroup API_EXPOSURE
@@ -1849,8 +1848,8 @@ MVSDK_API CameraSdkStatus __stdcall CameraGetInverse(
 /// \return Returns CAMERA_STATUS_SUCCESS(0) successfully. Otherwise, it returns a non-zero error code. Please refer to the definition of the error code in CameraStatus.h.
 /// \note Not valid for manual exposure mode.
 MVSDK_API CameraSdkStatus __stdcall CameraSetAntiFlick(
-    CameraHandle    hCamera,
-    BOOL            bEnable
+	CameraHandle    hCamera,
+	BOOL            bEnable
 );
 
 /// @ingroup API_EXPOSURE
@@ -1865,8 +1864,8 @@ MVSDK_API CameraSdkStatus __stdcall CameraSetAntiFlick(
 /// \param [out] pbEnable Returns the enable state of this function.
 /// \return Returns CAMERA_STATUS_SUCCESS(0) successfully. Otherwise, it returns a non-zero error code. Please refer to the definition of the error code in CameraStatus.h.
 MVSDK_API CameraSdkStatus __stdcall CameraGetAntiFlick(
-    CameraHandle    hCamera, 
-    BOOL*           pbEnable
+	CameraHandle    hCamera,
+	BOOL* pbEnable
 );
 
 /// @ingroup API_EXPOSURE
@@ -1881,24 +1880,24 @@ MVSDK_API CameraSdkStatus __stdcall CameraGetAntiFlick(
 /// \param [out] piFrequencySel Returns the selected index number. 0:50HZ 1:60HZ
 /// \return Returns CAMERA_STATUS_SUCCESS(0) successfully. Otherwise, it returns a non-zero error code. Please refer to the definition of the error code in CameraStatus.h.
 MVSDK_API CameraSdkStatus __stdcall CameraGetLightFrequency(
-    CameraHandle    hCamera, 
-    int*            piFrequencySel
+	CameraHandle    hCamera,
+	int* piFrequencySel
 );
 
 /// @ingroup API_EXPOSURE
 /// \~chinese
 /// \brief 设置自动曝光时消频闪的频率。
 /// \param [in] hCamera 相机的句柄。
-/// \param [in] iFrequencySel 0:50HZ , 1:60HZ 
+/// \param [in] iFrequencySel 0:50HZ , 1:60HZ
 /// \return 成功返回 CAMERA_STATUS_SUCCESS(0)。否则返回非0值的错误码, 请参考 CameraStatus.h 中错误码的定义。
 /// \~english
 /// \brief Sets the frequency at which the flash disappears during auto exposure.
 /// \param [in] hCamera Camera handle.
-/// \param [in] iFrequencySel 0:50HZ , 1:60HZ 
+/// \param [in] iFrequencySel 0:50HZ , 1:60HZ
 /// \return Returns CAMERA_STATUS_SUCCESS(0) successfully. Otherwise, it returns a non-zero error code. Please refer to the definition of the error code in CameraStatus.h.
 MVSDK_API CameraSdkStatus __stdcall CameraSetLightFrequency(
-    CameraHandle    hCamera,
-    int             iFrequencySel
+	CameraHandle    hCamera,
+	int             iFrequencySel
 );
 
 /// @ingroup API_ADVANCE
@@ -1913,15 +1912,15 @@ MVSDK_API CameraSdkStatus __stdcall CameraSetLightFrequency(
 /// \param [in] iFrameSpeed Frame rate index, ranging from 0 to tSdkCameraCapbility.iFrameSpeedDesc - 1
 /// \return Returns CAMERA_STATUS_SUCCESS(0) successfully. Otherwise, it returns a non-zero error code. Please refer to the definition of the error code in CameraStatus.h.
 MVSDK_API CameraSdkStatus __stdcall CameraSetFrameSpeed(
-    CameraHandle    hCamera, 
-    int             iFrameSpeed
+	CameraHandle    hCamera,
+	int             iFrameSpeed
 );
 
 /// @ingroup API_ADVANCE
 /// \~chinese
 /// \brief 获得相机输出图像的帧率选择索引号。
 /// \param [in] hCamera 相机的句柄。
-/// \param [out] piFrameSpeed 返回选择的帧率模式索引号。 
+/// \param [out] piFrameSpeed 返回选择的帧率模式索引号。
 /// \return 成功返回 CAMERA_STATUS_SUCCESS(0)。否则返回非0值的错误码, 请参考 CameraStatus.h 中错误码的定义。
 /// \see CameraSetFrameSpeed
 /// \~english
@@ -1931,8 +1930,8 @@ MVSDK_API CameraSdkStatus __stdcall CameraSetFrameSpeed(
 /// \return Returns CAMERA_STATUS_SUCCESS(0) successfully. Otherwise, it returns a non-zero error code. Please refer to the definition of the error code in CameraStatus.h.
 /// \see CameraSetFrameSpeed
 MVSDK_API CameraSdkStatus __stdcall CameraGetFrameSpeed(
-    CameraHandle    hCamera, 
-    int*            piFrameSpeed
+	CameraHandle    hCamera,
+	int* piFrameSpeed
 );
 
 /// @ingroup API_ADVANCE
@@ -1947,9 +1946,9 @@ MVSDK_API CameraSdkStatus __stdcall CameraGetFrameSpeed(
 /// \param [in] RateHZ frame rate or line rate (<=0 means maximum frequency).
 /// \return Returns CAMERA_STATUS_SUCCESS(0) successfully. Otherwise, it returns a non-zero error code. Please refer to the definition of the error code in CameraStatus.h.
 MVSDK_API CameraSdkStatus __stdcall CameraSetFrameRate(
-	CameraHandle    hCamera, 
+	CameraHandle    hCamera,
 	int             RateHZ
-	);
+);
 
 /// @ingroup API_ADVANCE
 /// \~chinese
@@ -1963,9 +1962,9 @@ MVSDK_API CameraSdkStatus __stdcall CameraSetFrameRate(
 /// \param [out] RateHZ frame rate or line rate (<=0 means maximum frequency).
 /// \return Returns CAMERA_STATUS_SUCCESS(0) successfully. Otherwise, it returns a non-zero error code. Please refer to the definition of the error code in CameraStatus.h.
 MVSDK_API CameraSdkStatus __stdcall CameraGetFrameRate(
-	CameraHandle    hCamera, 
-	int*            RateHZ
-	);
+	CameraHandle    hCamera,
+	int* RateHZ
+);
 
 /// @ingroup API_PARAMETERS
 /// \~chinese
@@ -1979,8 +1978,8 @@ MVSDK_API CameraSdkStatus __stdcall CameraGetFrameRate(
 /// \param [in] iMode The object accessed by the iMode parameter. Reference @link #emSdkParameterMode @endlink
 /// \return Returns CAMERA_STATUS_SUCCESS(0) successfully. Otherwise, it returns a non-zero error code. Please refer to the definition of the error code in CameraStatus.h.
 MVSDK_API CameraSdkStatus __stdcall CameraSetParameterMode(
-    CameraHandle    hCamera, 
-    int             iMode
+	CameraHandle    hCamera,
+	int             iMode
 );
 
 /// @ingroup API_PARAMETERS
@@ -1995,8 +1994,8 @@ MVSDK_API CameraSdkStatus __stdcall CameraSetParameterMode(
 /// \param [out] piTarget Returns the object accessed by the parameter. Reference @link #emSdkParameterMode @endlink
 /// \return Returns CAMERA_STATUS_SUCCESS(0) successfully. Otherwise, it returns a non-zero error code. Please refer to the definition of the error code in CameraStatus.h.
 MVSDK_API CameraSdkStatus __stdcall CameraGetParameterMode(
-    CameraHandle    hCamera, 
-    int*            piTarget
+	CameraHandle    hCamera,
+	int* piTarget
 );
 
 /// @ingroup API_PARAMETERS
@@ -2011,13 +2010,13 @@ MVSDK_API CameraSdkStatus __stdcall CameraGetParameterMode(
 /// \param [in] uMask mask. Reference @link #emSdkPropSheetMask @endlink
 /// \return Returns CAMERA_STATUS_SUCCESS(0) successfully. Otherwise, it returns a non-zero error code. Please refer to the definition of the error code in CameraStatus.h.
 MVSDK_API CameraSdkStatus __stdcall CameraSetParameterMask(
-    CameraHandle    hCamera, 
-    UINT            uMask
+	CameraHandle    hCamera,
+	UINT            uMask
 );
 
 /// @ingroup API_PARAMETERS
 /// \~chinese
-/// \brief 保存当前相机参数到指定的参数组中。相机提供了A,B,C,D四组空间来进行参数的保存。 
+/// \brief 保存当前相机参数到指定的参数组中。相机提供了A,B,C,D四组空间来进行参数的保存。
 /// \param [in] hCamera 相机的句柄。
 /// \param [in] iTeam   参数组，参考@link #emSdkParameterTeam @endlink
 /// \return 成功返回 CAMERA_STATUS_SUCCESS(0)。否则返回非0值的错误码, 请参考 CameraStatus.h 中错误码的定义。
@@ -2027,8 +2026,8 @@ MVSDK_API CameraSdkStatus __stdcall CameraSetParameterMask(
 /// \param [in] iTeam parameter group, refer to @link #emSdkParameterTeam @endlink
 /// \return Returns CAMERA_STATUS_SUCCESS(0) successfully. Otherwise, it returns a non-zero error code. Please refer to the definition of the error code in CameraStatus.h.
 MVSDK_API CameraSdkStatus __stdcall CameraSaveParameter(
-    CameraHandle    hCamera, 
-    int             iTeam
+	CameraHandle    hCamera,
+	int             iTeam
 );
 
 /// @ingroup API_PARAMETERS
@@ -2043,8 +2042,8 @@ MVSDK_API CameraSdkStatus __stdcall CameraSaveParameter(
 /// \param [in] sFileName Full path to the sFileName parameter file.
 /// \return Returns CAMERA_STATUS_SUCCESS(0) successfully. Otherwise, it returns a non-zero error code. Please refer to the definition of the error code in CameraStatus.h.
 MVSDK_API CameraSdkStatus __stdcall CameraSaveParameterToFile(
-  CameraHandle  hCamera, 
-  char*       sFileName
+	CameraHandle  hCamera,
+	char* sFileName
 );
 
 /// @ingroup API_PARAMETERS
@@ -2059,8 +2058,8 @@ MVSDK_API CameraSdkStatus __stdcall CameraSaveParameterToFile(
 /// \param [in] sFileName Full path to the sFileName parameter file.
 /// \return Returns CAMERA_STATUS_SUCCESS(0) successfully. Otherwise, it returns a non-zero error code. Please refer to the definition of the error code in CameraStatus.h.
 MVSDK_API CameraSdkStatus __stdcall CameraReadParameterFromFile(
-    CameraHandle    hCamera,
-    char*           sFileName
+	CameraHandle    hCamera,
+	char* sFileName
 );
 
 /// @ingroup API_PARAMETERS
@@ -2075,8 +2074,8 @@ MVSDK_API CameraSdkStatus __stdcall CameraReadParameterFromFile(
 /// \param [in] iTeam parameter group, refer to @link #emSdkParameterTeam @endlink
 /// \return Returns CAMERA_STATUS_SUCCESS(0) successfully. Otherwise, it returns a non-zero error code. Please refer to the definition of the error code in CameraStatus.h.
 MVSDK_API CameraSdkStatus __stdcall CameraLoadParameter(
-    CameraHandle    hCamera, 
-    int             iTeam
+	CameraHandle    hCamera,
+	int             iTeam
 );
 
 /// @ingroup API_PARAMETERS
@@ -2091,8 +2090,8 @@ MVSDK_API CameraSdkStatus __stdcall CameraLoadParameter(
 /// \param [in] piTeam Returns the currently selected parameter group.
 /// \return Returns CAMERA_STATUS_SUCCESS(0) successfully. Otherwise, it returns a non-zero error code. Please refer to the definition of the error code in CameraStatus.h.
 MVSDK_API CameraSdkStatus __stdcall CameraGetCurrentParameterGroup(
-    CameraHandle    hCamera, 
-    int*            piTeam
+	CameraHandle    hCamera,
+	int* piTeam
 );
 
 /// @ingroup API_ADVANCE
@@ -2113,8 +2112,8 @@ MVSDK_API CameraSdkStatus __stdcall CameraGetCurrentParameterGroup(
 /// \note For NICs that support Jumbo Frames, we recommend choosing an 8K packet size that can effectively reduce the CPU processing time taken by the transfer.
 /// \warning New version of the SDK does not need to call this function, the SDK will automatically negotiate the optimal packet size according to the network conditions
 MVSDK_API CameraSdkStatus __stdcall CameraSetTransPackLen(
-    CameraHandle    hCamera, 
-    INT             iPackSel
+	CameraHandle    hCamera,
+	INT             iPackSel
 );
 
 /// @ingroup API_ADVANCE
@@ -2131,8 +2130,8 @@ MVSDK_API CameraSdkStatus __stdcall CameraSetTransPackLen(
 /// \return Returns CAMERA_STATUS_SUCCESS(0) successfully. Otherwise, it returns a non-zero error code. Please refer to the definition of the error code in CameraStatus.h.
 /// \see CameraSetTransPackLen
 MVSDK_API CameraSdkStatus __stdcall CameraGetTransPackLen(
-    CameraHandle    hCamera, 
-    INT*            piPackSel
+	CameraHandle    hCamera,
+	INT* piPackSel
 );
 
 /// @ingroup API_EXPOSURE
@@ -2147,8 +2146,8 @@ MVSDK_API CameraSdkStatus __stdcall CameraGetTransPackLen(
 /// \param [out] pbIsVisible returns TRUE, indicating that the current window will be overlaid on the image content.
 /// \return Returns CAMERA_STATUS_SUCCESS(0) successfully. Otherwise, it returns a non-zero error code. Please refer to the definition of the error code in CameraStatus.h.
 MVSDK_API CameraSdkStatus __stdcall CameraIsAeWinVisible(
-    CameraHandle    hCamera,
-    BOOL*           pbIsVisible
+	CameraHandle    hCamera,
+	BOOL* pbIsVisible
 );
 
 /// @ingroup API_EXPOSURE
@@ -2165,8 +2164,8 @@ MVSDK_API CameraSdkStatus __stdcall CameraIsAeWinVisible(
 /// \return Returns CAMERA_STATUS_SUCCESS(0) successfully. Otherwise, it returns a non-zero error code. Please refer to the definition of the error code in CameraStatus.h.
 /// \note When the window state is set to display, after calling @link #CameraImageOverlay @endlink, the window position can be superimposed on the image in a rectangular manner.
 MVSDK_API CameraSdkStatus __stdcall CameraSetAeWinVisible(
-    CameraHandle    hCamera,
-    BOOL            bIsVisible
+	CameraHandle    hCamera,
+	BOOL            bIsVisible
 );
 
 /// @ingroup API_EXPOSURE
@@ -2187,11 +2186,11 @@ MVSDK_API CameraSdkStatus __stdcall CameraSetAeWinVisible(
 /// \param [out] piHeight Returns the height of the window.
 /// \return Returns CAMERA_STATUS_SUCCESS(0) successfully. Otherwise, it returns a non-zero error code. Please refer to the definition of the error code in CameraStatus.h.
 MVSDK_API CameraSdkStatus __stdcall CameraGetAeWindow(
-    CameraHandle    hCamera, 
-    INT*            piHOff, 
-    INT*            piVOff, 
-    INT*            piWidth, 
-    INT*            piHeight
+	CameraHandle    hCamera,
+	INT* piHOff,
+	INT* piVOff,
+	INT* piWidth,
+	INT* piHeight
 );
 
 /// @ingroup API_EXPOSURE
@@ -2200,7 +2199,7 @@ MVSDK_API CameraSdkStatus __stdcall CameraGetAeWindow(
 /// \param [in] hCamera 相机的句柄。
 /// \param [in] iHOff    窗口左上角的横坐标
 /// \param [in] iVOff      窗口左上角的纵坐标
-/// \param [in] iWidth     窗口的宽度 
+/// \param [in] iWidth     窗口的宽度
 /// \param [in] iHeight    窗口的高度
 /// \return 成功返回 CAMERA_STATUS_SUCCESS(0)。否则返回非0值的错误码, 请参考 CameraStatus.h 中错误码的定义。
 /// \note 如果iHOff、iVOff、iWidth、iHeight全部为0，则窗口设置为每个分辨率下的居中1/2大小。可以随着分辨率的变化而跟随变化。
@@ -2216,11 +2215,11 @@ MVSDK_API CameraSdkStatus __stdcall CameraGetAeWindow(
 /// \note If iHOff, iVOff, iWidth, and iHeight are all 0, the window is set to the center 1/2 size for each resolution. It can follow changes as the resolution changes.
 /// \note If the window position range determined by iHOff, iVOff, iWidth, and iHeight exceeds the current resolution range, the centered 1/2 size window is automatically used.
 MVSDK_API CameraSdkStatus __stdcall CameraSetAeWindow(
-    CameraHandle    hCamera, 
-    int             iHOff, 
-    int             iVOff, 
-    int             iWidth, 
-    int             iHeight
+	CameraHandle    hCamera,
+	int             iHOff,
+	int             iVOff,
+	int             iWidth,
+	int             iHeight
 );
 
 /// @ingroup API_MIRROR
@@ -2237,9 +2236,9 @@ MVSDK_API CameraSdkStatus __stdcall CameraSetAeWindow(
 /// \param [in] bEnable TRUE to enable mirroring; FALSE to disable mirroring
 /// \return Returns CAMERA_STATUS_SUCCESS(0) successfully. Otherwise, it returns a non-zero error code. Please refer to the definition of the error code in CameraStatus.h.
 MVSDK_API CameraSdkStatus __stdcall CameraSetMirror(
-    CameraHandle    hCamera, 
-    int             iDir, 
-    BOOL            bEnable
+	CameraHandle    hCamera,
+	int             iDir,
+	BOOL            bEnable
 );
 
 /// @ingroup API_MIRROR
@@ -2256,9 +2255,9 @@ MVSDK_API CameraSdkStatus __stdcall CameraSetMirror(
 /// \param [out] pbEnable Returns TRUE, indicating that the direction mirror image of iDir is enabled.
 /// \return Returns CAMERA_STATUS_SUCCESS(0) successfully. Otherwise, it returns a non-zero error code. Please refer to the definition of the error code in CameraStatus.h.
 MVSDK_API CameraSdkStatus __stdcall CameraGetMirror(
-    CameraHandle    hCamera, 
-    int             iDir, 
-    BOOL*           pbEnable
+	CameraHandle    hCamera,
+	int             iDir,
+	BOOL* pbEnable
 );
 
 /// @ingroup API_MIRROR
@@ -2275,10 +2274,10 @@ MVSDK_API CameraSdkStatus __stdcall CameraGetMirror(
 /// \param [in] bEnable TRUE to enable mirroring; FALSE to disable mirroring
 /// \return Returns CAMERA_STATUS_SUCCESS(0) successfully. Otherwise, it returns a non-zero error code. Please refer to the definition of the error code in CameraStatus.h.
 MVSDK_API CameraSdkStatus __stdcall CameraSetHardwareMirror(
-	CameraHandle    hCamera, 
-	int             iDir, 
+	CameraHandle    hCamera,
+	int             iDir,
 	BOOL            bEnable
-	);
+);
 
 /// @ingroup API_MIRROR
 /// \~chinese
@@ -2294,10 +2293,10 @@ MVSDK_API CameraSdkStatus __stdcall CameraSetHardwareMirror(
 /// \param [out] pbEnable Returns TRUE, indicating that the direction mirror image of iDir is enabled.
 /// \return Returns CAMERA_STATUS_SUCCESS(0) successfully. Otherwise, it returns a non-zero error code. Please refer to the definition of the error code in CameraStatus.h.
 MVSDK_API CameraSdkStatus __stdcall CameraGetHardwareMirror(
-	CameraHandle    hCamera, 
-	int             iDir, 
-	BOOL*           pbEnable
-	);
+	CameraHandle    hCamera,
+	int             iDir,
+	BOOL* pbEnable
+);
 
 /// @ingroup API_MIRROR
 /// \~chinese
@@ -2311,9 +2310,9 @@ MVSDK_API CameraSdkStatus __stdcall CameraGetHardwareMirror(
 /// \param [in] iRot rotation angle (counterclockwise) (0: no rotation 1:90 degrees 2:180 degrees 3:270 degrees)
 /// \return Returns CAMERA_STATUS_SUCCESS(0) successfully. Otherwise, it returns a non-zero error code. Please refer to the definition of the error code in CameraStatus.h.
 MVSDK_API CameraSdkStatus __stdcall CameraSetRotate(
-	CameraHandle    hCamera, 
-	int             iRot 
-	);
+	CameraHandle    hCamera,
+	int             iRot
+);
 
 /// @ingroup API_MIRROR
 /// \~chinese
@@ -2327,9 +2326,9 @@ MVSDK_API CameraSdkStatus __stdcall CameraSetRotate(
 /// \param [out] iRot Indicates the direction of rotation to get. (Counterclockwise) (0: Do not rotate 1:90 degree 2: 180 degree 3: 270 degree)
 /// \return Returns CAMERA_STATUS_SUCCESS(0) successfully. Otherwise, it returns a non-zero error code. Please refer to the definition of the error code in CameraStatus.h.
 MVSDK_API CameraSdkStatus __stdcall CameraGetRotate(
-	CameraHandle    hCamera, 
-	int*            iRot 
-	);
+	CameraHandle    hCamera,
+	int* iRot
+);
 
 /// @ingroup API_COLOR
 /// \~chinese
@@ -2349,11 +2348,11 @@ MVSDK_API CameraSdkStatus __stdcall CameraGetRotate(
 /// \param [out] PiHeight Returns the height of the reference window.
 /// \return Returns CAMERA_STATUS_SUCCESS(0) successfully. Otherwise, it returns a non-zero error code. Please refer to the definition of the error code in CameraStatus.h.
 MVSDK_API CameraSdkStatus __stdcall CameraGetWbWindow(
-    CameraHandle    hCamera, 
-    INT*            PiHOff, 
-    INT*            PiVOff, 
-    INT*            PiWidth, 
-    INT*            PiHeight
+	CameraHandle    hCamera,
+	INT* PiHOff,
+	INT* PiVOff,
+	INT* PiWidth,
+	INT* PiHeight
 );
 
 /// @ingroup API_COLOR
@@ -2374,18 +2373,18 @@ MVSDK_API CameraSdkStatus __stdcall CameraGetWbWindow(
 /// \param [in] iHeight The height of the reference window.
 /// \return Returns CAMERA_STATUS_SUCCESS(0) successfully. Otherwise, it returns a non-zero error code. Please refer to the definition of the error code in CameraStatus.h.
 MVSDK_API CameraSdkStatus __stdcall CameraSetWbWindow(
-    CameraHandle    hCamera, 
-    INT             iHOff, 
-    INT             iVOff, 
-    INT             iWidth, 
-    INT             iHeight
+	CameraHandle    hCamera,
+	INT             iHOff,
+	INT             iVOff,
+	INT             iWidth,
+	INT             iHeight
 );
 
 /// @ingroup API_COLOR
 /// \~chinese
 /// \brief 获得白平衡窗口的显示状态。
 /// \param [in] hCamera 相机的句柄。
-/// \param [out] pbShow   指针，返回TRUE，则表示窗口是可见的。 
+/// \param [out] pbShow   指针，返回TRUE，则表示窗口是可见的。
 /// \return 成功返回 CAMERA_STATUS_SUCCESS(0)。否则返回非0值的错误码, 请参考 CameraStatus.h 中错误码的定义。
 /// \~english
 /// \brief Get the display status of the white balance window.
@@ -2393,8 +2392,8 @@ MVSDK_API CameraSdkStatus __stdcall CameraSetWbWindow(
 /// \param [out] pbShow returns TRUE, indicating that the window is visible.
 /// \return Returns CAMERA_STATUS_SUCCESS(0) successfully. Otherwise, it returns a non-zero error code. Please refer to the definition of the error code in CameraStatus.h.
 MVSDK_API CameraSdkStatus __stdcall CameraIsWbWinVisible(
-    CameraHandle    hCamera,
-    BOOL*           pbShow
+	CameraHandle    hCamera,
+	BOOL* pbShow
 );
 
 /// @ingroup API_COLOR
@@ -2411,8 +2410,8 @@ MVSDK_API CameraSdkStatus __stdcall CameraIsWbWinVisible(
 /// \return Returns CAMERA_STATUS_SUCCESS(0) successfully. Otherwise, it returns a non-zero error code. Please refer to the definition of the error code in CameraStatus.h.
 /// \note After calling @link #CameraImageOverlay @endlink, the white balance reference window's position will be overlaid on the image content in a rectangular manner.
 MVSDK_API CameraSdkStatus __stdcall CameraSetWbWinVisible(
-    CameraHandle    hCamera, 
-    BOOL            bShow
+	CameraHandle    hCamera,
+	BOOL            bShow
 );
 
 /// @ingroup API_ISP
@@ -2429,16 +2428,16 @@ MVSDK_API CameraSdkStatus __stdcall CameraSetWbWinVisible(
 /// \param [in] pFrInfo Frame header information for the image.
 /// \return Returns CAMERA_STATUS_SUCCESS(0) successfully. Otherwise, it returns a non-zero error code. Please refer to the definition of the error code in CameraStatus.h.
 MVSDK_API CameraSdkStatus __stdcall CameraImageOverlay(
-    CameraHandle    hCamera,
-    BYTE*           pRgbBuffer,
-    tSdkFrameHead*  pFrInfo
+	CameraHandle    hCamera,
+	BYTE* pRgbBuffer,
+	tSdkFrameHead* pFrInfo
 );
 
 /// @ingroup API_UTIL
 /// \~chinese
 /// \brief 设置指定十字线的参数。
 /// \param [in] hCamera 相机的句柄。
-/// \param [in] iLine    表示要设置第几条十字线的状态。范围为[0,8]，共9条。    
+/// \param [in] iLine    表示要设置第几条十字线的状态。范围为[0,8]，共9条。
 /// \param [in] x          十字线中心位置的横坐标值。
 /// \param [in] y      十字线中心位置的纵坐标值。
 /// \param [in] uColor     十字线的颜色，格式为(R|(G<<8)|(B<<16))
@@ -2456,19 +2455,19 @@ MVSDK_API CameraSdkStatus __stdcall CameraImageOverlay(
 /// \return Returns CAMERA_STATUS_SUCCESS(0) successfully. Otherwise, it returns a non-zero error code. Please refer to the definition of the error code in CameraStatus.h.
 /// \note Only crosshairs set to display state will be superimposed on the image after calling @link #CameraImageOverlay @endlink.
 MVSDK_API CameraSdkStatus __stdcall CameraSetCrossLine(
-    CameraHandle    hCamera, 
-    int             iLine, 
-    INT             x,
-    INT             y,
-    UINT            uColor,
-    BOOL            bVisible
+	CameraHandle    hCamera,
+	int             iLine,
+	INT             x,
+	INT             y,
+	UINT            uColor,
+	BOOL            bVisible
 );
 
 /// @ingroup API_UTIL
 /// \~chinese
 /// \brief 获得指定十字线的状态。
 /// \param [in] hCamera 相机的句柄。
-/// \param [in] iLine    表示要获取的第几条十字线的状态。范围为[0,8]，共9条。  
+/// \param [in] iLine    表示要获取的第几条十字线的状态。范围为[0,8]，共9条。
 /// \param [out] px     指针，返回该十字线中心位置的横坐标。
 /// \param [out] py     指针，返回该十字线中心位置的横坐标。
 /// \param [out] pcolor     指针，返回该十字线的颜色，格式为(R|(G<<8)|(B<<16))。
@@ -2484,12 +2483,12 @@ MVSDK_API CameraSdkStatus __stdcall CameraSetCrossLine(
 /// \param [out] pbVisible returns TRUE, indicating that the crosshairs are visible.
 /// \return Returns CAMERA_STATUS_SUCCESS(0) successfully. Otherwise, it returns a non-zero error code. Please refer to the definition of the error code in CameraStatus.h.
 MVSDK_API CameraSdkStatus __stdcall CameraGetCrossLine(
-    CameraHandle    hCamera, 
-    INT             iLine,
-    INT*            px,
-    INT*            py,
-    UINT*           pcolor,
-    BOOL*           pbVisible
+	CameraHandle    hCamera,
+	INT             iLine,
+	INT* px,
+	INT* py,
+	UINT* pcolor,
+	BOOL* pbVisible
 );
 
 /// @ingroup API_BASIC
@@ -2504,8 +2503,8 @@ MVSDK_API CameraSdkStatus __stdcall CameraGetCrossLine(
 /// \param [out] pCameraInfo Returns the structure of the camera's property description.
 /// \return Returns CAMERA_STATUS_SUCCESS(0) successfully. Otherwise, it returns a non-zero error code. Please refer to the definition of the error code in CameraStatus.h.
 MVSDK_API CameraSdkStatus __stdcall CameraGetCapability(
-    CameraHandle            hCamera, 
-    tSdkCameraCapbility*    pCameraInfo
+	CameraHandle            hCamera,
+	tSdkCameraCapbility* pCameraInfo
 );
 
 /******************************************************/
@@ -2521,16 +2520,16 @@ MVSDK_API CameraSdkStatus __stdcall CameraGetCapability(
 //            中错误码的定义。
 /******************************************************/
 MVSDK_API CameraSdkStatus __stdcall CameraGetCapabilityEx(
-    char*                   sDeviceModel, 
-    tSdkCameraCapbility*    pCameraInfo,
-    PVOID                   hCameraHandle
+	char* sDeviceModel,
+	tSdkCameraCapbility* pCameraInfo,
+	PVOID                   hCameraHandle
 );
 
 /// @ingroup API_USERDATA
 /// \~chinese
 /// \brief 设置相机的序列号。
 /// \param [in] hCamera 相机的句柄。
-/// \param [in] pbySN    序列号的缓冲区。 
+/// \param [in] pbySN    序列号的缓冲区。
 /// \param [in] iLevel   要设定的序列号级别，只能是1或者2。
 /// \return 成功返回 CAMERA_STATUS_SUCCESS(0)。否则返回非0值的错误码, 请参考 CameraStatus.h 中错误码的定义。
 /// \note 我公司相机序列号分为3级。0级的是我公司自定义的相机序列号，出厂时已经设定好且无法修改，1级和2级留给二次开发使用。每级序列号长度都是32个字节。
@@ -2542,9 +2541,9 @@ MVSDK_API CameraSdkStatus __stdcall CameraGetCapabilityEx(
 /// \return Returns CAMERA_STATUS_SUCCESS(0) successfully. Otherwise, it returns a non-zero error code. Please refer to the definition of the error code in CameraStatus.h.
 /// \note Our company camera serial number is divided into 3 levels. Level 0 is our company's custom camera serial number, which has been set at the factory and cannot be modified. Levels 1 and 2 are reserved for secondary development. Each serial number length is 32 bytes.
 MVSDK_API CameraSdkStatus __stdcall CameraWriteSN(
-    CameraHandle    hCamera, 
-    BYTE*           pbySN, 
-    INT             iLevel
+	CameraHandle    hCamera,
+	BYTE* pbySN,
+	INT             iLevel
 );
 
 /// @ingroup API_USERDATA
@@ -2563,9 +2562,9 @@ MVSDK_API CameraSdkStatus __stdcall CameraWriteSN(
 /// \return Returns CAMERA_STATUS_SUCCESS(0) successfully. Otherwise, it returns a non-zero error code. Please refer to the definition of the error code in CameraStatus.h.
 /// \see CameraWriteSN
 MVSDK_API CameraSdkStatus __stdcall CameraReadSN(
-    CameraHandle        hCamera, 
-    BYTE*               pbySN, 
-    INT                 iLevel
+	CameraHandle        hCamera,
+	BYTE* pbySN,
+	INT                 iLevel
 );
 
 /// @ingroup API_TRIGGER
@@ -2582,8 +2581,8 @@ MVSDK_API CameraSdkStatus __stdcall CameraReadSN(
 /// \return Returns CAMERA_STATUS_SUCCESS(0) successfully. Otherwise, it returns a non-zero error code. Please refer to the definition of the error code in CameraStatus.h.
 /// \note When the hard trigger signal arrives, after a specified delay, it begins to capture the image.
 MVSDK_API CameraSdkStatus __stdcall CameraSetTriggerDelayTime(
-    CameraHandle    hCamera, 
-    UINT            uDelayTimeUs
+	CameraHandle    hCamera,
+	UINT            uDelayTimeUs
 );
 
 /// @ingroup API_TRIGGER
@@ -2598,8 +2597,8 @@ MVSDK_API CameraSdkStatus __stdcall CameraSetTriggerDelayTime(
 /// \param [out] puDelayTimeUs Returns the delay time in microseconds.
 /// \return Returns CAMERA_STATUS_SUCCESS(0) successfully. Otherwise, it returns a non-zero error code. Please refer to the definition of the error code in CameraStatus.h.
 MVSDK_API CameraSdkStatus __stdcall CameraGetTriggerDelayTime(
-    CameraHandle    hCamera, 
-    UINT*           puDelayTimeUs
+	CameraHandle    hCamera,
+	UINT* puDelayTimeUs
 );
 
 /// @ingroup API_TRIGGER
@@ -2614,8 +2613,8 @@ MVSDK_API CameraSdkStatus __stdcall CameraGetTriggerDelayTime(
 /// \param [in] iCount The number of frames triggered at a time.
 /// \return Returns CAMERA_STATUS_SUCCESS(0) successfully. Otherwise, it returns a non-zero error code. Please refer to the definition of the error code in CameraStatus.h.
 MVSDK_API CameraSdkStatus __stdcall CameraSetTriggerCount(
-    CameraHandle    hCamera, 
-    INT             iCount
+	CameraHandle    hCamera,
+	INT             iCount
 );
 
 /// @ingroup API_TRIGGER
@@ -2630,8 +2629,8 @@ MVSDK_API CameraSdkStatus __stdcall CameraSetTriggerCount(
 /// \param [out] piCount The number of frames to trigger signal acquisition at one time.
 /// \return Returns CAMERA_STATUS_SUCCESS(0) successfully. Otherwise, it returns a non-zero error code. Please refer to the definition of the error code in CameraStatus.h.
 MVSDK_API CameraSdkStatus __stdcall CameraGetTriggerCount(
-    CameraHandle    hCamera, 
-    INT*            piCount
+	CameraHandle    hCamera,
+	INT* piCount
 );
 
 /// @ingroup API_TRIGGER
@@ -2646,14 +2645,14 @@ MVSDK_API CameraSdkStatus __stdcall CameraGetTriggerCount(
 /// \return Returns CAMERA_STATUS_SUCCESS(0) successfully. Otherwise, it returns a non-zero error code. Please refer to the definition of the error code in CameraStatus.h.
 /// \see CameraSetTriggerMode
 MVSDK_API CameraSdkStatus __stdcall CameraSoftTrigger(
-    CameraHandle    hCamera
+	CameraHandle    hCamera
 );
 
 /// @ingroup API_TRIGGER
 /// \~chinese
 /// \brief 设置相机的触发模式。
 /// \param [in] hCamera 相机的句柄。
-/// \param [in] iModeSel   模式选择索引号。0表示连续采集模式；1表示软件触发模式；2表示硬件触发模式。  
+/// \param [in] iModeSel   模式选择索引号。0表示连续采集模式；1表示软件触发模式；2表示硬件触发模式。
 /// \return 成功返回 CAMERA_STATUS_SUCCESS(0)。否则返回非0值的错误码, 请参考 CameraStatus.h 中错误码的定义。
 /// \~english
 /// \brief Set the camera's trigger mode.
@@ -2661,8 +2660,8 @@ MVSDK_API CameraSdkStatus __stdcall CameraSoftTrigger(
 /// \param [in] iModeSel mode selects the index number. 0 means continuous acquisition mode; 1 means software trigger mode; 2 means hardware trigger mode.
 /// \return Returns CAMERA_STATUS_SUCCESS(0) successfully. Otherwise, it returns a non-zero error code. Please refer to the definition of the error code in CameraStatus.h.
 MVSDK_API CameraSdkStatus __stdcall CameraSetTriggerMode(
-    CameraHandle    hCamera, 
-    int             iModeSel
+	CameraHandle    hCamera,
+	int             iModeSel
 );
 
 /// @ingroup API_TRIGGER
@@ -2677,8 +2676,8 @@ MVSDK_API CameraSdkStatus __stdcall CameraSetTriggerMode(
 /// \param [out] piModeSel Returns the index of the currently selected camera trigger mode.
 /// \return Returns CAMERA_STATUS_SUCCESS(0) successfully. Otherwise, it returns a non-zero error code. Please refer to the definition of the error code in CameraStatus.h.
 MVSDK_API CameraSdkStatus __stdcall CameraGetTriggerMode(
-    CameraHandle    hCamera,
-    INT*            piModeSel
+	CameraHandle    hCamera,
+	INT* piModeSel
 );
 
 /// @ingroup API_TRIGGER
@@ -2693,8 +2692,8 @@ MVSDK_API CameraSdkStatus __stdcall CameraGetTriggerMode(
 /// \param [in] iMode strobe mode, refer to @link #emStrobeControl @endlink
 /// \return Returns CAMERA_STATUS_SUCCESS(0) successfully. Otherwise, it returns a non-zero error code. Please refer to the definition of the error code in CameraStatus.h.
 MVSDK_API CameraSdkStatus __stdcall  CameraSetStrobeMode(
-    CameraHandle    hCamera, 
-    INT             iMode
+	CameraHandle    hCamera,
+	INT             iMode
 );
 
 /// @ingroup API_TRIGGER
@@ -2709,15 +2708,15 @@ MVSDK_API CameraSdkStatus __stdcall  CameraSetStrobeMode(
 /// \param [out] piMode Return Mode
 /// \return Returns CAMERA_STATUS_SUCCESS(0) successfully. Otherwise, it returns a non-zero error code. Please refer to the definition of the error code in CameraStatus.h.
 MVSDK_API CameraSdkStatus __stdcall  CameraGetStrobeMode(
-    CameraHandle    hCamera, 
-    INT*            piMode
+	CameraHandle    hCamera,
+	INT* piMode
 );
 
 /// @ingroup API_TRIGGER
 /// \~chinese
 /// \brief 当STROBE信号处于STROBE_SYNC_WITH_TRIG时，通过该函数设置其相对触发信号延时时间。
 /// \param [in] hCamera 相机的句柄。
-/// \param [in] uDelayTimeUs  相对触发信号的延时时间，单位为us。可以为0，但不能为负数。 
+/// \param [in] uDelayTimeUs  相对触发信号的延时时间，单位为us。可以为0，但不能为负数。
 /// \return 成功返回 CAMERA_STATUS_SUCCESS(0)。否则返回非0值的错误码, 请参考 CameraStatus.h 中错误码的定义。
 /// \~english
 /// \brief When the STROBE signal is in STROBE_SYNC_WITH_TRIG, set its relative trigger signal delay time by this function.
@@ -2725,8 +2724,8 @@ MVSDK_API CameraSdkStatus __stdcall  CameraGetStrobeMode(
 /// \param [in] uDelayTimeUs Delay time relative to the trigger signal, in units of us. Can be 0, but it cannot be negative.
 /// \return Returns CAMERA_STATUS_SUCCESS(0) successfully. Otherwise, it returns a non-zero error code. Please refer to the definition of the error code in CameraStatus.h.
 MVSDK_API CameraSdkStatus __stdcall  CameraSetStrobeDelayTime(
-    CameraHandle    hCamera, 
-    UINT            uDelayTimeUs
+	CameraHandle    hCamera,
+	UINT            uDelayTimeUs
 );
 
 /// @ingroup API_TRIGGER
@@ -2741,15 +2740,15 @@ MVSDK_API CameraSdkStatus __stdcall  CameraSetStrobeDelayTime(
 /// \param [out] upDelayTimeUs Returns the delay time in us.
 /// \return Returns CAMERA_STATUS_SUCCESS(0) successfully. Otherwise, it returns a non-zero error code. Please refer to the definition of the error code in CameraStatus.h.
 MVSDK_API CameraSdkStatus __stdcall  CameraGetStrobeDelayTime(
-    CameraHandle    hCamera, 
-    UINT*           upDelayTimeUs
+	CameraHandle    hCamera,
+	UINT* upDelayTimeUs
 );
 
 /// @ingroup API_TRIGGER
 /// \~chinese
 /// \brief 当STROBE信号处于STROBE_SYNC_WITH_TRIG时，通过该函数设置其脉冲宽度。
 /// \param [in] hCamera 相机的句柄。
-/// \param [in] uTimeUs 脉冲的宽度，单位为时间us。  
+/// \param [in] uTimeUs 脉冲的宽度，单位为时间us。
 /// \return 成功返回 CAMERA_STATUS_SUCCESS(0)。否则返回非0值的错误码, 请参考 CameraStatus.h 中错误码的定义。
 /// \~english
 /// \brief When the STROBE signal is in STROBE_SYNC_WITH_TRIG, set its pulse width by this function.
@@ -2757,8 +2756,8 @@ MVSDK_API CameraSdkStatus __stdcall  CameraGetStrobeDelayTime(
 /// \param [in] uTimeUs The width of the pulse in units of time us.
 /// \return Returns CAMERA_STATUS_SUCCESS(0) successfully. Otherwise, it returns a non-zero error code. Please refer to the definition of the error code in CameraStatus.h.
 MVSDK_API CameraSdkStatus __stdcall  CameraSetStrobePulseWidth(
-    CameraHandle    hCamera, 
-    UINT            uTimeUs
+	CameraHandle    hCamera,
+	UINT            uTimeUs
 );
 
 /// @ingroup API_TRIGGER
@@ -2773,8 +2772,8 @@ MVSDK_API CameraSdkStatus __stdcall  CameraSetStrobePulseWidth(
 /// \param [out] upTimeUs Returns the pulse width. The unit is us.
 /// \return Returns CAMERA_STATUS_SUCCESS(0) successfully. Otherwise, it returns a non-zero error code. Please refer to the definition of the error code in CameraStatus.h.
 MVSDK_API CameraSdkStatus __stdcall  CameraGetStrobePulseWidth(
-    CameraHandle    hCamera, 
-    UINT*           upTimeUs
+	CameraHandle    hCamera,
+	UINT* upTimeUs
 );
 
 /// @ingroup API_TRIGGER
@@ -2789,8 +2788,8 @@ MVSDK_API CameraSdkStatus __stdcall  CameraGetStrobePulseWidth(
 /// \param [in] uPolarity Polarity of STROBE signal, 0 is active low and 1 is active high. The default is active high.
 /// \return Returns CAMERA_STATUS_SUCCESS(0) successfully. Otherwise, it returns a non-zero error code. Please refer to the definition of the error code in CameraStatus.h.
 MVSDK_API CameraSdkStatus __stdcall  CameraSetStrobePolarity(
-    CameraHandle    hCamera, 
-    INT             uPolarity
+	CameraHandle    hCamera,
+	INT             uPolarity
 );
 
 /// @ingroup API_TRIGGER
@@ -2805,8 +2804,8 @@ MVSDK_API CameraSdkStatus __stdcall  CameraSetStrobePolarity(
 /// \param [in] upPolarity Returns the current effective polarity of the STROBE signal.
 /// \return Returns CAMERA_STATUS_SUCCESS(0) successfully. Otherwise, it returns a non-zero error code. Please refer to the definition of the error code in CameraStatus.h.
 MVSDK_API CameraSdkStatus __stdcall  CameraGetStrobePolarity(
-    CameraHandle    hCamera, 
-    INT*            upPolarity
+	CameraHandle    hCamera,
+	INT* upPolarity
 );
 
 /// @ingroup API_TRIGGER
@@ -2821,8 +2820,8 @@ MVSDK_API CameraSdkStatus __stdcall  CameraGetStrobePolarity(
 /// \param [in] iType External trigger signal type, refer to @link #emExtTrigSignal @endlink
 /// \return Returns CAMERA_STATUS_SUCCESS(0) successfully. Otherwise, it returns a non-zero error code. Please refer to the definition of the error code in CameraStatus.h.
 MVSDK_API CameraSdkStatus __stdcall  CameraSetExtTrigSignalType(
-    CameraHandle    hCamera, 
-    INT             iType
+	CameraHandle    hCamera,
+	INT             iType
 );
 
 /// @ingroup API_TRIGGER
@@ -2837,8 +2836,8 @@ MVSDK_API CameraSdkStatus __stdcall  CameraSetExtTrigSignalType(
 /// \param [out] ipType Returns the type of external trigger signal, see @link #emExtTrigSignal @endlink
 /// \return Returns CAMERA_STATUS_SUCCESS(0) successfully. Otherwise, it returns a non-zero error code. Please refer to the definition of the error code in CameraStatus.h.
 MVSDK_API CameraSdkStatus __stdcall  CameraGetExtTrigSignalType(
-    CameraHandle    hCamera, 
-    INT*            ipType
+	CameraHandle    hCamera,
+	INT* ipType
 );
 
 /// @ingroup API_TRIGGER
@@ -2853,8 +2852,8 @@ MVSDK_API CameraSdkStatus __stdcall  CameraGetExtTrigSignalType(
 /// \param [in] iType triggers the shutter. Reference @link #emExtTrigShutterMode @endlink
 /// \return Returns CAMERA_STATUS_SUCCESS(0) successfully. Otherwise, it returns a non-zero error code. Please refer to the definition of the error code in CameraStatus.h.
 MVSDK_API CameraSdkStatus __stdcall  CameraSetExtTrigShutterType(
-    CameraHandle    hCamera, 
-    INT             iType
+	CameraHandle    hCamera,
+	INT             iType
 );
 
 /// @ingroup API_TRIGGER
@@ -2871,13 +2870,13 @@ MVSDK_API CameraSdkStatus __stdcall  CameraSetExtTrigShutterType(
 /// \return Returns CAMERA_STATUS_SUCCESS(0) successfully. Otherwise, it returns a non-zero error code. Please refer to the definition of the error code in CameraStatus.h.
 /// \see CameraSetExtTrigShutterType
 MVSDK_API CameraSdkStatus __stdcall  CameraGetExtTrigShutterType(
-    CameraHandle    hCamera, 
-    INT*            ipType
+	CameraHandle    hCamera,
+	INT* ipType
 );
 
 /// @ingroup API_TRIGGER
 /// \~chinese
-/// \brief 设置外触发信号延时时间，默认为0，单位为微秒。 
+/// \brief 设置外触发信号延时时间，默认为0，单位为微秒。
 /// \param [in] hCamera 相机的句柄。
 /// \param [in] uDelayTimeUs  延时时间，单位为微秒，默认为0.
 /// \return 成功返回 CAMERA_STATUS_SUCCESS(0)。否则返回非0值的错误码, 请参考 CameraStatus.h 中错误码的定义。
@@ -2887,8 +2886,8 @@ MVSDK_API CameraSdkStatus __stdcall  CameraGetExtTrigShutterType(
 /// \param [in] uDelayTimeUs Delay time in microseconds. Default is 0.
 /// \return Returns CAMERA_STATUS_SUCCESS(0) successfully. Otherwise, it returns a non-zero error code. Please refer to the definition of the error code in CameraStatus.h.
 MVSDK_API CameraSdkStatus __stdcall  CameraSetExtTrigDelayTime(
-    CameraHandle    hCamera, 
-    UINT            uDelayTimeUs
+	CameraHandle    hCamera,
+	UINT            uDelayTimeUs
 );
 
 /// @ingroup API_TRIGGER
@@ -2903,8 +2902,8 @@ MVSDK_API CameraSdkStatus __stdcall  CameraSetExtTrigDelayTime(
 /// \param [out] upDelayTimeUs trigger delay
 /// \return Returns CAMERA_STATUS_SUCCESS(0) successfully. Otherwise, it returns a non-zero error code. Please refer to the definition of the error code in CameraStatus.h.
 MVSDK_API CameraSdkStatus __stdcall  CameraGetExtTrigDelayTime(
-    CameraHandle    hCamera, 
-    UINT*           upDelayTimeUs
+	CameraHandle    hCamera,
+	UINT* upDelayTimeUs
 );
 
 /// @ingroup API_TRIGGER
@@ -2921,7 +2920,7 @@ MVSDK_API CameraSdkStatus __stdcall  CameraGetExtTrigDelayTime(
 MVSDK_API CameraSdkStatus __stdcall CameraSetExtTrigBufferedDelayTime(
 	CameraHandle    hCamera,
 	UINT            uDelayTimeUs
-	);
+);
 
 /// @ingroup API_TRIGGER
 /// \~chinese
@@ -2936,12 +2935,12 @@ MVSDK_API CameraSdkStatus __stdcall CameraSetExtTrigBufferedDelayTime(
 /// \return Returns CAMERA_STATUS_SUCCESS(0) successfully. Otherwise, it returns a non-zero error code. Please refer to the definition of the error code in CameraStatus.h.
 MVSDK_API CameraSdkStatus __stdcall CameraGetExtTrigBufferedDelayTime(
 	CameraHandle    hCamera,
-	UINT*           puDelayTimeUs
-	);
+	UINT* puDelayTimeUs
+);
 
 /// @ingroup API_TRIGGER
 /// \~chinese
-/// \brief 设置外触发信号间隔时间，默认为0，单位为微秒。 
+/// \brief 设置外触发信号间隔时间，默认为0，单位为微秒。
 /// \param [in] hCamera 相机的句柄。
 /// \param [in] uTimeUs  间隔时间，单位为微秒，默认为0.
 /// \return 成功返回 CAMERA_STATUS_SUCCESS(0)。否则返回非0值的错误码, 请参考 CameraStatus.h 中错误码的定义。
@@ -2951,9 +2950,9 @@ MVSDK_API CameraSdkStatus __stdcall CameraGetExtTrigBufferedDelayTime(
 /// \param [in] uTimeUs Interval time in microseconds. Default is 0.
 /// \return Returns CAMERA_STATUS_SUCCESS(0) successfully. Otherwise, it returns a non-zero error code. Please refer to the definition of the error code in CameraStatus.h.
 MVSDK_API CameraSdkStatus __stdcall  CameraSetExtTrigIntervalTime(
-	CameraHandle    hCamera, 
+	CameraHandle    hCamera,
 	UINT            uTimeUs
-	);
+);
 
 /// @ingroup API_TRIGGER
 /// \~chinese
@@ -2967,9 +2966,9 @@ MVSDK_API CameraSdkStatus __stdcall  CameraSetExtTrigIntervalTime(
 /// \param [out] upTimeUs trigger interval
 /// \return Returns CAMERA_STATUS_SUCCESS(0) successfully. Otherwise, it returns a non-zero error code. Please refer to the definition of the error code in CameraStatus.h.
 MVSDK_API CameraSdkStatus __stdcall  CameraGetExtTrigIntervalTime(
-	CameraHandle    hCamera, 
-	UINT*           upTimeUs
-	);
+	CameraHandle    hCamera,
+	UINT* upTimeUs
+);
 
 /// @ingroup API_TRIGGER
 /// \~chinese
@@ -2983,8 +2982,8 @@ MVSDK_API CameraSdkStatus __stdcall  CameraGetExtTrigIntervalTime(
 /// \param [in] uTimeUs time
 /// \return Returns CAMERA_STATUS_SUCCESS(0) successfully. Otherwise, it returns a non-zero error code. Please refer to the definition of the error code in CameraStatus.h.
 MVSDK_API CameraSdkStatus __stdcall  CameraSetExtTrigJitterTime(
-    CameraHandle    hCamera,
-    UINT            uTimeUs
+	CameraHandle    hCamera,
+	UINT            uTimeUs
 );
 
 /// @ingroup API_TRIGGER
@@ -2999,8 +2998,8 @@ MVSDK_API CameraSdkStatus __stdcall  CameraSetExtTrigJitterTime(
 /// \param [out] upTimeUs time
 /// \return Returns CAMERA_STATUS_SUCCESS(0) successfully. Otherwise, it returns a non-zero error code. Please refer to the definition of the error code in CameraStatus.h.
 MVSDK_API CameraSdkStatus __stdcall  CameraGetExtTrigJitterTime(
-    CameraHandle    hCamera,
-    UINT*           upTimeUs
+	CameraHandle    hCamera,
+	UINT* upTimeUs
 );
 
 /// @ingroup API_TRIGGER
@@ -3015,8 +3014,8 @@ MVSDK_API CameraSdkStatus __stdcall  CameraGetExtTrigJitterTime(
 /// \param [out] puCapabilityMask Returns the mask of the camera's triggering property, masked by the macro definition at the beginning of EXT_TRIG_MASK_ in CameraDefine.h.
 /// \return Returns CAMERA_STATUS_SUCCESS(0) successfully. Otherwise, it returns a non-zero error code. Please refer to the definition of the error code in CameraStatus.h.
 MVSDK_API CameraSdkStatus __stdcall  CameraGetExtTrigCapability(
-    CameraHandle    hCamera,
-    UINT*           puCapabilityMask
+	CameraHandle    hCamera,
+	UINT* puCapabilityMask
 );
 
 /// @ingroup API_TRIGGER
@@ -3030,13 +3029,13 @@ MVSDK_API CameraSdkStatus __stdcall  CameraGetExtTrigCapability(
 /// \return Returns CAMERA_STATUS_SUCCESS(0) successfully. Otherwise, it returns a non-zero error code. Please refer to the definition of the error code in CameraStatus.h.
 MVSDK_API CameraSdkStatus __stdcall  CameraPauseLevelTrigger(
 	CameraHandle    hCamera
-	);
+);
 
 /// @ingroup API_ROI
 /// \~chinese
 /// \brief 获得抓拍模式下的分辨率选择索引号。
 /// \param [in] hCamera 相机的句柄。
-/// \param [out] pImageResolution 指针，返回抓拍模式的分辨率。 
+/// \param [out] pImageResolution 指针，返回抓拍模式的分辨率。
 /// \return 成功返回 CAMERA_STATUS_SUCCESS(0)。否则返回非0值的错误码, 请参考 CameraStatus.h 中错误码的定义。
 /// \~english
 /// \brief Get the resolution selection index number in snap mode.
@@ -3044,8 +3043,8 @@ MVSDK_API CameraSdkStatus __stdcall  CameraPauseLevelTrigger(
 /// \param [out] pImageResolution Pointer to return the resolution of the snap mode.
 /// \return Returns CAMERA_STATUS_SUCCESS(0) successfully. Otherwise, it returns a non-zero error code. Please refer to the definition of the error code in CameraStatus.h.
 MVSDK_API CameraSdkStatus __stdcall CameraGetResolutionForSnap(
-    CameraHandle            hCamera,
-    tSdkImageResolution*    pImageResolution
+	CameraHandle            hCamera,
+	tSdkImageResolution* pImageResolution
 );
 
 /// @ingroup API_ROI
@@ -3062,8 +3061,8 @@ MVSDK_API CameraSdkStatus __stdcall CameraGetResolutionForSnap(
 /// \return Returns CAMERA_STATUS_SUCCESS(0) successfully. Otherwise, it returns a non-zero error code. Please refer to the definition of the error code in CameraStatus.h.
 /// \note If pImageResolution->iWidth = pImageResolution->iHeight = 0, then it is set to follow the current preview resolution. The resolution of the captured image will be the same as the currently set preview resolution.
 MVSDK_API CameraSdkStatus __stdcall CameraSetResolutionForSnap(
-    CameraHandle            hCamera, 
-    tSdkImageResolution*    pImageResolution
+	CameraHandle            hCamera,
+	tSdkImageResolution* pImageResolution
 );
 
 /// @ingroup API_ROI
@@ -3078,8 +3077,8 @@ MVSDK_API CameraSdkStatus __stdcall CameraSetResolutionForSnap(
 /// \param [out] pImageCustom Returns the custom resolution.
 /// \return Returns CAMERA_STATUS_SUCCESS(0) successfully. Otherwise, it returns a non-zero error code. Please refer to the definition of the error code in CameraStatus.h.
 MVSDK_API CameraSdkStatus __stdcall CameraCustomizeResolution(
-    CameraHandle            hCamera,
-    tSdkImageResolution*    pImageCustom
+	CameraHandle            hCamera,
+	tSdkImageResolution* pImageCustom
 );
 
 /// @ingroup API_UTIL
@@ -3090,7 +3089,7 @@ MVSDK_API CameraSdkStatus __stdcall CameraCustomizeResolution(
 /// \param [in] hParent    调用该函数的窗口的句柄。可以为NULL。
 /// \param [out] piHOff     指针，返回自定义窗口的左上角横坐标。
 /// \param [out] piVOff     指针，返回自定义窗口的左上角纵坐标。
-/// \param [out] piWidth    指针，返回自定义窗口的宽度。 
+/// \param [out] piWidth    指针，返回自定义窗口的宽度。
 /// \param [out] piHeight   指针，返回自定义窗口的高度。
 /// \return 成功返回 CAMERA_STATUS_SUCCESS(0)。否则返回非0值的错误码, 请参考 CameraStatus.h 中错误码的定义。
 /// \~english
@@ -3104,13 +3103,13 @@ MVSDK_API CameraSdkStatus __stdcall CameraCustomizeResolution(
 /// \param [out] piHeight Returns the height of the custom window.
 /// \return Returns CAMERA_STATUS_SUCCESS(0) successfully. Otherwise, it returns a non-zero error code. Please refer to the definition of the error code in CameraStatus.h.
 MVSDK_API CameraSdkStatus __stdcall CameraCustomizeReferWin(
-    CameraHandle    hCamera,
-    INT             iWinType,
-    HWND            hParent, 
-    INT*            piHOff,
-    INT*            piVOff,
-    INT*            piWidth,
-    INT*            piHeight
+	CameraHandle    hCamera,
+	INT             iWinType,
+	HWND            hParent,
+	INT* piHOff,
+	INT* piVOff,
+	INT* piWidth,
+	INT* piHeight
 );
 
 /// @ingroup API_SETTINGS_PAGE
@@ -3127,8 +3126,8 @@ MVSDK_API CameraSdkStatus __stdcall CameraCustomizeReferWin(
 /// \return Returns CAMERA_STATUS_SUCCESS(0) successfully. Otherwise, it returns a non-zero error code. Please refer to the definition of the error code in CameraStatus.h.
 /// \note You must call @link #CameraCreateSettingPage @endlink successfully to create the camera property configuration window before calling this function to display.
 MVSDK_API CameraSdkStatus __stdcall CameraShowSettingPage(
-    CameraHandle    hCamera,
-    BOOL            bShow
+	CameraHandle    hCamera,
+	BOOL            bShow
 );
 
 /// @ingroup API_SETTINGS_PAGE
@@ -3151,12 +3150,12 @@ MVSDK_API CameraSdkStatus __stdcall CameraShowSettingPage(
 /// \param [in] uReserved Reserved. Must be set to 0.
 /// \return Returns CAMERA_STATUS_SUCCESS(0) successfully. Otherwise, it returns a non-zero error code. Please refer to the definition of the error code in CameraStatus.h.
 MVSDK_API CameraSdkStatus __stdcall CameraCreateSettingPage(
-    CameraHandle            hCamera,
-    HWND                    hParent,
-    char*                   pWinText,
-    CAMERA_PAGE_MSG_PROC    pCallbackFunc,
-    PVOID                   pCallbackCtx,
-    UINT                    uReserved
+	CameraHandle            hCamera,
+	HWND                    hParent,
+	char* pWinText,
+	CAMERA_PAGE_MSG_PROC    pCallbackFunc,
+	PVOID                   pCallbackCtx,
+	UINT                    uReserved
 );
 
 /// @ingroup API_SETTINGS_PAGE
@@ -3169,7 +3168,7 @@ MVSDK_API CameraSdkStatus __stdcall CameraCreateSettingPage(
 /// \param [in] hCamera Camera handle.
 /// \return Returns CAMERA_STATUS_SUCCESS(0) successfully. Otherwise, it returns a non-zero error code. Please refer to the definition of the error code in CameraStatus.h.
 MVSDK_API CameraSdkStatus __stdcall CameraCreateSettingPageEx(
-    CameraHandle            hCamera
+	CameraHandle            hCamera
 );
 
 /// @ingroup API_SETTINGS_PAGE
@@ -3184,8 +3183,8 @@ MVSDK_API CameraSdkStatus __stdcall CameraCreateSettingPageEx(
 /// \param [in] index The index number of the subpage. Reference @link #emSdkPropSheetMask @endlink
 /// \return Returns CAMERA_STATUS_SUCCESS(0) successfully. Otherwise, it returns a non-zero error code. Please refer to the definition of the error code in CameraStatus.h.
 MVSDK_API CameraSdkStatus __stdcall CameraSetActiveSettingSubPage(
-    CameraHandle    hCamera,
-    INT             index
+	CameraHandle    hCamera,
+	INT             index
 );
 
 /// @ingroup API_SETTINGS_PAGE
@@ -3205,7 +3204,7 @@ MVSDK_API CameraSdkStatus __stdcall CameraSetSettingPageParent(
 	CameraHandle    hCamera,
 	HWND            hParentWnd,
 	DWORD			Flags
-	);
+);
 
 /// @ingroup API_SETTINGS_PAGE
 /// \~chinese
@@ -3220,8 +3219,8 @@ MVSDK_API CameraSdkStatus __stdcall CameraSetSettingPageParent(
 /// \return Returns CAMERA_STATUS_SUCCESS(0) successfully. Otherwise, it returns a non-zero error code. Please refer to the definition of the error code in CameraStatus.h.
 MVSDK_API CameraSdkStatus __stdcall CameraGetSettingPageHWnd(
 	CameraHandle    hCamera,
-	HWND*           hWnd
-	);
+	HWND* hWnd
+);
 
 /// @ingroup API_SETTINGS_PAGE
 /// \~chinese
@@ -3234,13 +3233,13 @@ MVSDK_API CameraSdkStatus __stdcall CameraGetSettingPageHWnd(
 /// \return Returns CAMERA_STATUS_SUCCESS(0) successfully. Otherwise, it returns a non-zero error code. Please refer to the definition of the error code in CameraStatus.h.
 MVSDK_API CameraSdkStatus __stdcall CameraUpdateSettingPage(
 	CameraHandle    hCamera
-	);
+);
 
 MVSDK_API CameraSdkStatus __stdcall CameraSpecialControl(
-    CameraHandle    hCamera, 
-    DWORD           dwCtrlCode,
-    DWORD           dwParam,
-    LPVOID          lpData
+	CameraHandle    hCamera,
+	DWORD           dwCtrlCode,
+	DWORD           dwParam,
+	LPVOID          lpData
 );
 
 /// @ingroup API_BASIC
@@ -3255,8 +3254,8 @@ MVSDK_API CameraSdkStatus __stdcall CameraSpecialControl(
 /// \param [out] psFrameStatistic Returns statistics.
 /// \return Returns CAMERA_STATUS_SUCCESS(0) successfully. Otherwise, it returns a non-zero error code. Please refer to the definition of the error code in CameraStatus.h.
 MVSDK_API CameraSdkStatus __stdcall CameraGetFrameStatistic(
-    CameraHandle            hCamera, 
-    tSdkFrameStatistic*     psFrameStatistic
+	CameraHandle            hCamera,
+	tSdkFrameStatistic* psFrameStatistic
 );
 
 /// @ingroup API_ENHANCE
@@ -3271,8 +3270,8 @@ MVSDK_API CameraSdkStatus __stdcall CameraGetFrameStatistic(
 /// \param [in] bEnable TRUE, enable; FALSE, disable.
 /// \return Returns CAMERA_STATUS_SUCCESS(0) successfully. Otherwise, it returns a non-zero error code. Please refer to the definition of the error code in CameraStatus.h.
 MVSDK_API CameraSdkStatus __stdcall CameraSetNoiseFilter(
-    CameraHandle    hCamera,
-    BOOL            bEnable
+	CameraHandle    hCamera,
+	BOOL            bEnable
 );
 
 /// @ingroup API_ENHANCE
@@ -3287,8 +3286,8 @@ MVSDK_API CameraSdkStatus __stdcall CameraSetNoiseFilter(
 /// \param [out] pEnable Returns status. TRUE, to enable.
 /// \return Returns CAMERA_STATUS_SUCCESS(0) successfully. Otherwise, it returns a non-zero error code. Please refer to the definition of the error code in CameraStatus.h.
 MVSDK_API CameraSdkStatus __stdcall CameraGetNoiseFilterState(
-    CameraHandle    hCamera,
-    BOOL*           pEnable
+	CameraHandle    hCamera,
+	BOOL* pEnable
 );
 
 /// @ingroup API_ADVANCE
@@ -3301,7 +3300,7 @@ MVSDK_API CameraSdkStatus __stdcall CameraGetNoiseFilterState(
 /// \param [in] hCamera Camera handle.
 /// \return Returns CAMERA_STATUS_SUCCESS(0) successfully. Otherwise, it returns a non-zero error code. Please refer to the definition of the error code in CameraStatus.h.
 MVSDK_API CameraSdkStatus __stdcall CameraRstTimeStamp(
-    CameraHandle    hCamera
+	CameraHandle    hCamera
 );
 
 /// @ingroup API_USERDATA
@@ -3322,10 +3321,10 @@ MVSDK_API CameraSdkStatus __stdcall CameraRstTimeStamp(
 /// \return Returns CAMERA_STATUS_SUCCESS(0) successfully. Otherwise, it returns a non-zero error code. Please refer to the definition of the error code in CameraStatus.h.
 /// \note The maximum length of the user data area that each model of camera may support is different. This length information can be obtained from the device's feature description.
 MVSDK_API CameraSdkStatus __stdcall CameraSaveUserData(
-    CameraHandle    hCamera,
-    UINT            uStartAddr,
-    BYTE            *pbData,
-    int             ilen
+	CameraHandle    hCamera,
+	UINT            uStartAddr,
+	BYTE* pbData,
+	int             ilen
 );
 
 /// @ingroup API_USERDATA
@@ -3344,10 +3343,10 @@ MVSDK_API CameraSdkStatus __stdcall CameraSaveUserData(
 /// \param [in] ilen The length of the data, ilen + uStartAddr must be less than the maximum length of the user area
 /// \return Returns CAMERA_STATUS_SUCCESS(0) successfully. Otherwise, it returns a non-zero error code. Please refer to the definition of the error code in CameraStatus.h.
 MVSDK_API CameraSdkStatus __stdcall CameraLoadUserData(
-    CameraHandle    hCamera,
-    UINT            uStartAddr,
-    BYTE            *pbData,
-    int             ilen
+	CameraHandle    hCamera,
+	UINT            uStartAddr,
+	BYTE* pbData,
+	int             ilen
 );
 
 /// @ingroup API_USERDATA
@@ -3362,8 +3361,8 @@ MVSDK_API CameraSdkStatus __stdcall CameraLoadUserData(
 /// \param [out] pName returns a string that points to the end of 0, the device nickname does not exceed 32 bytes, so the buffer pointed to by this pointer must be greater than or equal to 32 bytes.
 /// \return Returns CAMERA_STATUS_SUCCESS(0) successfully. Otherwise, it returns a non-zero error code. Please refer to the definition of the error code in CameraStatus.h.
 MVSDK_API CameraSdkStatus __stdcall CameraGetFriendlyName(
-  CameraHandle  hCamera,
-  char*     pName
+	CameraHandle  hCamera,
+	char* pName
 );
 
 /// @ingroup API_USERDATA
@@ -3378,8 +3377,8 @@ MVSDK_API CameraSdkStatus __stdcall CameraGetFriendlyName(
 /// \param [in] pName A string that ends with 0, the device nickname does not exceed 32 bytes, so the pointer to the string must be less than or equal to 32 bytes.
 /// \return Returns CAMERA_STATUS_SUCCESS(0) successfully. Otherwise, it returns a non-zero error code. Please refer to the definition of the error code in CameraStatus.h.
 MVSDK_API CameraSdkStatus __stdcall CameraSetFriendlyName(
-  CameraHandle  hCamera,
-  char*       pName
+	CameraHandle  hCamera,
+	char* pName
 );
 
 /// @ingroup API_BASIC
@@ -3392,7 +3391,7 @@ MVSDK_API CameraSdkStatus __stdcall CameraSetFriendlyName(
 /// \param [out] pVersionString Returns the SDK version string. The buffer pointed to by this pointer must be larger than 32 bytes
 /// \return Returns CAMERA_STATUS_SUCCESS(0) successfully. Otherwise, it returns a non-zero error code. Please refer to the definition of the error code in CameraStatus.h.
 MVSDK_API CameraSdkStatus __stdcall CameraSdkGetVersionString(
-  char*       pVersionString
+	char* pVersionString
 );
 
 /******************************************************/
@@ -3405,8 +3404,8 @@ MVSDK_API CameraSdkStatus __stdcall CameraSdkGetVersionString(
 //            中错误码的定义。
 /******************************************************/
 MVSDK_API CameraSdkStatus __stdcall CameraCheckFwUpdate(
-  CameraHandle  hCamera,
-  BOOL*     pNeedUpdate
+	CameraHandle  hCamera,
+	BOOL* pNeedUpdate
 );
 
 /// @ingroup API_BASIC
@@ -3422,14 +3421,14 @@ MVSDK_API CameraSdkStatus __stdcall CameraCheckFwUpdate(
 /// \return Returns CAMERA_STATUS_SUCCESS(0) successfully. Otherwise, it returns a non-zero error code. Please refer to the definition of the error code in CameraStatus.h.
 MVSDK_API CameraSdkStatus __stdcall CameraGetFirmwareVersion(
 	CameraHandle  hCamera,
-	char*     pVersion
-	);
+	char* pVersion
+);
 
 // 功能与CameraGetFirmwareVersion相同。Version拼写错误，为了兼容性保留
 // Same function as CameraGetFirmwareVersion. Version misspelled, reserved for compatibility
 MVSDK_API CameraSdkStatus __stdcall CameraGetFirmwareVision(
-  CameraHandle  hCamera,
-  char*     pVersion
+	CameraHandle  hCamera,
+	char* pVersion
 );
 
 /// @ingroup API_BASIC
@@ -3444,8 +3443,8 @@ MVSDK_API CameraSdkStatus __stdcall CameraGetFirmwareVision(
 /// \param [out] pCameraInfo Returns the enumeration information for the device.
 /// \return Returns CAMERA_STATUS_SUCCESS(0) successfully. Otherwise, it returns a non-zero error code. Please refer to the definition of the error code in CameraStatus.h.
 MVSDK_API CameraSdkStatus __stdcall CameraGetEnumInfo(
-  CameraHandle    hCamera,
-  tSdkCameraDevInfo*  pCameraInfo
+	CameraHandle    hCamera,
+	tSdkCameraDevInfo* pCameraInfo
 );
 
 /// @ingroup API_BASIC
@@ -3460,8 +3459,8 @@ MVSDK_API CameraSdkStatus __stdcall CameraGetEnumInfo(
 /// \param [out] pVersion points to a buffer larger than 32 bytes and returns the interface version string.
 /// \return Returns CAMERA_STATUS_SUCCESS(0) successfully. Otherwise, it returns a non-zero error code. Please refer to the definition of the error code in CameraStatus.h.
 MVSDK_API CameraSdkStatus __stdcall CameraGetInerfaceVersion(
-  CameraHandle    hCamera,
-  char*       pVersion
+	CameraHandle    hCamera,
+	char* pVersion
 );
 
 /// @ingroup API_GPIO
@@ -3480,9 +3479,9 @@ MVSDK_API CameraSdkStatus __stdcall CameraGetInerfaceVersion(
 /// \return Returns CAMERA_STATUS_SUCCESS(0) successfully. Otherwise, it returns a non-zero error code. Please refer to the definition of the error code in CameraStatus.h.
 /// \note Obsolete, use CameraSetIOStateEx, which has a unified output state value of 1 high and 0 low for all models of cameras
 MVSDK_API CameraSdkStatus __stdcall CameraSetIOState(
-  CameraHandle    hCamera,
-  INT         iOutputIOIndex,
-  UINT        uState
+	CameraHandle    hCamera,
+	INT         iOutputIOIndex,
+	UINT        uState
 );
 
 /// @ingroup API_GPIO
@@ -3502,7 +3501,7 @@ MVSDK_API CameraSdkStatus __stdcall CameraSetIOStateEx(
 	CameraHandle    hCamera,
 	INT         iOutputIOIndex,
 	UINT        uState
-	);
+);
 
 /// @ingroup API_GPIO
 /// \~chinese
@@ -3522,8 +3521,8 @@ MVSDK_API CameraSdkStatus __stdcall CameraSetIOStateEx(
 MVSDK_API CameraSdkStatus __stdcall CameraGetOutPutIOState(
 	CameraHandle    hCamera,
 	INT         iOutputIOIndex,
-	UINT*       puState
-	);
+	UINT* puState
+);
 
 /// @ingroup API_GPIO
 /// \~chinese
@@ -3541,8 +3540,8 @@ MVSDK_API CameraSdkStatus __stdcall CameraGetOutPutIOState(
 MVSDK_API CameraSdkStatus __stdcall CameraGetOutPutIOStateEx(
 	CameraHandle    hCamera,
 	INT         iOutputIOIndex,
-	UINT*       puState
-	);
+	UINT* puState
+);
 
 /// @ingroup API_GPIO
 /// \~chinese
@@ -3560,9 +3559,9 @@ MVSDK_API CameraSdkStatus __stdcall CameraGetOutPutIOStateEx(
 /// \return Returns CAMERA_STATUS_SUCCESS(0) successfully. Otherwise, it returns a non-zero error code. Please refer to the definition of the error code in CameraStatus.h.
 /// \note Obsolete, use CameraGetIOStateEx, which has a unified input state value of 1 high and 0 low for all models of cameras
 MVSDK_API CameraSdkStatus __stdcall CameraGetIOState(
-  CameraHandle    hCamera,
-  INT         iInputIOIndex,
-  UINT*         puState
+	CameraHandle    hCamera,
+	INT         iInputIOIndex,
+	UINT* puState
 );
 
 /// @ingroup API_GPIO
@@ -3581,8 +3580,8 @@ MVSDK_API CameraSdkStatus __stdcall CameraGetIOState(
 MVSDK_API CameraSdkStatus __stdcall CameraGetIOStateEx(
 	CameraHandle    hCamera,
 	INT         iInputIOIndex,
-	UINT*         puState
-	);
+	UINT* puState
+);
 
 /// @ingroup API_GPIO
 /// \~chinese
@@ -3601,7 +3600,7 @@ MVSDK_API CameraSdkStatus __stdcall CameraSetInPutIOMode(
 	CameraHandle    hCamera,
 	INT         iInputIOIndex,
 	INT			iMode
-	);
+);
 
 /// @ingroup API_GPIO
 /// \~chinese
@@ -3619,8 +3618,8 @@ MVSDK_API CameraSdkStatus __stdcall CameraSetInPutIOMode(
 MVSDK_API CameraSdkStatus __stdcall CameraGetInPutIOMode(
 	CameraHandle    hCamera,
 	INT				iInputIOIndex,
-	INT*			piMode
-	);
+	INT* piMode
+);
 
 /// @ingroup API_GPIO
 /// \~chinese
@@ -3639,7 +3638,7 @@ MVSDK_API CameraSdkStatus __stdcall CameraSetOutPutIOMode(
 	CameraHandle    hCamera,
 	INT         iOutputIOIndex,
 	INT			iMode
-	);
+);
 
 /// @ingroup API_GPIO
 /// \~chinese
@@ -3657,8 +3656,8 @@ MVSDK_API CameraSdkStatus __stdcall CameraSetOutPutIOMode(
 MVSDK_API CameraSdkStatus __stdcall CameraGetOutPutIOMode(
 	CameraHandle    hCamera,
 	INT         iOutputIOIndex,
-	INT*		piMode
-	);
+	INT* piMode
+);
 
 /// @ingroup API_GPIO
 /// \~chinese
@@ -3676,8 +3675,8 @@ MVSDK_API CameraSdkStatus __stdcall CameraGetOutPutIOMode(
 MVSDK_API CameraSdkStatus __stdcall CameraGetInPutIOModeCapbility(
 	CameraHandle    hCamera,
 	INT				iInputIOIndex,
-	UINT*			piCapbility
-	);
+	UINT* piCapbility
+);
 
 /// @ingroup API_GPIO
 /// \~chinese
@@ -3695,8 +3694,8 @@ MVSDK_API CameraSdkStatus __stdcall CameraGetInPutIOModeCapbility(
 MVSDK_API CameraSdkStatus __stdcall CameraGetOutPutIOModeCapbility(
 	CameraHandle    hCamera,
 	INT				iOutputIOIndex,
-	UINT*			piCapbility
-	);
+	UINT* piCapbility
+);
 
 /// @ingroup API_GPIO
 /// \~chinese
@@ -3718,7 +3717,7 @@ MVSDK_API CameraSdkStatus __stdcall CameraSetOutPutPWM(
 	INT         iOutputIOIndex,
 	UINT		iCycle,
 	UINT		uDuty
-	);
+);
 
 /// @ingroup API_GPIO
 /// \~chinese
@@ -3734,7 +3733,7 @@ MVSDK_API CameraSdkStatus __stdcall CameraSetOutPutPWM(
 MVSDK_API CameraSdkStatus __stdcall CameraSetRotaryEncDir(
 	CameraHandle    hCamera,
 	INT				dir
-	);
+);
 
 /// @ingroup API_GPIO
 /// \~chinese
@@ -3749,8 +3748,8 @@ MVSDK_API CameraSdkStatus __stdcall CameraSetRotaryEncDir(
 /// \return Returns CAMERA_STATUS_SUCCESS(0) successfully. Otherwise, it returns a non-zero error code. Please refer to the definition of the error code in CameraStatus.h.
 MVSDK_API CameraSdkStatus __stdcall CameraGetRotaryEncDir(
 	CameraHandle    hCamera,
-	INT*			dir
-	);
+	INT* dir
+);
 
 /// @ingroup API_GPIO
 /// \~chinese
@@ -3769,7 +3768,7 @@ MVSDK_API CameraSdkStatus __stdcall CameraSetRotaryEncFreq(
 	CameraHandle hCamera,
 	INT			mul,
 	INT			div
-	);
+);
 
 /// @ingroup API_GPIO
 /// \~chinese
@@ -3786,9 +3785,9 @@ MVSDK_API CameraSdkStatus __stdcall CameraSetRotaryEncFreq(
 /// \return Returns CAMERA_STATUS_SUCCESS(0) successfully. Otherwise, it returns a non-zero error code. Please refer to the definition of the error code in CameraStatus.h.
 MVSDK_API CameraSdkStatus __stdcall CameraGetRotaryEncFreq(
 	CameraHandle hCamera,
-	INT*		mul,
-	INT*		div
-	);
+	INT* mul,
+	INT* div
+);
 
 /// @ingroup API_GPIO
 /// \~chinese
@@ -3807,7 +3806,7 @@ MVSDK_API CameraSdkStatus __stdcall CameraSetInPutIOFormat(
 	CameraHandle    hCamera,
 	INT         iInputIOIndex,
 	INT			iFormat
-	);
+);
 
 /// @ingroup API_GPIO
 /// \~chinese
@@ -3825,8 +3824,8 @@ MVSDK_API CameraSdkStatus __stdcall CameraSetInPutIOFormat(
 MVSDK_API CameraSdkStatus __stdcall CameraGetInPutIOFormat(
 	CameraHandle    hCamera,
 	INT				iInputIOIndex,
-	INT*			piFormat
-	);
+	INT* piFormat
+);
 
 /// @ingroup API_GPIO
 /// \~chinese
@@ -3845,7 +3844,7 @@ MVSDK_API CameraSdkStatus __stdcall CameraSetOutPutIOFormat(
 	CameraHandle    hCamera,
 	INT         iOutputIOIndex,
 	INT			iFormat
-	);
+);
 
 /// @ingroup API_GPIO
 /// \~chinese
@@ -3863,8 +3862,8 @@ MVSDK_API CameraSdkStatus __stdcall CameraSetOutPutIOFormat(
 MVSDK_API CameraSdkStatus __stdcall CameraGetOutPutIOFormat(
 	CameraHandle    hCamera,
 	INT				iOutputIOIndex,
-	INT*			piFormat
-	);
+	INT* piFormat
+);
 
 /// @ingroup API_GPIO
 /// \~chinese
@@ -3882,8 +3881,8 @@ MVSDK_API CameraSdkStatus __stdcall CameraGetOutPutIOFormat(
 MVSDK_API CameraSdkStatus __stdcall CameraGetInPutIOFormatCapbility(
 	CameraHandle    hCamera,
 	INT				iInputIOIndex,
-	UINT*			piCapbility
-	);
+	UINT* piCapbility
+);
 
 /// @ingroup API_GPIO
 /// \~chinese
@@ -3901,8 +3900,8 @@ MVSDK_API CameraSdkStatus __stdcall CameraGetInPutIOFormatCapbility(
 MVSDK_API CameraSdkStatus __stdcall CameraGetOutPutIOFormatCapbility(
 	CameraHandle    hCamera,
 	INT				iOutputIOIndex,
-	UINT*			piCapbility
-	);
+	UINT* piCapbility
+);
 
 // @ingroup API_EXPOSURE
 /// \~chinese
@@ -3918,9 +3917,9 @@ MVSDK_API CameraSdkStatus __stdcall CameraGetOutPutIOFormatCapbility(
 /// \param [in] iAeAlgorithmSel The algorithm number to select. From 0, the maximum value is determined by @link #tSdkCameraCapbility.iAeAlmSwDesc @endlink and @link #tSdkCameraCapbility.iAeAlmHdDesc @endlink.
 /// \return Returns CAMERA_STATUS_SUCCESS(0) successfully. Otherwise, it returns a non-zero error code. Please refer to the definition of the error code in CameraStatus.h.
 MVSDK_API CameraSdkStatus __stdcall CameraSetAeAlgorithm(
-    CameraHandle    hCamera,
-    INT             iIspProcessor,
-    INT             iAeAlgorithmSel
+	CameraHandle    hCamera,
+	INT             iIspProcessor,
+	INT             iAeAlgorithmSel
 );
 
 // @ingroup API_EXPOSURE
@@ -3937,9 +3936,9 @@ MVSDK_API CameraSdkStatus __stdcall CameraSetAeAlgorithm(
 /// \param [out] piAlgorithmSel Returns the currently selected algorithm number.
 /// \return Returns CAMERA_STATUS_SUCCESS(0) successfully. Otherwise, it returns a non-zero error code. Please refer to the definition of the error code in CameraStatus.h.
 MVSDK_API CameraSdkStatus __stdcall CameraGetAeAlgorithm(
-    CameraHandle    hCamera,
-    INT             iIspProcessor,
-    INT*            piAlgorithmSel
+	CameraHandle    hCamera,
+	INT             iIspProcessor,
+	INT* piAlgorithmSel
 );
 
 /// @ingroup API_ISP
@@ -3947,7 +3946,7 @@ MVSDK_API CameraSdkStatus __stdcall CameraGetAeAlgorithm(
 /// \brief 设置Bayer数据转彩色的算法。
 /// \param [in] hCamera 相机的句柄。
 /// \param [in] iIspProcessor   选择执行该算法的对象，参考@link #emSdkIspProcessor @endlink
-/// \param [in] iAlgorithmSel     要选择的算法编号。从0开始，最大值由tSdkCameraCapbility.iBayerDecAlmSwDesc和tSdkCameraCapbility.iBayerDecAlmHdDesc决定。  
+/// \param [in] iAlgorithmSel     要选择的算法编号。从0开始，最大值由tSdkCameraCapbility.iBayerDecAlmSwDesc和tSdkCameraCapbility.iBayerDecAlmHdDesc决定。
 /// \return 成功返回 CAMERA_STATUS_SUCCESS(0)。否则返回非0值的错误码, 请参考 CameraStatus.h 中错误码的定义。
 /// \~english
 /// \brief Set Bayer data to color algorithm.
@@ -3956,9 +3955,9 @@ MVSDK_API CameraSdkStatus __stdcall CameraGetAeAlgorithm(
 /// \param [in] iAlgorithmSel The algorithm number to select. From 0, the maximum value is determined by tSdkCameraCapbility.iBayerDecAlmSwDesc and tSdkCameraCapbility.iBayerDecAlmHdDesc.
 /// \return Returns CAMERA_STATUS_SUCCESS(0) successfully. Otherwise, it returns a non-zero error code. Please refer to the definition of the error code in CameraStatus.h.
 MVSDK_API CameraSdkStatus __stdcall CameraSetBayerDecAlgorithm(
-    CameraHandle    hCamera,
-    INT             iIspProcessor,
-    INT             iAlgorithmSel
+	CameraHandle    hCamera,
+	INT             iIspProcessor,
+	INT             iAlgorithmSel
 );
 
 /// @ingroup API_ISP
@@ -3975,9 +3974,9 @@ MVSDK_API CameraSdkStatus __stdcall CameraSetBayerDecAlgorithm(
 /// \param [in] piAlgorithmSel Returns the currently selected algorithm number.
 /// \return Returns CAMERA_STATUS_SUCCESS(0) successfully. Otherwise, it returns a non-zero error code. Please refer to the definition of the error code in CameraStatus.h.
 MVSDK_API CameraSdkStatus __stdcall CameraGetBayerDecAlgorithm(
-    CameraHandle    hCamera,
-    INT             iIspProcessor,
-    INT*            piAlgorithmSel
+	CameraHandle    hCamera,
+	INT             iIspProcessor,
+	INT* piAlgorithmSel
 );
 
 // @ingroup API_ISP
@@ -3992,8 +3991,8 @@ MVSDK_API CameraSdkStatus __stdcall CameraGetBayerDecAlgorithm(
 /// \param [in] iIspProcessor Reference @link #emSdkIspProcessor @endlink
 /// \return Returns CAMERA_STATUS_SUCCESS(0) successfully. Otherwise, it returns a non-zero error code. Please refer to the definition of the error code in CameraStatus.h.
 MVSDK_API CameraSdkStatus __stdcall CameraSetIspProcessor(
-    CameraHandle    hCamera,
-    INT             iIspProcessor
+	CameraHandle    hCamera,
+	INT             iIspProcessor
 );
 
 // @ingroup API_ISP
@@ -4008,15 +4007,15 @@ MVSDK_API CameraSdkStatus __stdcall CameraSetIspProcessor(
 /// \param [out] piIspProcessor returns the selected object
 /// \return Returns CAMERA_STATUS_SUCCESS(0) successfully. Otherwise, it returns a non-zero error code. Please refer to the definition of the error code in CameraStatus.h.
 MVSDK_API CameraSdkStatus __stdcall CameraGetIspProcessor(
-    CameraHandle    hCamera,
-    INT*            piIspProcessor
+	CameraHandle    hCamera,
+	INT* piIspProcessor
 );
 
 /// @ingroup API_ISP
 /// \~chinese
 /// \brief 设置图像的黑电平基准，默认值为0
 /// \param [in] hCamera 相机的句柄。
-/// \param [in] iBlackLevel 要设定的电平值。范围为0到255。 
+/// \param [in] iBlackLevel 要设定的电平值。范围为0到255。
 /// \return 成功返回 CAMERA_STATUS_SUCCESS(0)。否则返回非0值的错误码, 请参考 CameraStatus.h 中错误码的定义。
 /// \~english
 /// \brief Sets the black level reference of the image. The default value is 0
@@ -4024,8 +4023,8 @@ MVSDK_API CameraSdkStatus __stdcall CameraGetIspProcessor(
 /// \param [in] iBlackLevel The value to set. The range is 0 to 255.
 /// \return Returns CAMERA_STATUS_SUCCESS(0) successfully. Otherwise, it returns a non-zero error code. Please refer to the definition of the error code in CameraStatus.h.
 MVSDK_API CameraSdkStatus __stdcall CameraSetBlackLevel(
-  CameraHandle    hCamera,
-  INT         iBlackLevel
+	CameraHandle    hCamera,
+	INT         iBlackLevel
 );
 
 /// @ingroup API_ISP
@@ -4040,15 +4039,15 @@ MVSDK_API CameraSdkStatus __stdcall CameraSetBlackLevel(
 /// \param [out] piBlackLevel Returns the current black level value. The range is 0 to 255.
 /// \return Returns CAMERA_STATUS_SUCCESS(0) successfully. Otherwise, it returns a non-zero error code. Please refer to the definition of the error code in CameraStatus.h.
 MVSDK_API CameraSdkStatus __stdcall CameraGetBlackLevel(
-  CameraHandle    hCamera,
-  INT*        piBlackLevel
+	CameraHandle    hCamera,
+	INT* piBlackLevel
 );
 
 /// @ingroup API_ISP
 /// \~chinese
 /// \brief 设置图像的白电平基准，默认值为255
 /// \param [in] hCamera 相机的句柄。
-/// \param [in] iWhiteLevel 要设定的电平值。范围为0到255。  
+/// \param [in] iWhiteLevel 要设定的电平值。范围为0到255。
 /// \return 成功返回 CAMERA_STATUS_SUCCESS(0)。否则返回非0值的错误码, 请参考 CameraStatus.h 中错误码的定义。
 /// \~english
 /// \brief Sets the white level reference of the image. The default value is 255
@@ -4056,8 +4055,8 @@ MVSDK_API CameraSdkStatus __stdcall CameraGetBlackLevel(
 /// \param [in] iWhiteLevel The level to be set. The range is 0 to 255.
 /// \return Returns CAMERA_STATUS_SUCCESS(0) successfully. Otherwise, it returns a non-zero error code. Please refer to the definition of the error code in CameraStatus.h.
 MVSDK_API CameraSdkStatus __stdcall CameraSetWhiteLevel(
-  CameraHandle    hCamera,
-  INT         iWhiteLevel
+	CameraHandle    hCamera,
+	INT         iWhiteLevel
 );
 
 /// @ingroup API_ISP
@@ -4072,8 +4071,8 @@ MVSDK_API CameraSdkStatus __stdcall CameraSetWhiteLevel(
 /// \param [out] piWhiteLevel Returns the current white level value. The range is 0 to 255.
 /// \return Returns CAMERA_STATUS_SUCCESS(0) successfully. Otherwise, it returns a non-zero error code. Please refer to the definition of the error code in CameraStatus.h.
 MVSDK_API CameraSdkStatus __stdcall CameraGetWhiteLevel(
-  CameraHandle    hCamera,
-  INT*        piWhiteLevel
+	CameraHandle    hCamera,
+	INT* piWhiteLevel
 );
 
 /// @ingroup API_ISP
@@ -4090,8 +4089,8 @@ MVSDK_API CameraSdkStatus __stdcall CameraGetWhiteLevel(
 /// \return Returns CAMERA_STATUS_SUCCESS(0) successfully. Otherwise, it returns a non-zero error code. Please refer to the definition of the error code in CameraStatus.h.
 /// \note Supported formats: CAMERA_MEDIA_TYPE_MONO8, CAMERA_MEDIA_TYPE_MONO16, CAMERA_MEDIA_TYPE_RGB8, CAMERA_MEDIA_TYPE_RGBA8, CAMERA_MEDIA_TYPE_BGR8, CAMERA_MEDIA_TYPE_BGRA8
 MVSDK_API CameraSdkStatus __stdcall CameraSetIspOutFormat(
-    CameraHandle    hCamera,
-    UINT            uFormat
+	CameraHandle    hCamera,
+	UINT            uFormat
 );
 
 /// @ingroup API_ISP
@@ -4108,8 +4107,8 @@ MVSDK_API CameraSdkStatus __stdcall CameraSetIspOutFormat(
 /// \return Returns CAMERA_STATUS_SUCCESS(0) successfully. Otherwise, it returns a non-zero error code. Please refer to the definition of the error code in CameraStatus.h.
 /// \see CameraSetIspOutFormat
 MVSDK_API CameraSdkStatus __stdcall CameraGetIspOutFormat(
-    CameraHandle    hCamera,
-    UINT*           puFormat
+	CameraHandle    hCamera,
+	UINT* puFormat
 );
 
 /// @ingroup API_UTIL
@@ -4122,7 +4121,7 @@ MVSDK_API CameraSdkStatus __stdcall CameraGetIspOutFormat(
 /// \param [in] iStatusCode error code. (Defined in CameraStatus.h)
 /// When the return is successful, the first address of the string corresponding to the error code is returned; otherwise it returns NULL.
 MVSDK_API char* __stdcall CameraGetErrorString(
-    CameraSdkStatus     iStatusCode
+	CameraSdkStatus     iStatusCode
 );
 
 /// @ingroup API_GRAB
@@ -4147,12 +4146,12 @@ MVSDK_API char* __stdcall CameraGetErrorString(
 /// \return Returns CAMERA_STATUS_SUCCESS(0) successfully. Otherwise, it returns a non-zero error code. Please refer to the definition of the error code in CameraStatus.h.
 /// \note does not need to call @link #CameraReleaseImageBuffer @endlink
 MVSDK_API CameraSdkStatus __stdcall CameraGetImageBufferEx2(
-    CameraHandle    hCamera, 
-    BYTE*           pImageData,
-    UINT            uOutFormat,
-    int*            piWidth,
-    int*            piHeight,
-    UINT            wTimes
+	CameraHandle    hCamera,
+	BYTE* pImageData,
+	UINT            uOutFormat,
+	int* piWidth,
+	int* piHeight,
+	UINT            wTimes
 );
 
 /// @ingroup API_GRAB
@@ -4163,7 +4162,7 @@ MVSDK_API CameraSdkStatus __stdcall CameraGetImageBufferEx2(
 /// \param [in] uOutFormat	 输出格式 0:Mono8 1:rgb24 2:rgba32 3:bgr24 4:bgra32
 /// \param [out] piWidth     整形指针，返回图像的宽度
 /// \param [out] piHeight    整形指针，返回图像的高度
-/// \param [out] puTimeStamp 返回图像时间戳 
+/// \param [out] puTimeStamp 返回图像时间戳
 /// \param [in] wTimes      抓取图像的超时时间。
 /// \return 成功返回 CAMERA_STATUS_SUCCESS(0)。否则返回非0值的错误码, 请参考 CameraStatus.h 中错误码的定义。
 /// \note 不需要调用 @link #CameraReleaseImageBuffer @endlink
@@ -4179,11 +4178,11 @@ MVSDK_API CameraSdkStatus __stdcall CameraGetImageBufferEx2(
 /// \return Returns CAMERA_STATUS_SUCCESS(0) successfully. Otherwise, it returns a non-zero error code. Please refer to the definition of the error code in CameraStatus.h.
 /// \note does not need to call @link #CameraReleaseImageBuffer @endlink
 MVSDK_API CameraSdkStatus __stdcall CameraGetImageBufferEx3(
-	CameraHandle hCamera, 
-	BYTE*pImageData,
+	CameraHandle hCamera,
+	BYTE* pImageData,
 	UINT uOutFormat,
-	int *piWidth,
-	int *piHeight,
+	int* piWidth,
+	int* piHeight,
 	UINT* puTimeStamp,
 	UINT wTimes
 );
@@ -4193,7 +4192,7 @@ MVSDK_API CameraSdkStatus __stdcall CameraGetImageBufferEx3(
 /// \brief 获得该相机的一些特性。
 /// \param [in] hCamera 相机的句柄。
 /// \param [out] pMaxWidth	    返回该相机最大分辨率的宽度
-/// \param [out] pMaxHeight      返回该相机最大分辨率的高度 
+/// \param [out] pMaxHeight      返回该相机最大分辨率的高度
 /// \param [out] pbColorCamera    返回该相机是否是彩色相机。1表示彩色相机，0表示黑白相机
 /// \return 成功返回 CAMERA_STATUS_SUCCESS(0)。否则返回非0值的错误码, 请参考 CameraStatus.h 中错误码的定义。
 /// \~english
@@ -4204,10 +4203,10 @@ MVSDK_API CameraSdkStatus __stdcall CameraGetImageBufferEx3(
 /// \param [out] pbColorCamera Returns whether the camera is a color camera. 1 indicates a color camera, 0 indicates a black and white camera
 /// \return Returns CAMERA_STATUS_SUCCESS(0) successfully. Otherwise, it returns a non-zero error code. Please refer to the definition of the error code in CameraStatus.h.
 MVSDK_API CameraSdkStatus __stdcall CameraGetCapabilityEx2(
-    CameraHandle    hCamera,
-    int*            pMaxWidth,
-    int*            pMaxHeight,
-    int*            pbColorCamera
+	CameraHandle    hCamera,
+	int* pMaxWidth,
+	int* pMaxHeight,
+	int* pbColorCamera
 );
 
 /// @ingroup API_RECONNECT
@@ -4222,7 +4221,7 @@ MVSDK_API CameraSdkStatus __stdcall CameraGetCapabilityEx2(
 /// \return Returns CAMERA_STATUS_SUCCESS(0) successfully. Otherwise, it returns a non-zero error code. Please refer to the definition of the error code in CameraStatus.h.
 /// \warning The camera automatically enables reconnection by default. Do not call this function in auto reconnect mode. @see CameraSetAutoConnect
 MVSDK_API CameraSdkStatus __stdcall CameraReConnect(
-    CameraHandle    hCamera
+	CameraHandle    hCamera
 );
 
 /// @ingroup API_RECONNECT
@@ -4235,7 +4234,7 @@ MVSDK_API CameraSdkStatus __stdcall CameraReConnect(
 /// \param [in] hCamera Camera handle.
 /// \return The connection normally returns CAMERA_STATUS_SUCCESS(0). Otherwise it is dropped
 MVSDK_API CameraSdkStatus __stdcall CameraConnectTest(
-    CameraHandle    hCamera
+	CameraHandle    hCamera
 );
 
 /// @ingroup API_ADVANCE
@@ -4255,7 +4254,7 @@ MVSDK_API CameraSdkStatus __stdcall CameraSetLedEnable(
 	CameraHandle    hCamera,
 	int             index,
 	BOOL            enable
-	);
+);
 
 /// @ingroup API_ADVANCE
 /// \~chinese
@@ -4273,8 +4272,8 @@ MVSDK_API CameraSdkStatus __stdcall CameraSetLedEnable(
 MVSDK_API CameraSdkStatus __stdcall CameraGetLedEnable(
 	CameraHandle    hCamera,
 	int             index,
-	BOOL*           enable
-	);
+	BOOL* enable
+);
 
 /// @ingroup API_ADVANCE
 /// \~chinese
@@ -4293,7 +4292,7 @@ MVSDK_API CameraSdkStatus __stdcall CameraSetLedOnOff(
 	CameraHandle    hCamera,
 	int             index,
 	BOOL            onoff
-	);
+);
 
 /// @ingroup API_ADVANCE
 /// \~chinese
@@ -4311,8 +4310,8 @@ MVSDK_API CameraSdkStatus __stdcall CameraSetLedOnOff(
 MVSDK_API CameraSdkStatus __stdcall CameraGetLedOnOff(
 	CameraHandle    hCamera,
 	int             index,
-	BOOL*           onoff
-	);
+	BOOL* onoff
+);
 
 /// @ingroup API_ADVANCE
 /// \~chinese
@@ -4331,7 +4330,7 @@ MVSDK_API CameraSdkStatus __stdcall CameraSetLedDuration(
 	CameraHandle    hCamera,
 	int             index,
 	UINT            duration
-	);
+);
 
 /// @ingroup API_ADVANCE
 /// \~chinese
@@ -4349,8 +4348,8 @@ MVSDK_API CameraSdkStatus __stdcall CameraSetLedDuration(
 MVSDK_API CameraSdkStatus __stdcall CameraGetLedDuration(
 	CameraHandle    hCamera,
 	int             index,
-	UINT*           duration
-	);
+	UINT* duration
+);
 
 /// @ingroup API_ADVANCE
 /// \~chinese
@@ -4366,9 +4365,9 @@ MVSDK_API CameraSdkStatus __stdcall CameraGetLedDuration(
 /// \param [in] uBrightness LED brightness value, range 0 to 255. 0 means off, 255 brightest.
 /// \return Returns CAMERA_STATUS_SUCCESS(0) successfully. Otherwise, it returns a non-zero error code. Please refer to the definition of the error code in CameraStatus.h.
 MVSDK_API CameraSdkStatus __stdcall CameraSetLedBrightness(
-    CameraHandle    hCamera,
-    int             index,
-    UINT            uBrightness
+	CameraHandle    hCamera,
+	int             index,
+	UINT            uBrightness
 );
 
 /// @ingroup API_ADVANCE
@@ -4385,9 +4384,9 @@ MVSDK_API CameraSdkStatus __stdcall CameraSetLedBrightness(
 /// \param [out] uBrightness Returns the LED brightness value in the range 0 to 255. 0 means off, 255 is the brightest.
 /// \return Returns CAMERA_STATUS_SUCCESS(0) successfully. Otherwise, it returns a non-zero error code. Please refer to the definition of the error code in CameraStatus.h.
 MVSDK_API CameraSdkStatus __stdcall CameraGetLedBrightness(
-    CameraHandle    hCamera,
-    int             index,
-    UINT*           uBrightness
+	CameraHandle    hCamera,
+	int             index,
+	UINT* uBrightness
 );
 
 /// @ingroup API_ADVANCE
@@ -4404,8 +4403,8 @@ MVSDK_API CameraSdkStatus __stdcall CameraGetLedBrightness(
 /// \return Returns CAMERA_STATUS_SUCCESS(0) successfully. Otherwise, it returns a non-zero error code. Please refer to the definition of the error code in CameraStatus.h.
 /// \note This function is mainly used to split the entire picture collected on the camera side and only transmit specified multiple areas to increase the transmission frame rate. After multiple areas are transferred to the PC, they will be automatically spliced into an entire frame. Parts that have not been transmitted will be filled with black.
 MVSDK_API CameraSdkStatus __stdcall CameraEnableTransferRoi(
-    CameraHandle    hCamera,
-    UINT            uEnableMask
+	CameraHandle    hCamera,
+	UINT            uEnableMask
 );
 
 /// @ingroup API_ADVANCE
@@ -4428,12 +4427,12 @@ MVSDK_API CameraSdkStatus __stdcall CameraEnableTransferRoi(
 /// \param [in] Y2 The Y coordinate of the lower right corner of ROI area
 /// \return Returns CAMERA_STATUS_SUCCESS(0) successfully. Otherwise, it returns a non-zero error code. Please refer to the definition of the error code in CameraStatus.h.
 MVSDK_API CameraSdkStatus __stdcall CameraSetTransferRoi(
-    CameraHandle    hCamera,
-    int             index,
-    UINT            X1,
-    UINT            Y1,
-    UINT            X2,
-    UINT            Y2
+	CameraHandle    hCamera,
+	int             index,
+	UINT            X1,
+	UINT            Y1,
+	UINT            X2,
+	UINT            Y2
 );
 
 /// @ingroup API_ADVANCE
@@ -4456,18 +4455,18 @@ MVSDK_API CameraSdkStatus __stdcall CameraSetTransferRoi(
 /// \param [out] pY2 Returns the Y coordinate of the lower right corner of the ROI area
 /// \return Returns CAMERA_STATUS_SUCCESS(0) successfully. Otherwise, it returns a non-zero error code. Please refer to the definition of the error code in CameraStatus.h.
 MVSDK_API CameraSdkStatus __stdcall CameraGetTransferRoi(
-    CameraHandle    hCamera,
-    int             index,
-    UINT*           pX1,
-    UINT*           pY1,
-    UINT*           pX2,
-    UINT*           pY2
+	CameraHandle    hCamera,
+	int             index,
+	UINT* pX1,
+	UINT* pY1,
+	UINT* pX2,
+	UINT* pY2
 );
 
 /// @ingroup API_UTIL
 /// \~chinese
 /// \brief 申请一段对齐的内存空间。功能和malloc类似，但是返回的内存是以align指定的字节数对齐的。
-/// \param [in] size	 空间的大小。 
+/// \param [in] size	 空间的大小。
 /// \param [in] align    地址对齐的字节数。
 /// \return 成功时，返回非0值，表示内存首地址。失败返回NULL。
 /// \note 分配的内存必须使用@link #CameraAlignFree @endlink释放
@@ -4478,9 +4477,9 @@ MVSDK_API CameraSdkStatus __stdcall CameraGetTransferRoi(
 /// \return Successful a non-zero value is returned indicating the first address of the memory. Fails to return NULL.
 /// \note Memory allocated must be freed using @link #CameraAlignFree @endlink
 MVSDK_API BYTE* __stdcall CameraAlignMalloc(
-    int             size,
-    int             align
-    );
+	int             size,
+	int             align
+);
 
 /// @ingroup API_UTIL
 /// \~chinese
@@ -4490,7 +4489,7 @@ MVSDK_API BYTE* __stdcall CameraAlignMalloc(
 /// \brief Releases the memory space allocated by the @link #CameraAlignMalloc @endlink function.
 /// \param [in] membuffer memory address
 MVSDK_API void __stdcall CameraAlignFree(
-    BYTE*           membuffer
+	BYTE* membuffer
 );
 
 /// @ingroup API_RECONNECT
@@ -4504,7 +4503,7 @@ MVSDK_API void __stdcall CameraAlignFree(
 /// \param [in] hCamera Camera handle.
 /// \param [in] bEnable Enables the camera to reconnect. When TRUE, the SDK automatically detects if the camera is dropped and reconnects itself after disconnection.
 /// \return Returns CAMERA_STATUS_SUCCESS(0) successfully. Otherwise, it returns a non-zero error code. Please refer to the definition of the error code in CameraStatus.h.
-MVSDK_API CameraSdkStatus __stdcall CameraSetAutoConnect(CameraHandle hCamera,BOOL bEnable);
+MVSDK_API CameraSdkStatus __stdcall CameraSetAutoConnect(CameraHandle hCamera, BOOL bEnable);
 
 /// @ingroup API_RECONNECT
 /// \~chinese
@@ -4517,7 +4516,7 @@ MVSDK_API CameraSdkStatus __stdcall CameraSetAutoConnect(CameraHandle hCamera,BO
 /// \param [in] hCamera Camera handle.
 /// \param [out] pbEnable Returns the camera's auto reconnect status
 /// \return Returns CAMERA_STATUS_SUCCESS(0) successfully. Otherwise, it returns a non-zero error code. Please refer to the definition of the error code in CameraStatus.h.
-MVSDK_API CameraSdkStatus __stdcall CameraGetAutoConnect(CameraHandle hCamera,BOOL *pbEnable);
+MVSDK_API CameraSdkStatus __stdcall CameraGetAutoConnect(CameraHandle hCamera, BOOL* pbEnable);
 
 /// @ingroup API_RECONNECT
 /// \~chinese
@@ -4530,7 +4529,7 @@ MVSDK_API CameraSdkStatus __stdcall CameraGetAutoConnect(CameraHandle hCamera,BO
 /// \param [in] hCamera Camera handle.
 /// \param [out] puCounts returns the number of automatic reconnections
 /// \return Returns CAMERA_STATUS_SUCCESS(0) successfully. Otherwise, it returns a non-zero error code. Please refer to the definition of the error code in CameraStatus.h.
-MVSDK_API CameraSdkStatus __stdcall CameraGetReConnectCounts(CameraHandle hCamera,UINT* puCounts);
+MVSDK_API CameraSdkStatus __stdcall CameraGetReConnectCounts(CameraHandle hCamera, UINT* puCounts);
 
 /// @ingroup API_ADVANCE
 /// \~chinese
@@ -4576,7 +4575,7 @@ MVSDK_API CameraSdkStatus __stdcall CameraRestartGrab(CameraHandle hCamera);
 /// \brief 图片清晰度评估
 /// \param [in] hCamera 相机的句柄。
 /// \param [in] iAlgorithSel 使用的评估算法,参考@link emEvaluateDefinitionAlgorith @endlink的定义
-/// \param [in] pbyIn    输入图像数据的缓冲区地址，不能为NULL。 
+/// \param [in] pbyIn    输入图像数据的缓冲区地址，不能为NULL。
 /// \param [in] pFrInfo  输入图像的帧头信息
 /// \param [out] DefinitionValue 返回的清晰度估值（越大越清晰）
 /// \return 成功返回 CAMERA_STATUS_SUCCESS(0)。否则返回非0值的错误码, 请参考 CameraStatus.h 中错误码的定义。
@@ -4591,10 +4590,10 @@ MVSDK_API CameraSdkStatus __stdcall CameraRestartGrab(CameraHandle hCamera);
 MVSDK_API CameraSdkStatus __stdcall CameraEvaluateImageDefinition(
 	CameraHandle        hCamera,
 	INT					iAlgorithSel,
-	BYTE*               pbyIn, 
-	tSdkFrameHead*      pFrInfo,
-	double*				DefinitionValue
-	);
+	BYTE* pbyIn,
+	tSdkFrameHead* pFrInfo,
+	double* DefinitionValue
+);
 
 /// @ingroup API_UTIL
 /// \~chinese
@@ -4628,19 +4627,19 @@ MVSDK_API CameraSdkStatus __stdcall CameraEvaluateImageDefinition(
 /// \param [in] uFlags output flags, as defined in @link #emCameraDrawTextFlags @endlink
 /// \return Returns CAMERA_STATUS_SUCCESS(0) successfully. Otherwise, it returns a non-zero error code. Please refer to the definition of the error code in CameraStatus.h.
 MVSDK_API CameraSdkStatus __stdcall CameraDrawText(
-	BYTE*           pRgbBuffer,
-	tSdkFrameHead*  pFrInfo,
-	char const*		pFontFileName, 
+	BYTE* pRgbBuffer,
+	tSdkFrameHead* pFrInfo,
+	char const* pFontFileName,
 	UINT			FontWidth,
 	UINT			FontHeight,
-	char const*		pText, 
+	char const* pText,
 	INT				Left,
 	INT				Top,
 	UINT			Width,
 	UINT			Height,
 	UINT			TextColor,
 	UINT			uFlags
-	);
+);
 
 /// @ingroup API_ENUM
 /// \~chinese
@@ -4662,16 +4661,16 @@ MVSDK_API CameraSdkStatus __stdcall CameraDrawText(
 /// \warning piNums The value pointed to must be initialized and does not exceed the number of pCameraList array elements, otherwise it may cause memory overflow
 /// \note The list of returned camera information will be sorted according to acFriendlyName. For example, after changing the two cameras to the names of "Camera1" and "Camera2," the camera named "Camera1" will be in front, and the camera named "Camera2" will be behind the row.
 MVSDK_API CameraSdkStatus __stdcall CameraGigeEnumerateDevice(
-	char const**        ppIpList,
+	char const** ppIpList,
 	int                 numIp,
-	tSdkCameraDevInfo*  pCameraList, 
-	int*                piNums
-	);
+	tSdkCameraDevInfo* pCameraList,
+	int* piNums
+);
 
 /// @ingroup API_UTIL
 /// \~chinese
 /// \brief 获取GIGE相机的IP地址
-/// \param [in] pCameraInfo 相机的设备描述信息，可由@link #CameraEnumerateDevice @endlink函数获得。 
+/// \param [in] pCameraInfo 相机的设备描述信息，可由@link #CameraEnumerateDevice @endlink函数获得。
 /// \param [out] CamIp 相机IP(注意：必须保证传入的缓冲区大于等于16字节)
 /// \param [out] CamMask 相机子网掩码(注意：必须保证传入的缓冲区大于等于16字节)
 /// \param [out] CamGateWay 相机网关(注意：必须保证传入的缓冲区大于等于16字节)
@@ -4690,19 +4689,19 @@ MVSDK_API CameraSdkStatus __stdcall CameraGigeEnumerateDevice(
 /// \param [out] EtGateWay NIC Gateway (Note: must ensure that the incoming buffer is greater than or equal to 16 bytes)
 /// \return Returns CAMERA_STATUS_SUCCESS(0) successfully. Otherwise, it returns a non-zero error code. Please refer to the definition of the error code in CameraStatus.h.
 MVSDK_API CameraSdkStatus __stdcall CameraGigeGetIp(
-		tSdkCameraDevInfo* pCameraInfo,
-		char* CamIp,
-		char* CamMask,
-		char* CamGateWay,
-		char* EtIp,
-		char* EtMask,
-		char* EtGateWay
-	);
+	tSdkCameraDevInfo* pCameraInfo,
+	char* CamIp,
+	char* CamMask,
+	char* CamGateWay,
+	char* EtIp,
+	char* EtMask,
+	char* EtGateWay
+);
 
 /// @ingroup API_UTIL
 /// \~chinese
 /// \brief 设置GIGE相机的IP地址
-/// \param [in] pCameraInfo 相机的设备描述信息，可由@link #CameraEnumerateDevice @endlink函数获得。 
+/// \param [in] pCameraInfo 相机的设备描述信息，可由@link #CameraEnumerateDevice @endlink函数获得。
 /// \param [in] Ip 相机IP(如：192.168.1.100)
 /// \param [in] SubMask 相机子网掩码(如：255.255.255.0)
 /// \param [in] GateWay 相机网关(如：192.168.1.1)
@@ -4722,12 +4721,12 @@ MVSDK_API CameraSdkStatus __stdcall CameraGigeSetIp(
 	char const* SubMask,
 	char const* GateWay,
 	BOOL bPersistent
-	);
+);
 
 /// @ingroup API_UTIL
 /// \~chinese
 /// \brief 获取GIGE相机的MAC地址
-/// \param [in] pCameraInfo 相机的设备描述信息，可由@link #CameraEnumerateDevice @endlink函数获得。 
+/// \param [in] pCameraInfo 相机的设备描述信息，可由@link #CameraEnumerateDevice @endlink函数获得。
 /// \param [out] CamMac 相机MAC(注意：必须保证传入的缓冲区大于等于18字节)
 /// \param [out] EtMac 网卡MAC(注意：必须保证传入的缓冲区大于等于18字节)
 /// \return 成功返回 CAMERA_STATUS_SUCCESS(0)。否则返回非0值的错误码, 请参考 CameraStatus.h 中错误码的定义。
@@ -4741,7 +4740,7 @@ MVSDK_API CameraSdkStatus __stdcall CameraGigeGetMac(
 	tSdkCameraDevInfo* pCameraInfo,
 	char* CamMac,
 	char* EtMac
-	);
+);
 
 /// @ingroup API_ADVANCE
 /// \~chinese
@@ -4754,7 +4753,7 @@ MVSDK_API CameraSdkStatus __stdcall CameraGigeGetMac(
 /// \return Returns CAMERA_STATUS_SUCCESS(0) successfully. Otherwise, it returns a non-zero error code. Please refer to the definition of the error code in CameraStatus.h.
 MVSDK_API CameraSdkStatus __stdcall CameraEnableFastResponse(
 	CameraHandle hCamera
-	);
+);
 
 /// @ingroup API_DEAD_PIXEL
 /// \~chinese
@@ -4770,7 +4769,7 @@ MVSDK_API CameraSdkStatus __stdcall CameraEnableFastResponse(
 MVSDK_API CameraSdkStatus __stdcall CameraSetCorrectDeadPixel(
 	CameraHandle hCamera,
 	BOOL bEnable
-	);
+);
 
 /// @ingroup API_DEAD_PIXEL
 /// \~chinese
@@ -4786,7 +4785,7 @@ MVSDK_API CameraSdkStatus __stdcall CameraSetCorrectDeadPixel(
 MVSDK_API CameraSdkStatus __stdcall CameraGetCorrectDeadPixel(
 	CameraHandle hCamera,
 	BOOL* pbEnable
-	);
+);
 
 /// @ingroup API_ENHANCE
 /// \~chinese
@@ -4802,7 +4801,7 @@ MVSDK_API CameraSdkStatus __stdcall CameraGetCorrectDeadPixel(
 MVSDK_API CameraSdkStatus __stdcall CameraFlatFieldingCorrectSetEnable(
 	CameraHandle hCamera,
 	BOOL bEnable
-	);
+);
 
 /// @ingroup API_ENHANCE
 /// \~chinese
@@ -4818,7 +4817,7 @@ MVSDK_API CameraSdkStatus __stdcall CameraFlatFieldingCorrectSetEnable(
 MVSDK_API CameraSdkStatus __stdcall CameraFlatFieldingCorrectGetEnable(
 	CameraHandle hCamera,
 	BOOL* pbEnable
-	);
+);
 
 /// @ingroup API_ENHANCE
 /// \~chinese
@@ -4843,7 +4842,7 @@ MVSDK_API CameraSdkStatus __stdcall CameraFlatFieldingCorrectSetParameter(
 	tSdkFrameHead const* pDarkFieldingFrInfo,
 	BYTE const* pLightFieldingImage,
 	tSdkFrameHead const* pLightFieldingFrInfo
-	);
+);
 
 /// @ingroup API_ENHANCE
 /// \~chinese
@@ -4860,9 +4859,9 @@ MVSDK_API CameraSdkStatus __stdcall CameraFlatFieldingCorrectSetParameter(
 /// \return Returns CAMERA_STATUS_SUCCESS(0) successfully. Otherwise, it returns a non-zero error code. Please refer to the definition of the error code in CameraStatus.h.
 MVSDK_API CameraSdkStatus __stdcall CameraFlatFieldingCorrectGetParameterState(
 	CameraHandle hCamera,
-	BOOL *pbValid,
-	char *pFilePath
-	);
+	BOOL* pbValid,
+	char* pFilePath
+);
 
 /// @ingroup API_ENHANCE
 /// \~chinese
@@ -4878,7 +4877,7 @@ MVSDK_API CameraSdkStatus __stdcall CameraFlatFieldingCorrectGetParameterState(
 MVSDK_API CameraSdkStatus __stdcall CameraFlatFieldingCorrectSaveParameterToFile(
 	CameraHandle hCamera,
 	char const* pszFileName
-	);
+);
 
 /// @ingroup API_ENHANCE
 /// \~chinese
@@ -4894,7 +4893,7 @@ MVSDK_API CameraSdkStatus __stdcall CameraFlatFieldingCorrectSaveParameterToFile
 MVSDK_API CameraSdkStatus __stdcall CameraFlatFieldingCorrectLoadParameterFromFile(
 	CameraHandle hCamera,
 	char const* pszFileName
-	);
+);
 
 /******************************************************/
 // 函数名   : CameraCommonCall
@@ -4908,11 +4907,11 @@ MVSDK_API CameraSdkStatus __stdcall CameraFlatFieldingCorrectLoadParameterFromFi
 //            中错误码的定义。
 /******************************************************/
 MVSDK_API CameraSdkStatus __stdcall CameraCommonCall(
-	CameraHandle    hCamera, 
-	char const*		pszCall,
-	char*			pszResult,
+	CameraHandle    hCamera,
+	char const* pszCall,
+	char* pszResult,
 	UINT			uResultBufSize
-	);
+);
 
 /// @ingroup API_ENHANCE
 /// \~chinese
@@ -4930,11 +4929,11 @@ MVSDK_API CameraSdkStatus __stdcall CameraCommonCall(
 /// \param [in] Weights Noise reduction weight, such as when using 3 pictures for noise reduction, this parameter can be passed in 3 floating points (0.3, 0.3, 0.4). The weight of the last picture is larger than the first 2 pictures. . If you do not need to use weights, then pass this parameter to 0, indicating that all images have the same weight (0.33, 0.33, 0.33)
 /// \return Returns CAMERA_STATUS_SUCCESS(0) successfully. Otherwise, it returns a non-zero error code. Please refer to the definition of the error code in CameraStatus.h.
 MVSDK_API CameraSdkStatus __stdcall CameraSetDenoise3DParams(
-	CameraHandle    hCamera, 
+	CameraHandle    hCamera,
 	BOOL			bEnable,
 	int				nCount,
-	float			*Weights
-	);
+	float* Weights
+);
 
 /// @ingroup API_ENHANCE
 /// \~chinese
@@ -4954,12 +4953,12 @@ MVSDK_API CameraSdkStatus __stdcall CameraSetDenoise3DParams(
 /// \param [out] Weights Noise Reduction Weights
 /// \return Returns CAMERA_STATUS_SUCCESS(0) successfully. Otherwise, it returns a non-zero error code. Please refer to the definition of the error code in CameraStatus.h.
 MVSDK_API CameraSdkStatus __stdcall CameraGetDenoise3DParams(
-	CameraHandle    hCamera, 
-	BOOL			*bEnable,
-	int				*nCount,
-	BOOL			*bUseWeight,
-	float			*Weights
-	);
+	CameraHandle    hCamera,
+	BOOL* bEnable,
+	int* nCount,
+	BOOL* bUseWeight,
+	float* Weights
+);
 
 /// @ingroup API_ENHANCE
 /// \~chinese
@@ -4981,13 +4980,13 @@ MVSDK_API CameraSdkStatus __stdcall CameraGetDenoise3DParams(
 /// \param [out] OutFrameData output frame data
 /// \return Returns CAMERA_STATUS_SUCCESS(0) successfully. Otherwise, it returns a non-zero error code. Please refer to the definition of the error code in CameraStatus.h.
 MVSDK_API CameraSdkStatus __stdcall CameraManualDenoise3D(
-	tSdkFrameHead	*InFramesHead,
-	BYTE			**InFramesData,
+	tSdkFrameHead* InFramesHead,
+	BYTE** InFramesData,
 	int				nCount,
-	float			*Weights,
-	tSdkFrameHead	*OutFrameHead,
-	BYTE			*OutFrameData
-	);
+	float* Weights,
+	tSdkFrameHead* OutFrameHead,
+	BYTE* OutFrameData
+);
 
 /// @ingroup API_DEAD_PIXEL
 /// \~chinese
@@ -5003,7 +5002,7 @@ MVSDK_API CameraSdkStatus __stdcall CameraManualDenoise3D(
 MVSDK_API CameraSdkStatus __stdcall CameraCustomizeDeadPixels(
 	CameraHandle	hCamera,
 	HWND			hParent
-	);
+);
 
 /// @ingroup API_DEAD_PIXEL
 /// \~chinese
@@ -5024,10 +5023,10 @@ MVSDK_API CameraSdkStatus __stdcall CameraCustomizeDeadPixels(
 /// \note When pRows or pCols is NULL, the function will return the camera's current number of dead pixels through pNumPixel.
 MVSDK_API CameraSdkStatus __stdcall CameraReadDeadPixels(
 	CameraHandle    hCamera,
-	USHORT*			pRows,
-	USHORT*			pCols,
-	UINT*			pNumPixel
-	);
+	USHORT* pRows,
+	USHORT* pCols,
+	UINT* pNumPixel
+);
 
 /// @ingroup API_DEAD_PIXEL
 /// \~chinese
@@ -5046,10 +5045,10 @@ MVSDK_API CameraSdkStatus __stdcall CameraReadDeadPixels(
 /// \return Returns CAMERA_STATUS_SUCCESS(0) successfully. Otherwise, it returns a non-zero error code. Please refer to the definition of the error code in CameraStatus.h.
 MVSDK_API CameraSdkStatus __stdcall CameraAddDeadPixels(
 	CameraHandle    hCamera,
-	USHORT*			pRows,
-	USHORT*			pCols,
+	USHORT* pRows,
+	USHORT* pCols,
 	UINT			NumPixel
-	);
+);
 
 /// @ingroup API_DEAD_PIXEL
 /// \~chinese
@@ -5068,10 +5067,10 @@ MVSDK_API CameraSdkStatus __stdcall CameraAddDeadPixels(
 /// \return Returns CAMERA_STATUS_SUCCESS(0) successfully. Otherwise, it returns a non-zero error code. Please refer to the definition of the error code in CameraStatus.h.
 MVSDK_API CameraSdkStatus __stdcall CameraRemoveDeadPixels(
 	CameraHandle    hCamera,
-	USHORT*			pRows,
-	USHORT*			pCols,
+	USHORT* pRows,
+	USHORT* pCols,
 	UINT			NumPixel
-	);
+);
 
 /// @ingroup API_DEAD_PIXEL
 /// \~chinese
@@ -5084,7 +5083,7 @@ MVSDK_API CameraSdkStatus __stdcall CameraRemoveDeadPixels(
 /// \return Returns CAMERA_STATUS_SUCCESS(0) successfully. Otherwise, it returns a non-zero error code. Please refer to the definition of the error code in CameraStatus.h.
 MVSDK_API CameraSdkStatus __stdcall CameraRemoveAllDeadPixels(
 	CameraHandle    hCamera
-	);
+);
 
 /// @ingroup API_DEAD_PIXEL
 /// \~chinese
@@ -5097,7 +5096,7 @@ MVSDK_API CameraSdkStatus __stdcall CameraRemoveAllDeadPixels(
 /// \return Returns CAMERA_STATUS_SUCCESS(0) successfully. Otherwise, it returns a non-zero error code. Please refer to the definition of the error code in CameraStatus.h.
 MVSDK_API CameraSdkStatus __stdcall CameraSaveDeadPixels(
 	CameraHandle    hCamera
-	);
+);
 
 /// @ingroup API_DEAD_PIXEL
 /// \~chinese
@@ -5112,8 +5111,8 @@ MVSDK_API CameraSdkStatus __stdcall CameraSaveDeadPixels(
 /// \return Returns CAMERA_STATUS_SUCCESS(0) successfully. Otherwise, it returns a non-zero error code. Please refer to the definition of the error code in CameraStatus.h.
 MVSDK_API CameraSdkStatus __stdcall CameraSaveDeadPixelsToFile(
 	CameraHandle    hCamera,
-	char const*		sFileName
-	);
+	char const* sFileName
+);
 
 /// @ingroup API_DEAD_PIXEL
 /// \~chinese
@@ -5128,8 +5127,8 @@ MVSDK_API CameraSdkStatus __stdcall CameraSaveDeadPixelsToFile(
 /// \return Returns CAMERA_STATUS_SUCCESS(0) successfully. Otherwise, it returns a non-zero error code. Please refer to the definition of the error code in CameraStatus.h.
 MVSDK_API CameraSdkStatus __stdcall CameraLoadDeadPixelsFromFile(
 	CameraHandle    hCamera,
-	char const*		sFileName
-	);
+	char const* sFileName
+);
 
 /// @ingroup API_GRAB
 /// \~chinese
@@ -5151,12 +5150,12 @@ MVSDK_API CameraSdkStatus __stdcall CameraLoadDeadPixelsFromFile(
 /// \return Returns CAMERA_STATUS_SUCCESS(0) successfully. Otherwise, it returns a non-zero error code. Please refer to the definition of the error code in CameraStatus.h.
 /// \note Same as @link #CameraGetImageBuffer @endlink except one more priority parameter
 MVSDK_API CameraSdkStatus __stdcall CameraGetImageBufferPriority(
-	CameraHandle        hCamera, 
-	tSdkFrameHead*      pFrameInfo, 
-	BYTE**              pbyBuffer,
+	CameraHandle        hCamera,
+	tSdkFrameHead* pFrameInfo,
+	BYTE** pbyBuffer,
 	UINT                wTimes,
 	UINT				Priority
-	);
+);
 
 /// @ingroup API_GRAB
 /// \~chinese
@@ -5178,12 +5177,12 @@ MVSDK_API CameraSdkStatus __stdcall CameraGetImageBufferPriority(
 /// \return Returns the first address of the RGB data buffer when successful; otherwise returns 0.
 /// \note Same as @link #CameraGetImageBufferEx @endlink except one more priority parameter
 MVSDK_API unsigned char* __stdcall CameraGetImageBufferPriorityEx(
-	CameraHandle        hCamera, 
-	INT*                piWidth,
-	INT*                piHeight,
+	CameraHandle        hCamera,
+	INT* piWidth,
+	INT* piHeight,
 	UINT                wTimes,
 	UINT				Priority
-	);
+);
 
 /// @ingroup API_GRAB
 /// \~chinese
@@ -5209,14 +5208,14 @@ MVSDK_API unsigned char* __stdcall CameraGetImageBufferPriorityEx(
 /// \return Returns CAMERA_STATUS_SUCCESS(0) successfully. Otherwise, it returns a non-zero error code. Please refer to the definition of the error code in CameraStatus.h.
 /// \note Same as @link #CameraGetImageBufferEx2 @endlink except one more priority parameter
 MVSDK_API CameraSdkStatus __stdcall CameraGetImageBufferPriorityEx2(
-	CameraHandle    hCamera, 
-	BYTE*           pImageData,
+	CameraHandle    hCamera,
+	BYTE* pImageData,
 	UINT            uOutFormat,
-	int*            piWidth,
-	int*            piHeight,
+	int* piWidth,
+	int* piHeight,
 	UINT            wTimes,
 	UINT			Priority
-	);
+);
 
 /// @ingroup API_GRAB
 /// \~chinese
@@ -5226,7 +5225,7 @@ MVSDK_API CameraSdkStatus __stdcall CameraGetImageBufferPriorityEx2(
 /// \param [in] uOutFormat	 输出格式 0:Mono8 1:rgb24 2:rgba32 3:bgr24 4:bgra32
 /// \param [out] piWidth     整形指针，返回图像的宽度
 /// \param [out] piHeight    整形指针，返回图像的高度
-/// \param [out] puTimeStamp 返回图像时间戳 
+/// \param [out] puTimeStamp 返回图像时间戳
 /// \param [in] wTimes      抓取图像的超时时间。
 /// \param [in] Priority 取图优先级 详见：@link #emCameraGetImagePriority @endlink
 /// \return 成功返回 CAMERA_STATUS_SUCCESS(0)。否则返回非0值的错误码, 请参考 CameraStatus.h 中错误码的定义。
@@ -5244,15 +5243,15 @@ MVSDK_API CameraSdkStatus __stdcall CameraGetImageBufferPriorityEx2(
 /// \return Returns CAMERA_STATUS_SUCCESS(0) successfully. Otherwise, it returns a non-zero error code. Please refer to the definition of the error code in CameraStatus.h.
 /// \note Same as @link #CameraGetImageBufferEx3 @endlink except one more priority parameter
 MVSDK_API CameraSdkStatus __stdcall CameraGetImageBufferPriorityEx3(
-	CameraHandle hCamera, 
-	BYTE*pImageData,
+	CameraHandle hCamera,
+	BYTE* pImageData,
 	UINT uOutFormat,
-	int *piWidth,
-	int *piHeight,
+	int* piWidth,
+	int* piHeight,
 	UINT* puTimeStamp,
 	UINT wTimes,
 	UINT Priority
-	);
+);
 
 /// @ingroup API_GRAB
 /// \~chinese
@@ -5265,7 +5264,7 @@ MVSDK_API CameraSdkStatus __stdcall CameraGetImageBufferPriorityEx3(
 /// \return Returns CAMERA_STATUS_SUCCESS(0) successfully. Otherwise, it returns a non-zero error code. Please refer to the definition of the error code in CameraStatus.h.
 MVSDK_API CameraSdkStatus __stdcall CameraClearBuffer(
 	CameraHandle hCamera
-	);
+);
 
 /// @ingroup API_TRIGGER
 /// \~chinese
@@ -5283,7 +5282,7 @@ MVSDK_API CameraSdkStatus __stdcall CameraClearBuffer(
 MVSDK_API CameraSdkStatus __stdcall CameraSoftTriggerEx(
 	CameraHandle hCamera,
 	UINT uFlags
-	);
+);
 
 /// @ingroup API_ADVANCE
 /// \~chinese
@@ -5299,7 +5298,7 @@ MVSDK_API CameraSdkStatus __stdcall CameraSoftTriggerEx(
 MVSDK_API CameraSdkStatus __stdcall CameraSetHDR(
 	CameraHandle    hCamera,
 	float           value
-	);
+);
 
 /// @ingroup API_ADVANCE
 /// \~chinese
@@ -5314,8 +5313,8 @@ MVSDK_API CameraSdkStatus __stdcall CameraSetHDR(
 /// \return Returns CAMERA_STATUS_SUCCESS(0) successfully. Otherwise, it returns a non-zero error code. Please refer to the definition of the error code in CameraStatus.h.
 MVSDK_API CameraSdkStatus __stdcall CameraGetHDR(
 	CameraHandle    hCamera,
-	float*          value
-	);
+	float* value
+);
 
 /// @ingroup API_ADVANCE
 /// \~chinese
@@ -5330,8 +5329,8 @@ MVSDK_API CameraSdkStatus __stdcall CameraGetHDR(
 /// \return Returns CAMERA_STATUS_SUCCESS(0) successfully. Otherwise, it returns a non-zero error code. Please refer to the definition of the error code in CameraStatus.h.
 MVSDK_API CameraSdkStatus __stdcall CameraGetFrameID(
 	CameraHandle    hCamera,
-	UINT*           id
-	);
+	UINT* id
+);
 
 /// @ingroup API_ADVANCE
 /// \~chinese
@@ -5348,9 +5347,9 @@ MVSDK_API CameraSdkStatus __stdcall CameraGetFrameID(
 /// \return Returns CAMERA_STATUS_SUCCESS(0) successfully. Otherwise, it returns a non-zero error code. Please refer to the definition of the error code in CameraStatus.h.
 MVSDK_API CameraSdkStatus __stdcall CameraGetFrameTimeStamp(
 	CameraHandle    hCamera,
-	UINT*           TimeStampL,
-	UINT*			TimeStampH
-	);
+	UINT* TimeStampL,
+	UINT* TimeStampH
+);
 
 /// @ingroup API_ADVANCE
 /// \~chinese
@@ -5366,7 +5365,7 @@ MVSDK_API CameraSdkStatus __stdcall CameraGetFrameTimeStamp(
 MVSDK_API CameraSdkStatus __stdcall CameraSetHDRGainMode(
 	CameraHandle    hCamera,
 	int				value
-	);
+);
 
 /// @ingroup API_ADVANCE
 /// \~chinese
@@ -5381,8 +5380,8 @@ MVSDK_API CameraSdkStatus __stdcall CameraSetHDRGainMode(
 /// \return Returns CAMERA_STATUS_SUCCESS(0) successfully. Otherwise, it returns a non-zero error code. Please refer to the definition of the error code in CameraStatus.h.
 MVSDK_API CameraSdkStatus __stdcall CameraGetHDRGainMode(
 	CameraHandle    hCamera,
-	int*			value
-	);
+	int* value
+);
 
 /// @ingroup API_UTIL
 /// \~chinese
@@ -5400,11 +5399,11 @@ MVSDK_API CameraSdkStatus __stdcall CameraGetHDRGainMode(
 /// \param [out] outBitmap newly created HBITMAP (need to call WIN32 API DeleteObject after use)
 /// \return Returns CAMERA_STATUS_SUCCESS(0) successfully. Otherwise, it returns a non-zero error code. Please refer to the definition of the error code in CameraStatus.h.
 MVSDK_API CameraSdkStatus __stdcall CameraCreateDIBitmap(
-	HDC hDC, 
-	BYTE *pFrameBuffer, 
+	HDC hDC,
+	BYTE* pFrameBuffer,
 	tSdkFrameHead* pFrameHead,
 	HBITMAP* outBitmap
-	);
+);
 
 /// @ingroup API_UTIL
 /// \~chinese
@@ -5424,12 +5423,12 @@ MVSDK_API CameraSdkStatus __stdcall CameraCreateDIBitmap(
 /// \param [in] Mode Zoom Mode 0: Scale 1: Scale Zoom
 /// \return Returns CAMERA_STATUS_SUCCESS(0) successfully. Otherwise, it returns a non-zero error code. Please refer to the definition of the error code in CameraStatus.h.
 MVSDK_API CameraSdkStatus __stdcall CameraDrawFrameBuffer(
-	BYTE *pFrameBuffer, 
+	BYTE* pFrameBuffer,
 	tSdkFrameHead* pFrameHead,
 	HWND hWnd,
 	int Algorithm,
 	int Mode
-	);
+);
 
 /// @ingroup API_UTIL
 /// \~chinese
@@ -5445,10 +5444,10 @@ MVSDK_API CameraSdkStatus __stdcall CameraDrawFrameBuffer(
 /// \param [in] Flags 1: Up and down 2: Around 3: Up and down, left and right are all flipped (equivalent to 180 degrees rotation)
 /// \return Returns CAMERA_STATUS_SUCCESS(0) successfully. Otherwise, it returns a non-zero error code. Please refer to the definition of the error code in CameraStatus.h.
 MVSDK_API CameraSdkStatus __stdcall CameraFlipFrameBuffer(
-	BYTE *pFrameBuffer, 
+	BYTE* pFrameBuffer,
 	tSdkFrameHead* pFrameHead,
 	int Flags
-	);
+);
 
 /// @ingroup API_UTIL
 /// \~chinese
@@ -5473,17 +5472,17 @@ MVSDK_API CameraSdkStatus __stdcall CameraFlipFrameBuffer(
 /// \return Returns CAMERA_STATUS_SUCCESS(0) successfully. Otherwise, it returns a non-zero error code. Please refer to the definition of the error code in CameraStatus.h.
 MVSDK_API CameraSdkStatus __stdcall CameraConvertFrameBufferFormat(
 	CameraHandle hCamera,
-	BYTE *pInFrameBuffer, 
-	BYTE *pOutFrameBuffer, 
+	BYTE* pInFrameBuffer,
+	BYTE* pOutFrameBuffer,
 	int outWidth,
 	int outHeight,
 	UINT outMediaType,
 	tSdkFrameHead* pFrameHead
-	);
+);
 
 /// @ingroup API_RECONNECT
 /// \~chinese
-/// \brief 设置相机连接状态改变的回调通知函数。当相机掉线、重连时，pCallBack所指向的回调函数就会被调用。 
+/// \brief 设置相机连接状态改变的回调通知函数。当相机掉线、重连时，pCallBack所指向的回调函数就会被调用。
 /// \param [in] hCamera 相机的句柄。
 /// \param [in] pCallBack 回调函数指针。
 /// \param [in] pContext  回调函数的附加参数，在回调函数被调用时该附加参数会被传入，可以为NULL。
@@ -5498,7 +5497,7 @@ MVSDK_API CameraSdkStatus __stdcall CameraSetConnectionStatusCallback(
 	CameraHandle        hCamera,
 	CAMERA_CONNECTION_STATUS_CALLBACK pCallBack,
 	PVOID               pContext
-	);
+);
 
 /// @ingroup API_ADVANCE
 /// \~chinese
@@ -5517,7 +5516,7 @@ MVSDK_API CameraSdkStatus __stdcall CameraSetLightingControllerMode(
 	CameraHandle        hCamera,
 	int					index,
 	int					mode
-	);
+);
 
 /// @ingroup API_ADVANCE
 /// \~chinese
@@ -5536,7 +5535,7 @@ MVSDK_API CameraSdkStatus __stdcall CameraSetLightingControllerState(
 	CameraHandle        hCamera,
 	int					index,
 	int					state
-	);
+);
 
 /// @ingroup API_ADVANCE
 /// \~chinese
@@ -5552,7 +5551,7 @@ MVSDK_API CameraSdkStatus __stdcall CameraSetLightingControllerState(
 MVSDK_API CameraSdkStatus __stdcall CameraSetFrameResendCount(
 	CameraHandle        hCamera,
 	int					count
-	);
+);
 
 /// @ingroup API_UNDISTORT
 /// \~chinese
@@ -5577,7 +5576,7 @@ MVSDK_API CameraSdkStatus __stdcall CameraSetUndistortParams(
 	int				height,
 	double			cameraMatrix[4],
 	double			distCoeffs[5]
-	);
+);
 
 /// @ingroup API_UNDISTORT
 /// \~chinese
@@ -5598,11 +5597,11 @@ MVSDK_API CameraSdkStatus __stdcall CameraSetUndistortParams(
 /// \return Returns CAMERA_STATUS_SUCCESS(0) successfully. Otherwise, it returns a non-zero error code. Please refer to the definition of the error code in CameraStatus.h.
 MVSDK_API CameraSdkStatus __stdcall CameraGetUndistortParams(
 	CameraHandle	hCamera,
-	int				*width,
-	int				*height,
+	int* width,
+	int* height,
 	double			cameraMatrix[4],
 	double			distCoeffs[5]
-	);
+);
 
 /// @ingroup API_UNDISTORT
 /// \~chinese
@@ -5618,7 +5617,7 @@ MVSDK_API CameraSdkStatus __stdcall CameraGetUndistortParams(
 MVSDK_API CameraSdkStatus __stdcall CameraSetUndistortEnable(
 	CameraHandle	hCamera,
 	BOOL			bEnable
-	);
+);
 
 /// @ingroup API_UNDISTORT
 /// \~chinese
@@ -5633,8 +5632,8 @@ MVSDK_API CameraSdkStatus __stdcall CameraSetUndistortEnable(
 /// \return Returns CAMERA_STATUS_SUCCESS(0) successfully. Otherwise, it returns a non-zero error code. Please refer to the definition of the error code in CameraStatus.h.
 MVSDK_API CameraSdkStatus __stdcall CameraGetUndistortEnable(
 	CameraHandle	hCamera,
-	BOOL*			bEnable
-	);
+	BOOL* bEnable
+);
 
 /// @ingroup API_UNDISTORT
 /// \~chinese
@@ -5650,7 +5649,7 @@ MVSDK_API CameraSdkStatus __stdcall CameraGetUndistortEnable(
 MVSDK_API CameraSdkStatus __stdcall CameraCustomizeUndistort(
 	CameraHandle	hCamera,
 	HWND			hParent
-	);
+);
 
 /// @ingroup API_MULTI_EYE
 /// \~chinese
@@ -5665,18 +5664,18 @@ MVSDK_API CameraSdkStatus __stdcall CameraCustomizeUndistort(
 /// \return Returns CAMERA_STATUS_SUCCESS(0) successfully. Otherwise, it returns a non-zero error code. Please refer to the definition of the error code in CameraStatus.h.
 MVSDK_API CameraSdkStatus __stdcall CameraGetEyeCount(
 	CameraHandle        hCamera,
-	int*				EyeCount
-	);
+	int* EyeCount
+);
 
 /// @ingroup API_MULTI_EYE
 /// \~chinese
 /// \brief 对多目相机帧内的某个单目图做ISP
 /// \param [in] hCamera 相机的句柄。
 /// \param [in] iEyeIndex 单目索引。
-/// \param [in] pbyIn 输入图像数据的缓冲区地址，不能为NULL。 
-/// \param [in] pInFrInfo 输入图像数据的帧头，不能为NULL。 
+/// \param [in] pbyIn 输入图像数据的缓冲区地址，不能为NULL。
+/// \param [in] pInFrInfo 输入图像数据的帧头，不能为NULL。
 /// \param [out] pbyOut 处理后图像输出的缓冲区地址，不能为NULL。
-/// \param [out] pOutFrInfo 处理后图像的帧头信息，不能为NULL。 
+/// \param [out] pOutFrInfo 处理后图像的帧头信息，不能为NULL。
 /// \param [in] uOutFormat 处理完后图像的输出格式。
 /// \param [in] uReserved 预留参数，必须设置为0。
 /// \return 成功返回 CAMERA_STATUS_SUCCESS(0)。否则返回非0值的错误码, 请参考 CameraStatus.h 中错误码的定义。
@@ -5692,15 +5691,15 @@ MVSDK_API CameraSdkStatus __stdcall CameraGetEyeCount(
 /// \param [in] uReserved Reservation parameters must be set to 0.
 /// \return Returns CAMERA_STATUS_SUCCESS(0) successfully. Otherwise, it returns a non-zero error code. Please refer to the definition of the error code in CameraStatus.h.
 MVSDK_API CameraSdkStatus __stdcall CameraMultiEyeImageProcess(
-	CameraHandle        hCamera, 
+	CameraHandle        hCamera,
 	int					iEyeIndex,
-	BYTE*               pbyIn, 
-	tSdkFrameHead*		pInFrInfo,
-	BYTE*               pbyOut,
-	tSdkFrameHead*      pOutFrInfo,
+	BYTE* pbyIn,
+	tSdkFrameHead* pInFrInfo,
+	BYTE* pbyOut,
+	tSdkFrameHead* pOutFrInfo,
 	UINT                uOutFormat,
 	UINT                uReserved
-	);
+);
 
 /// @ingroup API_UTIL
 /// \~chinese
@@ -5726,14 +5725,14 @@ MVSDK_API CameraSdkStatus __stdcall CameraMultiEyeImageProcess(
 /// \return Returns CAMERA_STATUS_SUCCESS(0) successfully. Otherwise, it returns a non-zero error code. Please refer to the definition of the error code in CameraStatus.h.
 /// \note Width or Height is 0, then ignore Left, Top and return the average gray value of the entire frame
 MVSDK_API CameraSdkStatus __stdcall CameraGetRegionAverageGray(
-	BYTE *pFrameBuffer, 
+	BYTE* pFrameBuffer,
 	tSdkFrameHead* pFrameHead,
 	int Left,
 	int Top,
 	int Width,
 	int Height,
-	int *AvgGray
-	);
+	int* AvgGray
+);
 
 /// @ingroup API_ADVANCE
 /// \~chinese
@@ -5749,10 +5748,10 @@ MVSDK_API CameraSdkStatus __stdcall CameraGetRegionAverageGray(
 /// \param [out] uCap feature support
 /// \return Returns CAMERA_STATUS_SUCCESS(0) successfully. Otherwise, it returns a non-zero error code. Please refer to the definition of the error code in CameraStatus.h.
 MVSDK_API CameraSdkStatus __stdcall CameraGetMediaCapability(
-	CameraHandle    hCamera, 
+	CameraHandle    hCamera,
 	int				iMediaType,
-	UINT			*uCap
-	);
+	UINT* uCap
+);
 
 /// @ingroup API_ADVANCE
 /// \~chinese
@@ -5768,10 +5767,10 @@ MVSDK_API CameraSdkStatus __stdcall CameraGetMediaCapability(
 /// \param [in] uRate bit rate
 /// \return Returns CAMERA_STATUS_SUCCESS(0) successfully. Otherwise, it returns a non-zero error code. Please refer to the definition of the error code in CameraStatus.h.
 MVSDK_API CameraSdkStatus __stdcall CameraSetMediaBitRate(
-	CameraHandle    hCamera, 
+	CameraHandle    hCamera,
 	int				iMediaType,
 	UINT			uRate
-	);
+);
 
 /// @ingroup API_ADVANCE
 /// \~chinese
@@ -5787,14 +5786,14 @@ MVSDK_API CameraSdkStatus __stdcall CameraSetMediaBitRate(
 /// \param [out] uRate bit rate
 /// \return Returns CAMERA_STATUS_SUCCESS(0) successfully. Otherwise, it returns a non-zero error code. Please refer to the definition of the error code in CameraStatus.h.
 MVSDK_API CameraSdkStatus __stdcall CameraGetMediaBitRate(
-	CameraHandle    hCamera, 
+	CameraHandle    hCamera,
 	int				iMediaType,
-	UINT			*uRate
-	);
+	UINT* uRate
+);
 
 /// @ingroup API_ADVANCE
 /// \~chinese
-/// \brief 设置相机帧事件回调函数。当帧开始以及帧完成时，pCallBack所指向的回调函数就会被调用。 
+/// \brief 设置相机帧事件回调函数。当帧开始以及帧完成时，pCallBack所指向的回调函数就会被调用。
 /// \param [in] hCamera 相机的句柄。
 /// \param [in] pCallBack 回调函数指针。
 /// \param [in] pContext  回调函数的附加参数，在回调函数被调用时该附加参数会被传入，可以为NULL。
@@ -5811,6 +5810,6 @@ MVSDK_API CameraSdkStatus __stdcall CameraSetFrameEventCallback(
 	CameraHandle        hCamera,
 	CAMERA_FRAME_EVENT_CALLBACK pCallBack,
 	PVOID               pContext
-	);
+);
 
 #endif

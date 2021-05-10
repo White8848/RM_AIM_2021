@@ -20,7 +20,6 @@ ArmorDetector::ArmorDetector()
 	roi.rheight = src.rows;
 	roiimg = src(Rect(roi.lefttop.x, roi.lefttop.y, roi.rwidth, roi.rheight));
 	roinimg = roiimg;
-
 }
 
 ArmorDetector::ArmorDetector(Mat src0)
@@ -33,11 +32,10 @@ ArmorDetector::ArmorDetector(Mat src0)
 	roiimg = src(Rect(roi.lefttop.x, roi.lefttop.y, roi.rwidth, roi.rheight));
 }
 
-
 /////////////////////////////////////PUBLIC//////////////////////////////////////////
-void ArmorDetector::getResult(Mat src0)
-{	
-	getSrcImage(src0);
+void ArmorDetector::getResult()
+{
+	//getSrcImage(src0);
 	//if (!roiimg.empty())
 	//    imshow("roi",roiimg);
 	int result = -1;
@@ -47,11 +45,11 @@ void ArmorDetector::getResult(Mat src0)
 	}
 	cout << "预测结果：" << result << endl;
 	getBinaryImage(RED);
-	imshow("bin",binary);
+	//imshow("bin", binary);
 	getContours();
 	getTarget();
 	//imshow("out",outline);
-	imshow("last",src);
+	imshow("last", src);
 }
 
 //原图
@@ -79,14 +77,13 @@ void ArmorDetector::getBinaryImage(int color)
 	}*/
 	//imshow("gry", gry);
 	if (color == 0) {
-
 #ifndef DEBUG
 		color_thresh = 20;
 		gray_thresh = 20;
 #endif // !DEBUG
 		binary = pointProcess(gry, color, color_thresh, gray_thresh);//RED 20 15
 	}
-		
+
 	else {
 #ifndef DEBUG
 		color_thresh = 40;
@@ -221,8 +218,8 @@ void ArmorDetector::getTarget()
 	//获取中心点
 	target.center = Point2f((boxi.center.x + boxj.center.x) / 2, (boxi.center.y + boxj.center.y) / 2);
 
-	cout<<"i "<<besti<<" :x="<<boxi.center.x<<" y="<<boxi.center.y<<endl;
-	cout<<"j "<<bestj<<" :x="<<boxj.center.x<<" y="<<boxj.center.y<<endl;
+	cout << "i " << besti << " :x=" << boxi.center.x << " y=" << boxi.center.y << endl;
+	cout << "j " << bestj << " :x=" << boxj.center.x << " y=" << boxj.center.y << endl;
 	//cout<<"target : x="<<target.center.x<<" y="<<target.center.y<<endl;
 	circle(src, Point(target.center.x, target.center.y), 5, Scalar(255, 0, 0), -1, 8);
 	//circle(outline,Point(target.center.x,target.center.y),5,Scalar(255,0,0),-1,8);
@@ -270,7 +267,7 @@ void ArmorDetector::getTarget()
 		}
 	}
 	//绘制周围四个点的坐标
-	
+
 	Scalar color4[4] = { Scalar(255,0,255),Scalar(255,0,0),Scalar(0,255,0),Scalar(0,255,255) };
 	//左上紫色 左下蓝色 右上绿色 右下黄色
 	for (int i = 0; i < 4; i++)
@@ -283,40 +280,37 @@ void ArmorDetector::getTarget()
 	char tam4[100];
 	sprintf(tam4, "x=%0.2f   y=%0.2f", target.center.x, target.center.y);
 	putText(src, tam4, Point(15, 60), FONT_HERSHEY_SIMPLEX, 0.4, Scalar(0, 0, 255), 1);
-	
 
 	//roi get
 	float x, y, xn, yn;
 	if (target.rect[0].x - 100 < 0) x = 0; else x = target.rect[0].x - 100;
 	if (target.rect[0].y - 100 < 0) y = 0; else y = target.rect[0].y - 100;
-	xn=target.rect[0].x;
-	if (target.rect[0].y - (target.rect[3].y - target.rect[0].y)/2<0) yn=0; else yn = target.rect[0].y - (target.rect[3].y - target.rect[0].y) / 2;
+	xn = target.rect[0].x;
+	if (target.rect[0].y - (target.rect[3].y - target.rect[0].y) / 2 < 0) yn = 0; else yn = target.rect[0].y - (target.rect[3].y - target.rect[0].y) / 2;
 	roi.lefttop = Point2f(x, y);
 	int h, w, hn, wn;
 	w = target.rect[2].x - target.rect[0].x + 200;
 	h = target.rect[3].y - target.rect[0].y + 200;
-	wn=target.rect[2].x-target.rect[0].x;
-	hn=2*abs(target.rect[3].y-target.rect[0].y);
+	wn = target.rect[2].x - target.rect[0].x;
+	hn = 2 * abs(target.rect[3].y - target.rect[0].y);
 	if (hn < 0)hn = 0;
 	if (roi.lefttop.x + w > src.cols) roi.rwidth = src.cols - roi.lefttop.x; else roi.rwidth = w;
 	if (roi.lefttop.y + h > src.rows) roi.rheight = src.rows - roi.lefttop.y; else roi.rheight = h;
-	if (xn+wn>src.cols) wn=src.cols-xn; else wn = wn;
-	if (yn+hn>src.rows) hn=src.rows-yn; else hn = hn;
+	if (xn + wn > src.cols) wn = src.cols - xn; else wn = wn;
+	if (yn + hn > src.rows) hn = src.rows - yn; else hn = hn;
 	roiimg = src(Rect(roi.lefttop.x, roi.lefttop.y, roi.rwidth, roi.rheight));
-	roinimg=src(Rect(xn,yn,wn,hn));
+	roinimg = src(Rect(xn, yn, wn, hn));
 }
-
-
 
 /////////////////////////////////////PRIVATE//////////////////////////////////////////
 //判断数字
-int ArmorDetector::isArmorPattern(Mat &front)
+int ArmorDetector::isArmorPattern(Mat& front)
 {
 	Mat gray;
 	cvtColor(front, gray, CV_BGR2GRAY);
 	resize(gray, gray, Size(20, 20));
-	GaussianBlur(gray, gray, Size(3, 3),0,0);
-	adaptiveThreshold(gray, gray, 255, ADAPTIVE_THRESH_MEAN_C, THRESH_BINARY,3,-1);
+	GaussianBlur(gray, gray, Size(3, 3), 0, 0);
+	adaptiveThreshold(gray, gray, 255, ADAPTIVE_THRESH_MEAN_C, THRESH_BINARY, 3, -1);
 	//threshold(gray, gray, 80, 255, CV_THRESH_BINARY);
 	//imshow("xxx", gray);
 	// copy the data to make the matrix continuous
@@ -334,10 +328,8 @@ int ArmorDetector::isArmorPattern(Mat &front)
 	return result;
 }
 
-
 //指针处理图像
 Mat ArmorDetector::pointProcess(Mat srcImg, int enemyColor, int color_threshold, int gry_threshold) {
-
 	Mat tempBinary;
 	Mat gryBinary;
 
@@ -349,7 +341,6 @@ Mat ArmorDetector::pointProcess(Mat srcImg, int enemyColor, int color_threshold,
 	int srcData = srcImg.rows * srcImg.cols;
 
 	if (enemyColor == 0) {//RED
-
 		for (int i = 0; i < srcData; i++)
 		{
 			if ((*(pdata + 2) - *pdata - *(pdata + 1)) > color_threshold) //减去绿色和蓝色
@@ -359,7 +350,6 @@ Mat ArmorDetector::pointProcess(Mat srcImg, int enemyColor, int color_threshold,
 		}
 	}
 	else if (enemyColor == 1) { //BLUE
-
 		for (int i = 0; i < srcData; i++)
 		{
 			if (*pdata - *(pdata + 2) > color_threshold)
@@ -373,12 +363,11 @@ Mat ArmorDetector::pointProcess(Mat srcImg, int enemyColor, int color_threshold,
 	adaptiveThreshold(gryBinary, gryBinary, 255, ADAPTIVE_THRESH_MEAN_C, THRESH_BINARY, 3, gry_threshold);//自适应阈值化
 	//threshold(gryBinary, gryBinary, gry_threshold, 255, THRESH_BINARY);
 
-	return tempBinary&gryBinary;
+	return tempBinary & gryBinary;
 }
 
 //膨胀腐蚀操作
 Mat ArmorDetector::imgProcess(Mat tempBinary) {
-
 	Mat kernel = getStructuringElement(cv::MORPH_RECT, cv::Size(5, 3));
 	erode(tempBinary, tempBinary, kernel);
 	dilate(tempBinary, tempBinary, kernel);
@@ -388,10 +377,9 @@ Mat ArmorDetector::imgProcess(Mat tempBinary) {
 	return tempBinary;
 }
 
-int ArmorDetector::a(RotatedRect box,int high,int low) {
+int ArmorDetector::a(RotatedRect box, int high, int low) {
 	if ((box.size.width > box.size.height && box.angle > low) || (box.size.width < box.size.height && box.angle < high)) return -100000;
 }
-
 
 //测量距离
 /*
