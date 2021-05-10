@@ -7,6 +7,8 @@
 #include<math.h>
 #include<time.h>
 #define PI 3.14159265
+#define BIG 0
+#define SMALL 1
 
 using namespace cv;
 
@@ -43,12 +45,12 @@ void ArmorDetector::getResult(bool color)
 	}
 	cout << "预测结果：" << result << endl;
 	getBinaryImage(color);
-	imshow("bin", binary);
+	//imshow("bin", binary);
 	getContours();
 	getTarget();
 	getPnp();
 	//imshow("out",outline);
-	imshow("last", src);
+	//imshow("last", src);
 }
 
 //原图
@@ -85,7 +87,7 @@ void ArmorDetector::getBinaryImage(int color)
 	}
 	else {
 #ifndef DEBUG
-		color_thresh = 40;
+		color_thresh = 50;
 		gray_thresh = 3;
 #endif // !DEBUG
 		binary = pointProcess(gry, color, color_thresh, gray_thresh);//BLUE
@@ -217,8 +219,8 @@ void ArmorDetector::getTarget()
 	//获取中心点
 	target.center = Point2f((boxi.center.x + boxj.center.x) / 2, (boxi.center.y + boxj.center.y) / 2);
 
-	cout << "i " << besti << " :x=" << boxi.center.x << " y=" << boxi.center.y << endl;
-	cout << "j " << bestj << " :x=" << boxj.center.x << " y=" << boxj.center.y << endl;
+	//cout << "i " << besti << " :x=" << boxi.center.x << " y=" << boxi.center.y << endl;
+	//cout << "j " << bestj << " :x=" << boxj.center.x << " y=" << boxj.center.y << endl;
 	//cout<<"target : x="<<target.center.x<<" y="<<target.center.y<<endl;
 	circle(src, Point(target.center.x, target.center.y), 5, Scalar(255, 0, 0), -1, 8);
 	//circle(outline,Point(target.center.x,target.center.y),5,Scalar(255,0,0),-1,8);
@@ -280,6 +282,16 @@ void ArmorDetector::getTarget()
 	sprintf(tam4, "x=%0.2f   y=%0.2f", target.center.x, target.center.y);
 	putText(src, tam4, Point(15, 60), FONT_HERSHEY_SIMPLEX, 0.4, Scalar(0, 0, 255), 1);
 
+	float s = (target.rect[2].x - target.rect[0].x) / (target.rect[3].y - target.rect[0].y);
+	if (s <= 4.5 && s >= 2.8) { 
+		target.size = BIG; 
+		cout << "BIG_ARMOR" << endl;
+	}
+	else if (s < 2.8 && s >= 1.3) {
+		target.size = SMALL;
+		cout << "SMALL_ARMOR" << endl;
+	}
+
 	//装甲识别roi
 	/*
 	float x, y;
@@ -308,12 +320,14 @@ void ArmorDetector::getTarget()
 
 void ArmorDetector::getPnp()
 {
-	double camera[9] = { 1000 ,0  ,320,  0,  1000  ,240,  0 , 0,  1 };
-	double camera1[9] = {2114.71 ,0 , 640 , 0 , 2114.71 , 512 , 0 , 0 , 1 };//相机内参
-	double theerror[5] = { 0 ,0 , 0.0 , 0.00 , 0.0 };
+	double camera1[9] = { 1000 ,0  ,320,  0,  1000  ,240,  0 , 0,  1 };
+	double theerror1[5] = { 0 ,0 , 0.0 , 0.00 , 0.0 };
+	double camera2[9] = {2105.39 ,0 , 640 , 0 , 2105.39 , 512 , 0 , 0 , 1 };//相机内参
+	double theerror2[5] = { -0.110008 ,2.220571 , 0.0 , 0.0 , -14.069738 };
 	//Rect ans = trackBox;
 	double width_target, height_target;
-	width_target = 23;
+	if (target.size == BIG) width_target = 22.5;
+	else width_target = 13;
 	height_target = 6;
 
 	vector <Point2d> point2d;
@@ -331,8 +345,8 @@ void ArmorDetector::getPnp()
 	point3d.push_back(Point3d(half_x, half_y, 0));
 	point3d.push_back(Point3d(-half_x, half_y, 0));
 	point3d.push_back(Point3d(0, 0, 0));
-	Mat cam(Size(3, 3), CV_64F, camera1);
-	Mat dist(Size(5, 1), CV_64F, theerror);
+	Mat cam(Size(3, 3), CV_64F, camera2);
+	Mat dist(Size(5, 1), CV_64F, theerror2);
 	Mat rvec(3, 3, CV_64F);
 	Mat trec(3, 1, CV_64F);
 

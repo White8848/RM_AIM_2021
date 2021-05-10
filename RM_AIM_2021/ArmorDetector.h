@@ -16,6 +16,7 @@ typedef struct ARMOR
 	Point2f center;
 	Point2f rect[4];
 	float d_x, d_z, d_y;
+	bool size;
 }Armor;
 
 typedef struct ROI

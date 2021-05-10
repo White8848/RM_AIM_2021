@@ -88,7 +88,7 @@ static void* Get_Armor(void* threadarg) {
 		pthread_mutex_lock(&(self_data->lock));//线程锁
 		detector.getSrcImage(self_data->dstImage);
 		pthread_mutex_unlock(&(self_data->lock));
-		detector.getResult(BLUE);
+		detector.getResult(RED);
 
 		float xy[2];
 		if (detector.islost == false) {
