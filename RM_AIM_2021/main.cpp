@@ -17,6 +17,8 @@
 //#include"serialport.h"
 
 #define PTHREAD_CREATE_SUCCESS 0
+#define RED 0
+#define BLUE 1
 
 #ifdef _WIN64
 #pragma comment(lib, "MVCAMSDK_X64.lib")
@@ -86,7 +88,7 @@ static void* Get_Armor(void* threadarg) {
 		pthread_mutex_lock(&(self_data->lock));//线程锁
 		detector.getSrcImage(self_data->dstImage);
 		pthread_mutex_unlock(&(self_data->lock));
-		detector.getResult();
+		detector.getResult(BLUE);
 
 		float xy[2];
 		if (detector.islost == false) {

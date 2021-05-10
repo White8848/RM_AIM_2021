@@ -15,6 +15,7 @@ typedef struct ARMOR
 {
 	Point2f center;
 	Point2f rect[4];
+	float d_x, d_z, d_y;
 }Armor;
 
 typedef struct ROI
@@ -59,10 +60,11 @@ private:
 public:
 	ArmorDetector();
 	ArmorDetector(Mat src0);
-	void getResult();
+	void getResult(bool color);
 	void getSrcImage(Mat src0);
 	void getBinaryImage(int color);
 	void getContours();
 	void getTarget();
+	void getPnp();
 };
 #endif

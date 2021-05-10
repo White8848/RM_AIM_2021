@@ -1,4 +1,4 @@
-#define _CRT_SECURE_NO_WARNINGS
+ï»¿#define _CRT_SECURE_NO_WARNINGS
 #include"ArmorDetector.h"
 #include<string.h>
 #include<algorithm>
@@ -7,8 +7,6 @@
 #include<math.h>
 #include<time.h>
 #define PI 3.14159265
-#define RED 0
-#define BLUE 1
 
 using namespace cv;
 
@@ -33,32 +31,33 @@ ArmorDetector::ArmorDetector(Mat src0)
 }
 
 /////////////////////////////////////PUBLIC//////////////////////////////////////////
-void ArmorDetector::getResult()
+void ArmorDetector::getResult(bool color)
 {
 	//getSrcImage(src0);
 	//if (!roiimg.empty())
-	//    imshow("roi",roiimg);
+		//imshow("roi",roiimg);
 	int result = -1;
 	if (!roinimg.empty()) {
 		//imshow("number", roinimg);
-		result = isArmorPattern(roinimg);
+		//result = isArmorPattern(roinimg);
 	}
-	cout << "Ô¤²â½á¹û£º" << result << endl;
-	getBinaryImage(RED);
-	//imshow("bin", binary);
+	cout << "é¢„æµ‹ç»“æœï¼š" << result << endl;
+	getBinaryImage(color);
+	imshow("bin", binary);
 	getContours();
 	getTarget();
+	getPnp();
 	//imshow("out",outline);
 	imshow("last", src);
 }
 
-//Ô­Í¼
+//åŸå›¾
 void ArmorDetector::getSrcImage(Mat src0)
 {
 	src0.copyTo(src);
 }
 
-//¶şÖµ»¯
+//äºŒå€¼åŒ–
 void ArmorDetector::getBinaryImage(int color)
 {
 	Mat gry;
@@ -74,22 +73,22 @@ void ArmorDetector::getBinaryImage(int color)
 				gry.at<uchar>(row, col) = 0;
 			}
 		}
-	}*/
+	}
+	*/
 	//imshow("gry", gry);
 	if (color == 0) {
 #ifndef DEBUG
 		color_thresh = 20;
 		gray_thresh = 20;
 #endif // !DEBUG
-		binary = pointProcess(gry, color, color_thresh, gray_thresh);//RED 20 15
+		binary = pointProcess(gry, color, color_thresh, gray_thresh);//RED
 	}
-
 	else {
 #ifndef DEBUG
 		color_thresh = 40;
-		gray_thresh = 4;
+		gray_thresh = 3;
 #endif // !DEBUG
-		binary = pointProcess(gry, color, color_thresh, gray_thresh);//BLUE 20 90
+		binary = pointProcess(gry, color, color_thresh, gray_thresh);//BLUE
 	}
 }
 
@@ -110,18 +109,18 @@ void ArmorDetector::getContours()
 		}
 	}
 	vector<Rect> boundRect(contours.size());
-	vector<RotatedRect> box(contours.size());//×îĞ¡Íâ½Ó¾ØĞÎ¼¯ºÏ
-	num = contours.size();//ÂÖÀªµÄÊıÁ¿
+	vector<RotatedRect> box(contours.size());//æœ€å°å¤–æ¥çŸ©å½¢é›†åˆ
+	num = contours.size();//è½®å»“çš„æ•°é‡
 	for (int i = 0; i < num; i++)
 	{
-		box[i] = minAreaRect(Mat(contours[i]));//¼ÆËãÃ¿¸öÂÖÀªµÄ×îĞ¡Íâ½Ó¾ØĞÎ
+		box[i] = minAreaRect(Mat(contours[i]));//è®¡ç®—æ¯ä¸ªè½®å»“çš„æœ€å°å¤–æ¥çŸ©å½¢
 		boundRect[i] = boundingRect(Mat(contours[i]));
 		circle(outline, Point(box[i].center.x, box[i].center.y), 5, Scalar(0, 255, 0), -1, 8);
 		box[i].points(rect);
 		rectangle(outline, Point(boundRect[i].x, boundRect[i].y), Point(boundRect[i].x + boundRect[i].width, boundRect[i].y + boundRect[i].height), Scalar(0, 255, 0), 2, 8);
 		for (int j = 0; j < 4; j++)
 		{
-			line(outline, rect[j], rect[(j + 1) % 4], Scalar(0, 0, 255), 2, 8);  //»æÖÆ×îĞ¡Íâ½Ó¾ØĞÎÃ¿Ìõ±ß£¨·Ç±ØÒª£©
+			line(outline, rect[j], rect[(j + 1) % 4], Scalar(0, 0, 255), 2, 8);  //ç»˜åˆ¶æœ€å°å¤–æ¥çŸ©å½¢æ¯æ¡è¾¹ï¼ˆéå¿…è¦ï¼‰
 		}
 	}/*
 	for (int i=0;i<num;i++)
@@ -134,10 +133,10 @@ void ArmorDetector::getContours()
 	{
 		for (int j = i + 1; j < num; j++)
 		{
-			//È¥µôÌ«Ğ±µÄ¾ØĞÎ
+			//å»æ‰å¤ªæ–œçš„çŸ©å½¢
 			if ((box[i].size.width > box[i].size.height && box[i].angle > -77) || (box[i].size.width < box[i].size.height && box[i].angle < -13)) matchrank[i][j] -= 100000;
 			if ((box[j].size.width > box[j].size.height && box[j].angle > -77) || (box[j].size.width < box[j].size.height && box[j].angle < -13)) matchrank[i][j] -= 100000;
-			//¸ù¾İ³¤¿íÉ¸Ñ¡
+			//æ ¹æ®é•¿å®½ç­›é€‰
 			double longi, shorti, longj, shortj;
 			longi = box[i].size.height;
 			shorti = box[i].size.width;
@@ -157,25 +156,25 @@ void ArmorDetector::getContours()
 			}
 
 			if ((longi / shorti) >= 0.7 && (longi / shorti) <= 1.8 && (longj / shortj) >= 0.7 && (longj / shortj) <= 1.8) matchrank[i][j] -= 10000;
-			if ((longi / shorti) >= 1.8 && (longi / shorti) <= 2.8 && (longj / shortj) >= 1.8 && (longj / shortj) <= 2.8) //Á½¸öÂÖÀªµÄ³¤¿í±È
+			if ((longi / shorti) >= 1.8 && (longi / shorti) <= 2.8 && (longj / shortj) >= 1.8 && (longj / shortj) <= 2.8) //ä¸¤ä¸ªè½®å»“çš„é•¿å®½æ¯”
 				matchrank[i][j] += 100;
-			//Ïà¶ÔÎ»ÖÃÉ¸Ñ¡
+			//ç›¸å¯¹ä½ç½®ç­›é€‰
 			if ((box[i].center.y - box[j].center.y) > 0.5 * longi || (box[i].center.y - box[j].center.y) > 0.5 * longj) matchrank[i][j] -= 10000;
 			if (abs(box[i].center.x - box[j].center.x) < 0.8 * longi || abs(box[i].center.x - box[j].center.x) < 0.8 * longj) matchrank[i][j] -= 10000;
-			//¸ù¾İ½Ç¶ÈÉ¸Ñ¡
+			//æ ¹æ®è§’åº¦ç­›é€‰
 			double anglei, anglej;
 			anglei = box[i].angle;
 			anglej = box[j].angle;
 			if (abs(anglei - anglej) <= 10 || abs(anglei - anglej) >= 80) matchrank[i][j] += 100;
 			else matchrank[i][j] -= 10000;
-			//Ãæ»ı±È
+			//é¢ç§¯æ¯”
 			double areai = box[i].size.area();
 			double areaj = box[j].size.area();
 			if (areai < 7 || areaj < 7) matchrank[i][j] -= 20000;
 			if (areai / areaj >= 5 || areaj / areai >= 5) matchrank[i][j] -= 10000;
 			if (areai / areaj >= 2 || areaj / areai >= 2) matchrank[i][j] -= 100;
 			if (areai / areaj > 0.8 && areai - areaj < 1.2) matchrank[i][j] += 100;
-			//Á¬Ïß³¤
+			//è¿çº¿é•¿
 			double d = sqrt((box[i].center.x - box[j].center.x) * (box[i].center.x - box[j].center.x) + (box[i].center.y - box[j].center.y) * (box[i].center.y - box[j].center.y));
 			if (d >= longi * 4.5 || d >= longj * 4.5 || d < 2 * longi || d < 2 * longj) matchrank[i][j] -= 10000;
 			//cout<<"i j d:"<<i<<" "<<j<<" "<<d<<endl;
@@ -212,10 +211,10 @@ void ArmorDetector::getTarget()
 	islost = false;
 	RotatedRect boxi;
 	RotatedRect boxj;
-	//»ñÈ¡×îÓÅÆ¥Åä
+	//è·å–æœ€ä¼˜åŒ¹é…
 	boxi = minAreaRect(Mat(contours[besti]));
 	boxj = minAreaRect(Mat(contours[bestj]));
-	//»ñÈ¡ÖĞĞÄµã
+	//è·å–ä¸­å¿ƒç‚¹
 	target.center = Point2f((boxi.center.x + boxj.center.x) / 2, (boxi.center.y + boxj.center.y) / 2);
 
 	cout << "i " << besti << " :x=" << boxi.center.x << " y=" << boxi.center.y << endl;
@@ -227,7 +226,7 @@ void ArmorDetector::getTarget()
 	sprintf(tam, "(%0.0f,%0.0f)", target.center.x, target.center.y);
 	putText(src, tam, Point(target.center.x, target.center.y), FONT_HERSHEY_SIMPLEX, 0.4, Scalar(255, 0, 255), 1);
 
-	//»ñÈ¡ÖÜÎ§ËÄ¸öµãµÄ×ø±ê
+	//è·å–å‘¨å›´å››ä¸ªç‚¹çš„åæ ‡
 	if (boxi.center.x > boxj.center.x)
 	{
 		RotatedRect temp;
@@ -244,12 +243,12 @@ void ArmorDetector::getTarget()
 	{
 		if (rect1[i].y < boxi.center.y)
 		{
-			rect3[0].x += rect1[i].x;   //×óÉÏ
+			rect3[0].x += rect1[i].x;   //å·¦ä¸Š
 			rect3[0].y += rect1[i].y;
 		}
 		if (rect1[i].y > boxi.center.y)
 		{
-			rect3[1].x += rect1[i].x;   //×óÏÂ
+			rect3[1].x += rect1[i].x;   //å·¦ä¸‹
 			rect3[1].y += rect1[i].y;
 		}
 	}
@@ -257,19 +256,19 @@ void ArmorDetector::getTarget()
 	{
 		if (rect2[i].y < boxj.center.y)
 		{
-			rect3[2].x += rect2[i].x;   //ÓÒÉÏ
+			rect3[2].x += rect2[i].x;   //å³ä¸Š
 			rect3[2].y += rect2[i].y;
 		}
 		if (rect2[i].y > boxj.center.y)
 		{
-			rect3[3].x += rect2[i].x;   //ÓÒÏÂ
+			rect3[3].x += rect2[i].x;   //å³ä¸‹
 			rect3[3].y += rect2[i].y;
 		}
 	}
-	//»æÖÆÖÜÎ§ËÄ¸öµãµÄ×ø±ê
+	//ç»˜åˆ¶å‘¨å›´å››ä¸ªç‚¹çš„åæ ‡
 
 	Scalar color4[4] = { Scalar(255,0,255),Scalar(255,0,0),Scalar(0,255,0),Scalar(0,255,255) };
-	//×óÉÏ×ÏÉ« ×óÏÂÀ¶É« ÓÒÉÏÂÌÉ« ÓÒÏÂ»ÆÉ«
+	//å·¦ä¸Šç´«è‰² å·¦ä¸‹è“è‰² å³ä¸Šç»¿è‰² å³ä¸‹é»„è‰²
 	for (int i = 0; i < 4; i++)
 	{
 		target.rect[i] = Point2f(rect3[i].x / 2, rect3[i].y / 2);
@@ -281,29 +280,83 @@ void ArmorDetector::getTarget()
 	sprintf(tam4, "x=%0.2f   y=%0.2f", target.center.x, target.center.y);
 	putText(src, tam4, Point(15, 60), FONT_HERSHEY_SIMPLEX, 0.4, Scalar(0, 0, 255), 1);
 
-	//roi get
-	float x, y, xn, yn;
+	//è£…ç”²è¯†åˆ«roi
+	/*
+	float x, y;
 	if (target.rect[0].x - 100 < 0) x = 0; else x = target.rect[0].x - 100;
 	if (target.rect[0].y - 100 < 0) y = 0; else y = target.rect[0].y - 100;
-	xn = target.rect[0].x;
-	if (target.rect[0].y - (target.rect[3].y - target.rect[0].y) / 2 < 0) yn = 0; else yn = target.rect[0].y - (target.rect[3].y - target.rect[0].y) / 2;
 	roi.lefttop = Point2f(x, y);
-	int h, w, hn, wn;
+	int h, w;
 	w = target.rect[2].x - target.rect[0].x + 200;
 	h = target.rect[3].y - target.rect[0].y + 200;
+	if (roi.lefttop.x + w > src.cols) roi.rwidth = src.cols - roi.lefttop.x; else roi.rwidth = w;
+	if (roi.lefttop.y + h > src.rows) roi.rheight = src.rows - roi.lefttop.y; else roi.rheight = h;
+	roiimg = src(Rect(roi.lefttop.x, roi.lefttop.y, roi.rwidth, roi.rheight));
+	*/
+	//æ•°å­—è¯†åˆ«roi
+	float xn, yn;
+	xn = target.rect[0].x;
+	if (target.rect[0].y - (target.rect[3].y - target.rect[0].y) / 2 < 0) yn = 0; else yn = target.rect[0].y - (target.rect[3].y - target.rect[0].y) / 2;
+	int hn, wn;
 	wn = target.rect[2].x - target.rect[0].x;
 	hn = 2 * abs(target.rect[3].y - target.rect[0].y);
 	if (hn < 0)hn = 0;
-	if (roi.lefttop.x + w > src.cols) roi.rwidth = src.cols - roi.lefttop.x; else roi.rwidth = w;
-	if (roi.lefttop.y + h > src.rows) roi.rheight = src.rows - roi.lefttop.y; else roi.rheight = h;
 	if (xn + wn > src.cols) wn = src.cols - xn; else wn = wn;
 	if (yn + hn > src.rows) hn = src.rows - yn; else hn = hn;
-	roiimg = src(Rect(roi.lefttop.x, roi.lefttop.y, roi.rwidth, roi.rheight));
 	roinimg = src(Rect(xn, yn, wn, hn));
 }
 
+void ArmorDetector::getPnp()
+{
+	double camera[9] = { 1000 ,0  ,320,  0,  1000  ,240,  0 , 0,  1 };
+	double camera1[9] = {2114.71 ,0 , 640 , 0 , 2114.71 , 512 , 0 , 0 , 1 };//ç›¸æœºå†…å‚
+	double theerror[5] = { 0 ,0 , 0.0 , 0.00 , 0.0 };
+	//Rect ans = trackBox;
+	double width_target, height_target;
+	width_target = 23;
+	height_target = 6;
+
+	vector <Point2d> point2d;
+	point2d.push_back(target.rect[0]);
+	point2d.push_back(target.rect[2]);
+	point2d.push_back(target.rect[3]);
+	point2d.push_back(target.rect[1]);
+	point2d.push_back(target.center);
+
+	std::vector<cv::Point3d> point3d;
+	double half_x = width_target / 2.0;
+	double half_y = height_target / 2.0;
+	point3d.push_back(Point3d(-half_x, -half_y, 0));
+	point3d.push_back(Point3d(half_x, -half_y, 0));
+	point3d.push_back(Point3d(half_x, half_y, 0));
+	point3d.push_back(Point3d(-half_x, half_y, 0));
+	point3d.push_back(Point3d(0, 0, 0));
+	Mat cam(Size(3, 3), CV_64F, camera1);
+	Mat dist(Size(5, 1), CV_64F, theerror);
+	Mat rvec(3, 3, CV_64F);
+	Mat trec(3, 1, CV_64F);
+
+	solvePnP(point3d, point2d, cam, dist, rvec, trec, false, CV_EPNP);
+	double ans_x, ans_y, ans_z;
+	//cout<<trec<<endl;
+	ans_x = trec.at<double>(0, 0);
+	ans_y = trec.at<double>(1, 0);
+	ans_z = trec.at<double>(2, 0);
+	double dis_x = 0, dis_y = 0;
+
+	target.d_y = (acos(35.0 / sqrt((ans_x + 35.0) * (ans_x + 35.0) + (ans_z + 127) * (ans_z + 127))) - acos((ans_x + 35.0) / sqrt((ans_x + 35.0) * (ans_x + 35.0) + (ans_z + 127) * (ans_z + 127)))) * 180 / 3.1415926;
+	target.d_z = ans_z;
+	//cout<<ans_x<<" "<<ans_y<<endl<<endl;;
+	target.d_x = atan((ans_y) / (ans_z)) * 180 / 3.1415926;
+	//d_y=atan(ans_x/ans_z)*180/3.1415926;
+	//d_z=ans_z;
+	//cout << d_x << " " << d_y << " " << d_z << endl << endl;;
+	//cout<<"  ans "<<x<<"   "<<last_x<<endl;
+	cout<<"Distance = "<<target.d_z - 10<<endl;
+}
+
 /////////////////////////////////////PRIVATE//////////////////////////////////////////
-//ÅĞ¶ÏÊı×Ö
+//åˆ¤æ–­æ•°å­—
 int ArmorDetector::isArmorPattern(Mat& front)
 {
 	Mat gray;
@@ -323,12 +376,12 @@ int ArmorDetector::isArmorPattern(Mat& front)
 	Ptr<ml::SVM> svm = ml::SVM::load("cxy_svm_5_1.xml");
 
 	int result = (int)svm->predict(data);
-	//cout << "Ô¤²â½á¹û:" << result << endl;
+	//cout << "é¢„æµ‹ç»“æœ:" << result << endl;
 
 	return result;
 }
 
-//Ö¸Õë´¦ÀíÍ¼Ïñ
+//æŒ‡é’ˆå¤„ç†å›¾åƒ
 Mat ArmorDetector::pointProcess(Mat srcImg, int enemyColor, int color_threshold, int gry_threshold) {
 	Mat tempBinary;
 	Mat gryBinary;
@@ -343,7 +396,7 @@ Mat ArmorDetector::pointProcess(Mat srcImg, int enemyColor, int color_threshold,
 	if (enemyColor == 0) {//RED
 		for (int i = 0; i < srcData; i++)
 		{
-			if ((*(pdata + 2) - *pdata - *(pdata + 1)) > color_threshold) //¼õÈ¥ÂÌÉ«ºÍÀ¶É«
+			if ((*(pdata + 2) - *pdata - *(pdata + 1)) > color_threshold) //å‡å»ç»¿è‰²å’Œè“è‰²
 				*qdata = 255;
 			pdata += 3;
 			qdata++;
@@ -360,13 +413,13 @@ Mat ArmorDetector::pointProcess(Mat srcImg, int enemyColor, int color_threshold,
 	}
 	imgProcess(tempBinary);
 	GaussianBlur(gryBinary, gryBinary, Size(3, 3), 0, 0);
-	adaptiveThreshold(gryBinary, gryBinary, 255, ADAPTIVE_THRESH_MEAN_C, THRESH_BINARY, 3, gry_threshold);//×ÔÊÊÓ¦ãĞÖµ»¯
+	adaptiveThreshold(gryBinary, gryBinary, 255, ADAPTIVE_THRESH_MEAN_C, THRESH_BINARY, 3, gry_threshold);//è‡ªé€‚åº”é˜ˆå€¼åŒ–
 	//threshold(gryBinary, gryBinary, gry_threshold, 255, THRESH_BINARY);
 
 	return tempBinary & gryBinary;
 }
 
-//ÅòÕÍ¸¯Ê´²Ù×÷
+//è†¨èƒ€è…èš€æ“ä½œ
 Mat ArmorDetector::imgProcess(Mat tempBinary) {
 	Mat kernel = getStructuringElement(cv::MORPH_RECT, cv::Size(5, 3));
 	erode(tempBinary, tempBinary, kernel);
@@ -380,12 +433,3 @@ Mat ArmorDetector::imgProcess(Mat tempBinary) {
 int ArmorDetector::a(RotatedRect box, int high, int low) {
 	if ((box.size.width > box.size.height && box.angle > low) || (box.size.width < box.size.height && box.angle < high)) return -100000;
 }
-
-//²âÁ¿¾àÀë
-/*
-float ArmorDetector::measureDistance(float x1, float x2) {
-	//float f = 1.15980813836787/0.025;//½¹¾à
-	float f = 1.15980813836787;
-	float B = 0.148632308243984;//»ùÏß
-	return 1000 * (f * B) / abs(x1 - x2);
-}*/
